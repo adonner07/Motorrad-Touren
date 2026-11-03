@@ -385,30 +385,6 @@
   .day-map svg { width: 14px; height: 14px; flex: none; color: var(--orange); }
   .day-map:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
   .day-route { margin: 3px 0 0; font-size: .93rem; line-height: 1.45; color: var(--text-dim); }
-  .tour-note {
-    position: relative;
-    margin: 8px 0 0;
-    padding: 10px 12px 10px 36px;
-    border: 1px solid rgba(255, 181, 71, .28);
-    border-radius: 10px;
-    background: rgba(255, 181, 71, .08);
-    font-size: .9rem;
-    line-height: 1.42;
-    color: #f1dcb8;
-  }
-  .tour-note::before {
-    content: "!";
-    position: absolute;
-    left: 11px;
-    top: 11px;
-    width: 17px;
-    height: 17px;
-    border-radius: 50%;
-    background: var(--amber);
-    color: #141517;
-    font: 800 .78rem/17px var(--font-head);
-    text-align: center;
-  }
   @media (hover: hover) {
     .day-map:hover { border-color: rgba(255, 255, 255, .45); }
   }
@@ -797,7 +773,6 @@
     { id: 'by', title: 'Ab nach Bayern', sub: 'Tagestouren mit Pause in einer schönen Altstadt.' },
     { id: 'at', title: 'Ab nach Österreich', sub: 'Drei Tage mit zwei Übernachtungen. Keine Vignette nötig, weil wir nur Landstraße fahren.' }
   ];
-  var A1_NOTE = 'Wer eine 125er mit B196 (also mit dem Autoführerschein) fährt, darf damit nur in Deutschland fahren. Für Österreich braucht man mindestens den A1-Führerschein.';
 
   // Touren ab Winnenden, nur über Landstraßen. Kilometer und Fahrzeit sind ungefähre Werte ohne Pausen.
   var TOURS = [
@@ -894,7 +869,7 @@
           route: ['Bregenz', 'Lindau', 'Wangen im Allgäu', 'Bad Wurzach', 'Biberach', 'Ehingen', 'Münsingen', 'Bad Urach', 'Neuffen', 'Kirchheim unter Teck', 'Winnenden'] }
       ],
       stay: 'Zwei Nächte in Bregenz oder Lindau',
-      notes: ['Nach Bregenz fahren wir am See entlang und nicht durch den Pfändertunnel, der gehört zur Autobahn.', A1_NOTE],
+      notes: ['Nach Bregenz fahren wir am See entlang und nicht durch den Pfändertunnel, der gehört zur Autobahn.'],
       path: ['winnenden', 'buoch', 'baltmannsweiler', 'kirchheim', 'owen', 'gutenberg', 'muensingen', 'zwiefalten', 'riedlingen', 'saulgau', 'ravensburg', 'tettnang', 'lindau', 'bregenz',
         'dornbirn', 'boedele', 'schwarzenberg', 'bezau', 'egg', 'hittisau', 'riefensberg', 'langen',
         'wangen', 'wurzach', 'biberach', 'ehingen', 'muensingen', 'urach', 'neuffen', 'kirchheim'],
@@ -913,7 +888,7 @@
           route: ['Sonthofen', 'Immenstadt', 'Oberstaufen', 'Wangen im Allgäu', 'Bad Wurzach', 'Biberach', 'Ehingen', 'Münsingen', 'Bad Urach', 'Neuffen', 'Kirchheim unter Teck', 'Winnenden'] }
       ],
       stay: 'Zwei Nächte in Sonthofen oder Bad Hindelang',
-      notes: ['Im Tannheimer Tal gilt vom 15. April bis 31. Oktober ein Fahrverbot für Motorräder mit mehr als 95 dB Standgeräusch. Der Wert steht im Fahrzeugschein unter U.1, also vorher kurz nachschauen.', A1_NOTE],
+      notes: ['Im Tannheimer Tal dürfen vom 15. April bis 31. Oktober nur Motorräder mit höchstens 95 dB Standgeräusch fahren. Der Wert steht im Fahrzeugschein unter U.1.'],
       path: ['winnenden', 'buoch', 'baltmannsweiler', 'kirchheim', 'owen', 'gutenberg', 'laichingen', 'blaubeuren', 'laupheim', 'ochsenhausen', 'leutkirch', 'isny', 'oberstaufen', 'immenstadt', 'sonthofen',
         'hindelang', 'oberjoch', 'tannheim', 'haldensee', 'gaicht', 'weissenbach', 'reutte', 'vils', 'pfronten', 'nesselwang', 'wertach', 'sonthofen',
         'immenstadt', 'oberstaufen', 'wangen', 'wurzach', 'biberach', 'ehingen', 'muensingen', 'urach', 'neuffen', 'kirchheim'],
@@ -1058,7 +1033,9 @@
       route = '<p class="tour-meta"><span class="meta-k">Route</span>' + esc(t.route.join(' → ')) + '</p>' +
         '<p class="tour-meta"><span class="meta-k">Pause</span>' + esc(t.pause) + '</p>';
     }
-    var notes = (t.notes || []).map(function (n) { return '<p class="tour-note">' + esc(n) + '</p>'; }).join('');
+    var notes = (t.notes || []).map(function (n) {
+      return '<p class="tour-meta"><span class="meta-k">Gut zu wissen</span>' + esc(n) + '</p>';
+    }).join('');
     var mapsBtn = t.days ? '' :
       '<a class="maps" href="' + esc(mapsUrl(START, START, t.via)) + '" target="_blank" rel="noopener">' + PIN +
         'Route<span class="sr-only"> in Google Maps ansehen: ' + esc(t.name) + '</span></a>';
