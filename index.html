@@ -756,22 +756,18 @@
     noerdlingen: [48.8510, 10.4890], neresheim: [48.7550, 10.3340], heidenheim: [48.6780, 10.1530], steinheimalb: [48.6900, 10.0640],
     bartholomae: [48.7540, 9.9810], heubach: [48.7920, 9.9340],
     buehlertann: [49.0430, 9.9100], ellwangen: [48.9620, 10.1310], dinkelsbuehl: [49.0700, 10.3190], crailsheim: [49.1350, 10.0700],
-    muensingen: [48.4130, 9.4950], zwiefalten: [48.2310, 9.4630], riedlingen: [48.1550, 9.4730], saulgau: [48.0170, 9.5000],
-    ravensburg: [47.7810, 9.6110], tettnang: [47.6700, 9.5880], lindau: [47.5460, 9.6840], bregenz: [47.5030, 9.7470],
-    dornbirn: [47.4130, 9.7420], boedele: [47.4280, 9.8130], schwarzenberg: [47.4140, 9.8510], bezau: [47.3840, 9.9010],
-    egg: [47.4320, 9.8980], hittisau: [47.4590, 9.9590], riefensberg: [47.5030, 9.9600], langen: [47.5240, 9.8240],
-    wangen: [47.6860, 9.8340], wurzach: [47.9080, 9.8990], biberach: [48.0980, 9.7880], ehingen: [48.2830, 9.7240],
-    laichingen: [48.4890, 9.6870], blaubeuren: [48.4120, 9.7850], laupheim: [48.2290, 9.8800], ochsenhausen: [48.0710, 9.9480],
-    leutkirch: [47.8260, 10.0220], isny: [47.6930, 10.0400], oberstaufen: [47.5550, 10.0230], immenstadt: [47.5600, 10.2200],
-    sonthofen: [47.5150, 10.2830], hindelang: [47.5050, 10.3720], oberjoch: [47.5170, 10.4080], tannheim: [47.4990, 10.5150],
-    haldensee: [47.4840, 10.5600], gaicht: [47.4850, 10.6250], weissenbach: [47.4440, 10.6390], reutte: [47.4870, 10.7190],
-    vils: [47.5510, 10.6290], pfronten: [47.5830, 10.5560], nesselwang: [47.6230, 10.5030], wertach: [47.6020, 10.4130]
+    hemmingen: [48.8660, 9.0350], weissach: [48.8470, 8.9280], weilderstadt: [48.7510, 8.8710], calw: [48.7140, 8.7400],
+    hirsau: [48.7350, 8.7350], teinach: [48.6900, 8.6900], neuweiler: [48.6670, 8.5970], wildberg: [48.6230, 8.7460],
+    nagold: [48.5520, 8.7250], altensteig: [48.5870, 8.6040], pfalzgrafenweiler: [48.5260, 8.5650], enzkloesterle: [48.6660, 8.4730],
+    wildbad: [48.7510, 8.5500], calmbach: [48.7750, 8.5830], liebenzell: [48.7720, 8.7310], freudenstadt: [48.4630, 8.4110],
+    baiersbronn: [48.5060, 8.3700], ruhestein: [48.5550, 8.2260], mummelsee: [48.5980, 8.2010], sand: [48.6590, 8.2350],
+    herrenwies: [48.6690, 8.2960], forbach: [48.6840, 8.3570], gernsbach: [48.7640, 8.3400], kaltenbronn: [48.7150, 8.4590]
   };
 
   var GROUPS = [
     { id: 'home', title: 'Rund um Winnenden', sub: 'Feierabendrunden und Halbtagestouren.' },
     { id: 'by', title: 'Ab nach Bayern', sub: 'Tagestouren mit Pause in einer schönen Altstadt.' },
-    { id: 'at', title: 'Ab nach Österreich', sub: 'Drei Tage mit zwei Übernachtungen. Keine Vignette nötig, weil wir nur Landstraße fahren.' }
+    { id: 'sw', title: 'Ab in den Schwarzwald', sub: 'Eine lange Tagestour und ein Wochenende mit einer Übernachtung.' }
   ];
 
   // Touren ab Winnenden, nur über Landstraßen. Kilometer und Fahrzeit sind ungefähre Werte ohne Pausen.
@@ -857,42 +853,30 @@
       mark: [7, 'Dinkelsbühl']
     },
     {
-      id: 'bregenzerwald', group: 'at', region: 'Österreich · Vorarlberg', type: '3 Tage', name: 'Bodensee & Bregenzerwald',
-      km: 520, curves: 4,
-      text: 'Über die Alb und durch Oberschwaben an den Bodensee und von Lindau am Seeufer entlang nach Bregenz. Am zweiten Tag hoch aufs Bödele mit Blick auf See und Rheintal und durch die Dörfer im Bregenzerwald. Am dritten Tag durchs Allgäu und über die Alb zurück.',
-      days: [
-        { km: 205, time: '4¼', from: START, to: 'Bregenz', via: ['Gutenberg, Lenningen', 'Riedlingen', 'Lindau'],
-          route: ['Winnenden', 'Kirchheim unter Teck', 'Gutenberger Steige', 'Münsingen', 'Zwiefalten', 'Riedlingen', 'Bad Saulgau', 'Ravensburg', 'Lindau', 'Bregenz'] },
-        { km: 80, time: '2', from: 'Bregenz', to: 'Bregenz', via: ['Bödele', 'Egg, Vorarlberg', 'Hittisau'],
-          route: ['Bregenz', 'Dornbirn', 'Bödele', 'Schwarzenberg', 'Bezau', 'Egg', 'Hittisau', 'Riefensberg', 'Bregenz'] },
-        { km: 235, time: '4¾', from: 'Bregenz', to: START, via: ['Wangen im Allgäu', 'Biberach an der Riß', 'Bad Urach'],
-          route: ['Bregenz', 'Lindau', 'Wangen im Allgäu', 'Bad Wurzach', 'Biberach', 'Ehingen', 'Münsingen', 'Bad Urach', 'Neuffen', 'Kirchheim unter Teck', 'Winnenden'] }
-      ],
-      stay: 'Zwei Nächte in Bregenz oder Lindau',
-      notes: ['Nach Bregenz fahren wir am See entlang und nicht durch den Pfändertunnel, der gehört zur Autobahn.'],
-      path: ['winnenden', 'buoch', 'baltmannsweiler', 'kirchheim', 'owen', 'gutenberg', 'muensingen', 'zwiefalten', 'riedlingen', 'saulgau', 'ravensburg', 'tettnang', 'lindau', 'bregenz',
-        'dornbirn', 'boedele', 'schwarzenberg', 'bezau', 'egg', 'hittisau', 'riefensberg', 'langen',
-        'wangen', 'wurzach', 'biberach', 'ehingen', 'muensingen', 'urach', 'neuffen', 'kirchheim'],
-      mark: [13, 'Bregenz']
+      id: 'nagoldtal', group: 'sw', region: 'Nordschwarzwald', type: 'Tagestour', name: 'Nagoldtal & Enztal',
+      km: 230, time: '5', curves: 4,
+      text: 'Übers Heckengäu nach Calw, durchs Nagoldtal nach Bad Teinach und über die Höhen ins Enztal nach Bad Wildbad. Zurück über Bad Liebenzell und am Kloster Hirsau vorbei.',
+      route: ['Winnenden', 'Markgröningen', 'Weil der Stadt', 'Calw', 'Bad Teinach', 'Neuweiler', 'Enzklösterle', 'Bad Wildbad', 'Bad Liebenzell', 'Calw', 'Weil der Stadt', 'Winnenden'],
+      pause: 'Bad Wildbad im Enztal, mit Baumwipfelpfad auf dem Sommerberg',
+      via: ['Bad Teinach-Zavelstein', 'Enzklösterle', 'Bad Liebenzell'],
+      path: ['winnenden', 'affalterbach', 'marbach', 'freiberg', 'asperg', 'markgroeningen', 'hemmingen', 'weissach', 'weilderstadt', 'calw', 'teinach', 'neuweiler', 'enzkloesterle', 'wildbad', 'calmbach', 'liebenzell', 'hirsau'],
+      mark: [13, 'Bad Wildbad']
     },
     {
-      id: 'tannheimertal', group: 'at', region: 'Österreich · Tirol & Allgäu', type: '3 Tage', name: 'Allgäu & Tannheimer Tal',
-      km: 600, curves: 5,
-      text: 'Über die Alb zum Blautopf und durch Oberschwaben ins Allgäu. Am zweiten Tag die über 100 Kurven am Jochpass hoch, durchs Tannheimer Tal am Haldensee vorbei, über den Gaichtpass nach Reutte und über Pfronten zurück. Wer mag, macht noch einen Abstecher nach Füssen. Am dritten Tag übers Allgäu und die Alb nach Hause.',
+      id: 'hochstrasse', group: 'sw', region: 'Nordschwarzwald', type: '2 Tage', name: 'Schwarzwaldhochstraße & Murgtal',
+      km: 345, curves: 5,
+      text: 'Am ersten Tag durchs Nagoldtal und über Altensteig nach Freudenstadt, das den größten Marktplatz Deutschlands hat. Am zweiten Tag hoch zum Ruhestein, über die Schwarzwaldhochstraße zum Mummelsee, an der Schwarzenbach-Talsperre vorbei ins Murgtal und über den Kaltenbronn und Bad Wildbad zurück.',
       days: [
-        { km: 235, time: '4¾', from: START, to: 'Sonthofen', via: ['Blaubeuren', 'Ochsenhausen', 'Isny im Allgäu'],
-          route: ['Winnenden', 'Kirchheim unter Teck', 'Gutenberger Steige', 'Laichingen', 'Blaubeuren', 'Laupheim', 'Ochsenhausen', 'Leutkirch', 'Isny', 'Oberstaufen', 'Immenstadt', 'Sonthofen'] },
-        { km: 110, time: '2¾', from: 'Sonthofen', to: 'Sonthofen', via: ['Oberjoch', 'Gaichtpass, Weißenbach am Lech', 'Pfronten'],
-          route: ['Sonthofen', 'Bad Hindelang', 'Jochpass', 'Tannheimer Tal', 'Gaichtpass', 'Reutte', 'Vils', 'Pfronten', 'Wertach', 'Sonthofen'] },
-        { km: 255, time: '5', from: 'Sonthofen', to: START, via: ['Wangen im Allgäu', 'Biberach an der Riß', 'Bad Urach'],
-          route: ['Sonthofen', 'Immenstadt', 'Oberstaufen', 'Wangen im Allgäu', 'Bad Wurzach', 'Biberach', 'Ehingen', 'Münsingen', 'Bad Urach', 'Neuffen', 'Kirchheim unter Teck', 'Winnenden'] }
+        { km: 145, time: '3', from: START, to: 'Freudenstadt', via: ['Weil der Stadt', 'Nagold', 'Altensteig'],
+          route: ['Winnenden', 'Markgröningen', 'Weil der Stadt', 'Calw', 'Wildberg', 'Nagold', 'Altensteig', 'Freudenstadt'] },
+        { km: 200, time: '4½', from: 'Freudenstadt', to: START, via: ['Mummelsee', 'Forbach', 'Kaltenbronn'],
+          route: ['Freudenstadt', 'Baiersbronn', 'Ruhestein', 'Mummelsee', 'Schwarzwaldhochstraße', 'Schwarzenbach-Talsperre', 'Forbach', 'Gernsbach', 'Kaltenbronn', 'Bad Wildbad', 'Calw', 'Weil der Stadt', 'Winnenden'] }
       ],
-      stay: 'Zwei Nächte in Sonthofen oder Bad Hindelang',
-      notes: ['Im Tannheimer Tal dürfen vom 15. April bis 31. Oktober nur Motorräder mit höchstens 95 dB Standgeräusch fahren. Der Wert steht im Fahrzeugschein unter U.1.'],
-      path: ['winnenden', 'buoch', 'baltmannsweiler', 'kirchheim', 'owen', 'gutenberg', 'laichingen', 'blaubeuren', 'laupheim', 'ochsenhausen', 'leutkirch', 'isny', 'oberstaufen', 'immenstadt', 'sonthofen',
-        'hindelang', 'oberjoch', 'tannheim', 'haldensee', 'gaicht', 'weissenbach', 'reutte', 'vils', 'pfronten', 'nesselwang', 'wertach', 'sonthofen',
-        'immenstadt', 'oberstaufen', 'wangen', 'wurzach', 'biberach', 'ehingen', 'muensingen', 'urach', 'neuffen', 'kirchheim'],
-      mark: [17, 'Tannheimer Tal']
+      stay: 'Eine Nacht in Freudenstadt oder Baiersbronn',
+      notes: ['Auf der Schwarzwaldhochstraße gibt’s Tempolimits und am Wochenende viele Kontrollen. Für die Saison 2027 sind dort neue Regeln für Motorräder geplant, also vor der Tour kurz nachschauen.'],
+      path: ['winnenden', 'affalterbach', 'marbach', 'freiberg', 'asperg', 'markgroeningen', 'hemmingen', 'weissach', 'weilderstadt', 'calw', 'wildberg', 'nagold', 'altensteig', 'pfalzgrafenweiler', 'freudenstadt',
+        'baiersbronn', 'ruhestein', 'mummelsee', 'sand', 'herrenwies', 'forbach', 'gernsbach', 'kaltenbronn', 'wildbad', 'calmbach', 'liebenzell', 'hirsau'],
+      mark: [17, 'Mummelsee']
     }
   ];
 
