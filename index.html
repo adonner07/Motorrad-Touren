@@ -349,6 +349,69 @@
     .join:hover input:not(:checked) + .join-face { border-color: rgba(255, 255, 255, .45); }
     .maps:hover { border-color: var(--line-strong); }
   }
+  .group-head { grid-column: 1 / -1; margin-top: 14px; }
+  .group-head:first-child { margin-top: 0; }
+  .group-title { margin: 0; font: 800 1.55rem/1.1 var(--font-head); letter-spacing: .02em; text-transform: uppercase; }
+  .group-title::before {
+    content: "";
+    display: inline-block;
+    width: 18px;
+    height: 4px;
+    margin-right: 10px;
+    border-radius: 2px;
+    background: var(--orange);
+    vertical-align: middle;
+    transform: translateY(-2px);
+  }
+  .group-sub { margin: 4px 0 0; font-size: .95rem; color: var(--text-dim); }
+  .day { margin: 0 0 10px; }
+  .day-head { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin: 0; font-size: .93rem; font-weight: 600; }
+  .day-map {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    min-height: 36px;
+    margin-left: auto;
+    padding: 6px 12px;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    color: var(--text);
+    font: 700 .84rem/1 var(--font-head);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    touch-action: manipulation;
+  }
+  .day-map svg { width: 14px; height: 14px; flex: none; color: var(--orange); }
+  .day-map:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+  .day-route { margin: 3px 0 0; font-size: .93rem; line-height: 1.45; color: var(--text-dim); }
+  .tour-note {
+    position: relative;
+    margin: 8px 0 0;
+    padding: 10px 12px 10px 36px;
+    border: 1px solid rgba(255, 181, 71, .28);
+    border-radius: 10px;
+    background: rgba(255, 181, 71, .08);
+    font-size: .9rem;
+    line-height: 1.42;
+    color: #f1dcb8;
+  }
+  .tour-note::before {
+    content: "!";
+    position: absolute;
+    left: 11px;
+    top: 11px;
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    background: var(--amber);
+    color: #141517;
+    font: 800 .78rem/17px var(--font-head);
+    text-align: center;
+  }
+  @media (hover: hover) {
+    .day-map:hover { border-color: rgba(255, 255, 255, .45); }
+  }
   .tours-note { max-width: 640px; margin: 20px 0 0; font-size: .93rem; color: var(--text-dim); }
   /* Leiste unten mit Zähler und Weiter */
   .back-row { display: flex; justify-content: center; margin-top: 14px; }
@@ -553,7 +616,7 @@
         </button>
       </div>
       <div class="start-text" id="post-ign" hidden>
-        <p class="lead">Nächstes Jahr wird gefahren! Ich hab ein paar Touren ab Winnenden rausgesucht. Sag mir, wo du dabei bist.</p>
+        <p class="lead">Nächstes Jahr wird gefahren! Ich hab ein paar Touren ab Winnenden rausgesucht, alle nur über Landstraßen, also auch gut mit 125er. Sag mir, wo du dabei bist.</p>
         <button type="button" class="btn btn-primary" id="to-tours">Touren ansehen</button>
       </div>
     </div>
@@ -565,13 +628,13 @@
       <div class="tours-head">
         <p class="eyebrow">Saison 2027</p>
         <h1 class="title" id="tours-heading" tabindex="-1" data-heading>Wo bist du dabei?</h1>
-        <p class="lead">Alle Touren starten und enden in Winnenden. Die Zeiten sind reine Fahrzeit, Pausen kommen dazu. Gern auch mehrere.</p>
+        <p class="lead">Alle Touren starten und enden in Winnenden und gehen nur über Landstraßen, ohne Autobahn. Das passt auch mit 125er. Die Zeiten sind reine Fahrzeit, Pausen kommen dazu. Gern auch mehrere.</p>
         <button type="button" class="btn-text" id="all-btn">Alle auswählen</button>
       </div>
 
       <div class="tour-list" id="tour-list"></div>
 
-      <p class="tours-note">Vor jeder Tour checken wir kurz Baustellen und Sperrungen. Ein paar Strecken in der Gegend sind am Wochenende für Motorräder gesperrt, die sind hier schon rausgelassen.</p>
+      <p class="tours-note">Vor jeder Tour checken wir kurz Baustellen und Sperrungen. Ein paar Strecken in der Gegend sind am Wochenende für Motorräder gesperrt, die sind hier schon rausgelassen. Tipp fürs Handy: In Google Maps bei den Routenoptionen „Autobahnen vermeiden“ einschalten, dann bleibt die Route auf der Landstraße.</p>
 
       <div class="back-row"><button type="button" class="btn-text" data-go="start">Zurück</button></div>
 
@@ -692,87 +755,169 @@
 
   // Orte als [Breite, Länge] für die kleinen Routen-Skizzen
   var P = {
-    winnenden: [48.8757, 9.3985], rudersberg: [48.8852, 9.5272], welzheim: [48.8746, 9.6342],
+    winnenden: [48.8757, 9.3985], allmersbach: [48.9060, 9.4680], unterweissach: [48.9330, 9.4810], althuette: [48.9150, 9.5690],
+    berglen: [48.8630, 9.4650], rudersberg: [48.8852, 9.5272], welzheim: [48.8746, 9.6342],
     ebnisee: [48.9170, 9.6100], kaisersbach: [48.9307, 9.6385], murrhardt: [48.9797, 9.5784],
     backnang: [48.9474, 9.4306], sulzbach: [49.0031, 9.5004], spiegelberg: [49.0412, 9.4379],
     wuestenrot: [49.0808, 9.4600], platte: [49.0960, 9.4150], loewenstein: [49.0955, 9.3830],
     breitenau: [49.1180, 9.3630], beilstein: [49.0410, 9.3140], grossbottwar: [48.9990, 9.2930],
+    steinheimmurr: [48.9660, 9.2780], affalterbach: [48.9170, 9.3220],
     schorndorf: [48.8053, 9.5274], adelberg: [48.7636, 9.5978], waeschenbeuren: [48.7586, 9.6888],
     hohenstaufen: [48.7440, 9.7160], rechberg: [48.7440, 9.7950], wissgoldingen: [48.7270, 9.7850],
     donzdorf: [48.6880, 9.8090], nenningen: [48.6860, 9.8420], degenfeld: [48.7050, 9.8800],
-    furtle: [48.7250, 9.8800], weiler: [48.7500, 9.8590], gmuend: [48.7996, 9.7980], lorch: [48.7980, 9.6890],
-    remshalden: [48.8100, 9.4300], baltmannsweiler: [48.7430, 9.4490], plochingen: [48.7120, 9.4190],
+    furtle: [48.7250, 9.8800], weiler: [48.7500, 9.8590], gmuend: [48.7996, 9.7980],
+    mutlangen: [48.8250, 9.7980], alfdorf: [48.8430, 9.7180],
+    buoch: [48.8380, 9.4420], baltmannsweiler: [48.7430, 9.4490], reichenbach: [48.7100, 9.4630],
     kirchheim: [48.6480, 9.4510], owen: [48.5870, 9.4490], oberlenningen: [48.5510, 9.4740],
     gutenberg: [48.5340, 9.4970], schopfloch: [48.5560, 9.5230], grabenstetten: [48.5240, 9.4620],
-    urach: [48.4930, 9.3990], metzingen: [48.5370, 9.2860], nuertingen: [48.6260, 9.3360], esslingen: [48.7400, 9.3070],
+    urach: [48.4930, 9.3990], metzingen: [48.5370, 9.2860], neuffen: [48.5550, 9.3750], beuren: [48.5700, 9.4040],
     mainhardt: [49.0760, 9.5560], hall: [49.1120, 9.7370], braunsbach: [49.1990, 9.7900], langenburg: [49.2530, 9.8560],
     ilshofen: [49.1700, 9.9180], vellberg: [49.0860, 9.8790], gaildorf: [48.9990, 9.7700],
     marbach: [48.9390, 9.2590], mundelsheim: [49.0000, 9.2080], hessigheim: [48.9930, 9.1860], besigheim: [48.9990, 9.1420],
     sachsenheim: [48.9590, 9.0640], ochsenbach: [49.0400, 9.0100], sternenfels: [49.0510, 8.8530], maulbronn: [49.0000, 8.8100],
-    vaihingen: [48.9330, 8.9580], markgroeningen: [48.9050, 9.0800]
+    vaihingen: [48.9330, 8.9580], markgroeningen: [48.9050, 9.0800], asperg: [48.9060, 9.1410], freiberg: [48.9330, 9.1920],
+    gschwend: [48.9330, 9.7470], abtsgmuend: [48.8960, 9.9970], aalen: [48.8370, 10.0930], bopfingen: [48.8570, 10.3530],
+    noerdlingen: [48.8510, 10.4890], neresheim: [48.7550, 10.3340], heidenheim: [48.6780, 10.1530], steinheimalb: [48.6900, 10.0640],
+    bartholomae: [48.7540, 9.9810], heubach: [48.7920, 9.9340],
+    buehlertann: [49.0430, 9.9100], ellwangen: [48.9620, 10.1310], dinkelsbuehl: [49.0700, 10.3190], crailsheim: [49.1350, 10.0700],
+    muensingen: [48.4130, 9.4950], zwiefalten: [48.2310, 9.4630], riedlingen: [48.1550, 9.4730], saulgau: [48.0170, 9.5000],
+    ravensburg: [47.7810, 9.6110], tettnang: [47.6700, 9.5880], lindau: [47.5460, 9.6840], bregenz: [47.5030, 9.7470],
+    dornbirn: [47.4130, 9.7420], boedele: [47.4280, 9.8130], schwarzenberg: [47.4140, 9.8510], bezau: [47.3840, 9.9010],
+    egg: [47.4320, 9.8980], hittisau: [47.4590, 9.9590], riefensberg: [47.5030, 9.9600], langen: [47.5240, 9.8240],
+    wangen: [47.6860, 9.8340], wurzach: [47.9080, 9.8990], biberach: [48.0980, 9.7880], ehingen: [48.2830, 9.7240],
+    laichingen: [48.4890, 9.6870], blaubeuren: [48.4120, 9.7850], laupheim: [48.2290, 9.8800], ochsenhausen: [48.0710, 9.9480],
+    leutkirch: [47.8260, 10.0220], isny: [47.6930, 10.0400], oberstaufen: [47.5550, 10.0230], immenstadt: [47.5600, 10.2200],
+    sonthofen: [47.5150, 10.2830], hindelang: [47.5050, 10.3720], oberjoch: [47.5170, 10.4080], tannheim: [47.4990, 10.5150],
+    haldensee: [47.4840, 10.5600], gaicht: [47.4850, 10.6250], weissenbach: [47.4440, 10.6390], reutte: [47.4870, 10.7190],
+    vils: [47.5510, 10.6290], pfronten: [47.5830, 10.5560], nesselwang: [47.6230, 10.5030], wertach: [47.6020, 10.4130]
   };
 
-  // Touren ab Winnenden. Kilometer und Fahrzeit sind ungefähre Werte ohne Pausen.
+  var GROUPS = [
+    { id: 'home', title: 'Rund um Winnenden', sub: 'Feierabendrunden und Halbtagestouren.' },
+    { id: 'by', title: 'Ab nach Bayern', sub: 'Tagestouren mit Pause in einer schönen Altstadt.' },
+    { id: 'at', title: 'Ab nach Österreich', sub: 'Drei Tage mit zwei Übernachtungen. Keine Vignette nötig, weil wir nur Landstraße fahren.' }
+  ];
+  var A1_NOTE = 'Wer eine 125er mit B196 (also mit dem Autoführerschein) fährt, darf damit nur in Deutschland fahren. Für Österreich braucht man mindestens den A1-Führerschein.';
+
+  // Touren ab Winnenden, nur über Landstraßen. Kilometer und Fahrzeit sind ungefähre Werte ohne Pausen.
   var TOURS = [
     {
-      id: 'ebnisee', region: 'Schwäbischer Wald', type: 'Feierabendrunde', name: 'Ebnisee-Runde',
-      km: 70, time: '1½', curves: 4,
-      text: 'Kurz, kurvig und gleich um die Ecke: durchs Wieslauftal in den Welzheimer Wald, Pause am Ebnisee und über Murrhardt zurück. Perfekt für einen Sommerabend.',
-      route: ['Winnenden', 'Rudersberg', 'Welzheim', 'Ebnisee', 'Kaisersbach', 'Murrhardt', 'Backnang', 'Winnenden'],
+      id: 'ebnisee', group: 'home', region: 'Schwäbischer Wald', type: 'Feierabendrunde', name: 'Ebnisee-Runde',
+      km: 60, time: '1¼', curves: 4,
+      text: 'Kurz, kurvig und gleich um die Ecke: über Althütte in den Schwäbischen Wald, Pause am Ebnisee und durchs Wieslauftal zurück. Perfekt für einen Sommerabend.',
+      route: ['Winnenden', 'Allmersbach im Tal', 'Weissach im Tal', 'Althütte', 'Ebnisee', 'Kaisersbach', 'Welzheim', 'Rudersberg', 'Winnenden'],
       pause: 'Ebnisee, ein beliebter Treffpunkt für Biker direkt am See',
-      maps: ['Welzheim', 'Ebnisee, Kaisersbach', 'Murrhardt'],
-      path: ['winnenden', 'rudersberg', 'welzheim', 'ebnisee', 'kaisersbach', 'murrhardt', 'backnang'],
-      mark: [3, 'Ebnisee']
+      via: ['Althütte', 'Ebnisee, Kaisersbach', 'Rudersberg'],
+      path: ['winnenden', 'allmersbach', 'unterweissach', 'althuette', 'ebnisee', 'kaisersbach', 'welzheim', 'rudersberg', 'berglen'],
+      mark: [4, 'Ebnisee']
     },
     {
-      id: 'loewenstein', region: 'Löwensteiner Berge', type: 'Halbtagestour', name: 'Zur Löwensteiner Platte',
+      id: 'loewenstein', group: 'home', region: 'Löwensteiner Berge', type: 'Halbtagestour', name: 'Zur Löwensteiner Platte',
       km: 90, time: '2', curves: 5,
       text: 'Enge Kehren zwischen Spiegelberg und Wüstenrot, Benzingespräche am Bikertreff und danach runter zum Breitenauer See. Rund um Spiegelberg gibt’s Tempolimits und Kontrollen, also locker bleiben.',
-      route: ['Winnenden', 'Backnang', 'Sulzbach an der Murr', 'Spiegelberg', 'Wüstenrot', 'Löwensteiner Platte', 'Löwenstein', 'Breitenauer See', 'Beilstein', 'Großbottwar', 'Winnenden'],
+      route: ['Winnenden', 'Backnang', 'Sulzbach an der Murr', 'Spiegelberg', 'Wüstenrot', 'Löwensteiner Platte', 'Löwenstein', 'Breitenauer See', 'Beilstein', 'Großbottwar', 'Affalterbach', 'Winnenden'],
       pause: 'Löwensteiner Platte, der Bikertreff mit Kiosk an der B 39',
-      maps: ['Spiegelberg, Baden-Württemberg', 'Löwenstein, Baden-Württemberg', 'Breitenauer See, Obersulm'],
-      path: ['winnenden', 'backnang', 'sulzbach', 'spiegelberg', 'wuestenrot', 'platte', 'loewenstein', 'breitenau', 'beilstein', 'grossbottwar'],
-      mark: [5, 'Löwensteiner Platte']
+      via: ['Spiegelberg, Baden-Württemberg', 'Breitenauer See, Obersulm', 'Großbottwar'],
+      path: ['winnenden', 'allmersbach', 'backnang', 'sulzbach', 'spiegelberg', 'wuestenrot', 'platte', 'loewenstein', 'breitenau', 'beilstein', 'grossbottwar', 'steinheimmurr', 'affalterbach'],
+      mark: [6, 'Löwensteiner Platte']
     },
     {
-      id: 'kaiserberge', region: 'Stauferland & Ostalb', type: 'Halbtagestour', name: 'Kaiserberge & Furtlepass',
+      id: 'kaiserberge', group: 'home', region: 'Stauferland & Ostalb', type: 'Halbtagestour', name: 'Kaiserberge & Furtlepass',
       km: 125, time: '2¾', curves: 4,
-      text: 'Vorbei an Hohenstaufen und Hohenrechberg, dann über den Furtlepass, einen der wenigen Albpässe mit echtem Pass-Schild. Zurück geht’s über Lorch durch den Welzheimer Wald.',
-      route: ['Winnenden', 'Schorndorf', 'Adelberg', 'Hohenstaufen', 'Rechberg', 'Donzdorf', 'Degenfeld', 'Furtlepass', 'Schwäbisch Gmünd', 'Lorch', 'Welzheim', 'Winnenden'],
+      text: 'Vorbei an Hohenstaufen und Hohenrechberg, dann über den Furtlepass, einen der wenigen Albpässe mit echtem Pass-Schild. Zurück geht’s über Alfdorf durch den Welzheimer Wald.',
+      route: ['Winnenden', 'Schorndorf', 'Adelberg', 'Hohenstaufen', 'Rechberg', 'Donzdorf', 'Degenfeld', 'Furtlepass', 'Schwäbisch Gmünd', 'Alfdorf', 'Welzheim', 'Rudersberg', 'Winnenden'],
       pause: 'Hohenrechberg, Burgruine mit Weitblick über die Kaiserberge',
-      maps: ['Hohenstaufen, Göppingen', 'Degenfeld, Schwäbisch Gmünd', 'Welzheim'],
-      path: ['winnenden', 'schorndorf', 'adelberg', 'waeschenbeuren', 'hohenstaufen', 'rechberg', 'wissgoldingen', 'donzdorf', 'nenningen', 'degenfeld', 'furtle', 'weiler', 'gmuend', 'lorch', 'welzheim', 'rudersberg'],
-      mark: [10, 'Furtlepass']
+      via: ['Hohenstaufen, Göppingen', 'Degenfeld, Schwäbisch Gmünd', 'Alfdorf'],
+      path: ['winnenden', 'berglen', 'schorndorf', 'adelberg', 'waeschenbeuren', 'hohenstaufen', 'rechberg', 'wissgoldingen', 'donzdorf', 'nenningen', 'degenfeld', 'furtle', 'weiler', 'gmuend', 'mutlangen', 'alfdorf', 'welzheim', 'rudersberg'],
+      mark: [11, 'Furtlepass']
     },
     {
-      id: 'alb', region: 'Schwäbische Alb', type: 'Halbtagestour', name: 'Lenninger Tal & Bad Urach',
+      id: 'alb', group: 'home', region: 'Schwäbische Alb', type: 'Halbtagestour', name: 'Lenninger Tal & Bad Urach',
       km: 145, time: '3¼', curves: 5,
-      text: 'Über den Schurwald an die Alb: unter der Burg Teck durchs Lenninger Tal, die Gutenberger Steige hoch und über die Albhochfläche nach Bad Urach. Die Neuffener Steige lassen wir aus, die ist am Wochenende für Motorräder gesperrt.',
-      route: ['Winnenden', 'Schurwald', 'Kirchheim unter Teck', 'Owen', 'Lenninger Tal', 'Gutenberger Steige', 'Schopfloch', 'Grabenstetten', 'Bad Urach', 'Metzingen', 'Nürtingen', 'Winnenden'],
+      text: 'Über den Schurwald an die Alb: unter der Burg Teck durchs Lenninger Tal, die Gutenberger Steige hoch und über die Albhochfläche nach Bad Urach. Zurück am Fuß der Alb über Neuffen. Die Neuffener Steige selbst lassen wir aus, die ist am Wochenende für Motorräder gesperrt.',
+      route: ['Winnenden', 'Schurwald', 'Kirchheim unter Teck', 'Owen', 'Lenninger Tal', 'Gutenberger Steige', 'Schopfloch', 'Grabenstetten', 'Bad Urach', 'Metzingen', 'Neuffen', 'Kirchheim unter Teck', 'Winnenden'],
       pause: 'Bad Urach mit Altstadt, und wer mag, läuft zum Uracher Wasserfall',
-      maps: ['Owen, Baden-Württemberg', 'Schopfloch, Lenningen', 'Bad Urach'],
-      path: ['winnenden', 'remshalden', 'baltmannsweiler', 'plochingen', 'kirchheim', 'owen', 'oberlenningen', 'gutenberg', 'schopfloch', 'grabenstetten', 'urach', 'metzingen', 'nuertingen', 'esslingen'],
+      via: ['Gutenberg, Lenningen', 'Bad Urach', 'Neuffen'],
+      path: ['winnenden', 'buoch', 'baltmannsweiler', 'reichenbach', 'kirchheim', 'owen', 'oberlenningen', 'gutenberg', 'schopfloch', 'grabenstetten', 'urach', 'metzingen', 'neuffen', 'beuren', 'kirchheim'],
       mark: [10, 'Bad Urach']
     },
     {
-      id: 'hohenlohe', region: 'Hohenlohe', type: 'Tagestour', name: 'Kocher & Jagst',
-      km: 165, time: '3½', curves: 3,
+      id: 'hohenlohe', group: 'home', region: 'Hohenlohe', type: 'Tagestour', name: 'Kocher & Jagst',
+      km: 170, time: '3½', curves: 3,
       text: 'Die große Runde: Fachwerk in Schwäbisch Hall, Kurven über dem Kochertal bei Braunsbach und Schloss Langenburg hoch über der Jagst. Über Vellberg und Gaildorf geht’s zurück.',
-      route: ['Winnenden', 'Backnang', 'Mainhardt', 'Schwäbisch Hall', 'Braunsbach', 'Langenburg', 'Ilshofen', 'Vellberg', 'Gaildorf', 'Murrhardt', 'Winnenden'],
+      route: ['Winnenden', 'Backnang', 'Mainhardt', 'Schwäbisch Hall', 'Braunsbach', 'Langenburg', 'Ilshofen', 'Vellberg', 'Gaildorf', 'Murrhardt', 'Backnang', 'Winnenden'],
       pause: 'Langenburg, Schloss mit Blick übers Jagsttal',
-      maps: ['Braunsbach', 'Langenburg', 'Gaildorf'],
-      path: ['winnenden', 'backnang', 'sulzbach', 'mainhardt', 'hall', 'braunsbach', 'langenburg', 'ilshofen', 'vellberg', 'gaildorf', 'murrhardt', 'backnang'],
-      mark: [6, 'Langenburg']
+      via: ['Braunsbach', 'Langenburg', 'Gaildorf'],
+      path: ['winnenden', 'allmersbach', 'backnang', 'sulzbach', 'mainhardt', 'hall', 'braunsbach', 'langenburg', 'ilshofen', 'vellberg', 'gaildorf', 'murrhardt', 'backnang'],
+      mark: [7, 'Langenburg']
     },
     {
-      id: 'stromberg', region: 'Neckar & Stromberg', type: 'Halbtagestour', name: 'Weinberge & Kloster Maulbronn',
-      km: 140, time: '3', curves: 3,
+      id: 'stromberg', group: 'home', region: 'Neckar & Stromberg', type: 'Halbtagestour', name: 'Weinberge & Kloster Maulbronn',
+      km: 140, time: '3¼', curves: 3,
       text: 'Neckarschleifen und Weinberge, die Felsengärten bei Hessigheim und dann kleine Sträßchen durch den Stromberg bis zum Kloster Maulbronn, das zum UNESCO-Welterbe gehört.',
-      route: ['Winnenden', 'Marbach', 'Mundelsheim', 'Hessigheim', 'Besigheim', 'Sachsenheim', 'Stromberg', 'Sternenfels', 'Maulbronn', 'Vaihingen an der Enz', 'Markgröningen', 'Winnenden'],
+      route: ['Winnenden', 'Marbach', 'Mundelsheim', 'Hessigheim', 'Besigheim', 'Sachsenheim', 'Stromberg', 'Sternenfels', 'Maulbronn', 'Vaihingen an der Enz', 'Markgröningen', 'Marbach', 'Winnenden'],
       pause: 'Kloster Maulbronn, mit Pause im Klosterhof',
-      maps: ['Hessigheim', 'Ochsenbach, Sachsenheim', 'Maulbronn'],
-      path: ['winnenden', 'marbach', 'mundelsheim', 'hessigheim', 'besigheim', 'sachsenheim', 'ochsenbach', 'sternenfels', 'maulbronn', 'vaihingen', 'markgroeningen', 'marbach'],
-      mark: [8, 'Kloster Maulbronn']
+      via: ['Hessigheim', 'Ochsenbach, Sachsenheim', 'Maulbronn'],
+      path: ['winnenden', 'affalterbach', 'marbach', 'mundelsheim', 'hessigheim', 'besigheim', 'sachsenheim', 'ochsenbach', 'sternenfels', 'maulbronn', 'vaihingen', 'markgroeningen', 'asperg', 'freiberg', 'marbach'],
+      mark: [9, 'Kloster Maulbronn']
+    },
+    {
+      id: 'ries', group: 'by', region: 'Bayern · Nördlinger Ries', type: 'Tagestour', name: 'Nördlingen im Ries',
+      km: 235, time: '4¾', curves: 2,
+      text: 'Durchs obere Kochertal auf die Ostalb und rüber nach Bayern: Nördlingen liegt mitten in einem Meteoritenkrater, und auf der alten Stadtmauer kann man einmal ganz um die Altstadt laufen. Zurück über Neresheim und den Albuch.',
+      route: ['Winnenden', 'Welzheim', 'Gschwend', 'Abtsgmünd', 'Aalen', 'Bopfingen', 'Nördlingen', 'Neresheim', 'Heidenheim', 'Bartholomä', 'Heubach', 'Schwäbisch Gmünd', 'Schorndorf', 'Winnenden'],
+      pause: 'Nördlingen, Altstadt mit Stadtmauer und dem Kirchturm „Daniel“',
+      via: ['Abtsgmünd', 'Nördlingen', 'Heubach'],
+      path: ['winnenden', 'rudersberg', 'welzheim', 'gschwend', 'abtsgmuend', 'aalen', 'bopfingen', 'noerdlingen', 'neresheim', 'heidenheim', 'steinheimalb', 'bartholomae', 'heubach', 'gmuend', 'waeschenbeuren', 'adelberg', 'schorndorf', 'berglen'],
+      mark: [7, 'Nördlingen']
+    },
+    {
+      id: 'dinkelsbuehl', group: 'by', region: 'Bayern · Romantische Straße', type: 'Tagestour', name: 'Dinkelsbühl',
+      km: 220, time: '4½', curves: 2,
+      text: 'Über Murrhardt und Gaildorf ins Bühlertal, an Ellwangen vorbei und rüber nach Dinkelsbühl, einer der schönsten Altstädte an der Romantischen Straße. Zurück über Crailsheim und Schwäbisch Hall.',
+      route: ['Winnenden', 'Backnang', 'Murrhardt', 'Gaildorf', 'Bühlertann', 'Ellwangen', 'Dinkelsbühl', 'Crailsheim', 'Vellberg', 'Schwäbisch Hall', 'Mainhardt', 'Backnang', 'Winnenden'],
+      pause: 'Dinkelsbühl, Fachwerk-Altstadt mit Stadtmauer',
+      via: ['Gaildorf', 'Dinkelsbühl', 'Schwäbisch Hall'],
+      path: ['winnenden', 'allmersbach', 'backnang', 'murrhardt', 'gaildorf', 'buehlertann', 'ellwangen', 'dinkelsbuehl', 'crailsheim', 'vellberg', 'hall', 'mainhardt', 'sulzbach', 'backnang'],
+      mark: [7, 'Dinkelsbühl']
+    },
+    {
+      id: 'bregenzerwald', group: 'at', region: 'Österreich · Vorarlberg', type: '3 Tage', name: 'Bodensee & Bregenzerwald',
+      km: 520, curves: 4,
+      text: 'Über die Alb und durch Oberschwaben an den Bodensee und von Lindau am Seeufer entlang nach Bregenz. Am zweiten Tag hoch aufs Bödele mit Blick auf See und Rheintal und durch die Dörfer im Bregenzerwald. Am dritten Tag durchs Allgäu und über die Alb zurück.',
+      days: [
+        { km: 205, time: '4¼', from: START, to: 'Bregenz', via: ['Gutenberg, Lenningen', 'Riedlingen', 'Lindau'],
+          route: ['Winnenden', 'Kirchheim unter Teck', 'Gutenberger Steige', 'Münsingen', 'Zwiefalten', 'Riedlingen', 'Bad Saulgau', 'Ravensburg', 'Lindau', 'Bregenz'] },
+        { km: 80, time: '2', from: 'Bregenz', to: 'Bregenz', via: ['Bödele', 'Egg, Vorarlberg', 'Hittisau'],
+          route: ['Bregenz', 'Dornbirn', 'Bödele', 'Schwarzenberg', 'Bezau', 'Egg', 'Hittisau', 'Riefensberg', 'Bregenz'] },
+        { km: 235, time: '4¾', from: 'Bregenz', to: START, via: ['Wangen im Allgäu', 'Biberach an der Riß', 'Bad Urach'],
+          route: ['Bregenz', 'Lindau', 'Wangen im Allgäu', 'Bad Wurzach', 'Biberach', 'Ehingen', 'Münsingen', 'Bad Urach', 'Neuffen', 'Kirchheim unter Teck', 'Winnenden'] }
+      ],
+      stay: 'Zwei Nächte in Bregenz oder Lindau',
+      notes: ['Nach Bregenz fahren wir am See entlang und nicht durch den Pfändertunnel, der gehört zur Autobahn.', A1_NOTE],
+      path: ['winnenden', 'buoch', 'baltmannsweiler', 'kirchheim', 'owen', 'gutenberg', 'muensingen', 'zwiefalten', 'riedlingen', 'saulgau', 'ravensburg', 'tettnang', 'lindau', 'bregenz',
+        'dornbirn', 'boedele', 'schwarzenberg', 'bezau', 'egg', 'hittisau', 'riefensberg', 'langen',
+        'wangen', 'wurzach', 'biberach', 'ehingen', 'muensingen', 'urach', 'neuffen', 'kirchheim'],
+      mark: [13, 'Bregenz']
+    },
+    {
+      id: 'tannheimertal', group: 'at', region: 'Österreich · Tirol & Allgäu', type: '3 Tage', name: 'Allgäu & Tannheimer Tal',
+      km: 600, curves: 5,
+      text: 'Über die Alb zum Blautopf und durch Oberschwaben ins Allgäu. Am zweiten Tag die über 100 Kurven am Jochpass hoch, durchs Tannheimer Tal am Haldensee vorbei, über den Gaichtpass nach Reutte und über Pfronten zurück. Wer mag, macht noch einen Abstecher nach Füssen. Am dritten Tag übers Allgäu und die Alb nach Hause.',
+      days: [
+        { km: 235, time: '4¾', from: START, to: 'Sonthofen', via: ['Blaubeuren', 'Ochsenhausen', 'Isny im Allgäu'],
+          route: ['Winnenden', 'Kirchheim unter Teck', 'Gutenberger Steige', 'Laichingen', 'Blaubeuren', 'Laupheim', 'Ochsenhausen', 'Leutkirch', 'Isny', 'Oberstaufen', 'Immenstadt', 'Sonthofen'] },
+        { km: 110, time: '2¾', from: 'Sonthofen', to: 'Sonthofen', via: ['Oberjoch', 'Gaichtpass, Weißenbach am Lech', 'Pfronten'],
+          route: ['Sonthofen', 'Bad Hindelang', 'Jochpass', 'Tannheimer Tal', 'Gaichtpass', 'Reutte', 'Vils', 'Pfronten', 'Wertach', 'Sonthofen'] },
+        { km: 255, time: '5', from: 'Sonthofen', to: START, via: ['Wangen im Allgäu', 'Biberach an der Riß', 'Bad Urach'],
+          route: ['Sonthofen', 'Immenstadt', 'Oberstaufen', 'Wangen im Allgäu', 'Bad Wurzach', 'Biberach', 'Ehingen', 'Münsingen', 'Bad Urach', 'Neuffen', 'Kirchheim unter Teck', 'Winnenden'] }
+      ],
+      stay: 'Zwei Nächte in Sonthofen oder Bad Hindelang',
+      notes: ['Im Tannheimer Tal gilt vom 15. April bis 31. Oktober ein Fahrverbot für Motorräder mit mehr als 95 dB Standgeräusch. Der Wert steht im Fahrzeugschein unter U.1, also vorher kurz nachschauen.', A1_NOTE],
+      path: ['winnenden', 'buoch', 'baltmannsweiler', 'kirchheim', 'owen', 'gutenberg', 'laichingen', 'blaubeuren', 'laupheim', 'ochsenhausen', 'leutkirch', 'isny', 'oberstaufen', 'immenstadt', 'sonthofen',
+        'hindelang', 'oberjoch', 'tannheim', 'haldensee', 'gaicht', 'weissenbach', 'reutte', 'vils', 'pfronten', 'nesselwang', 'wertach', 'sonthofen',
+        'immenstadt', 'oberstaufen', 'wangen', 'wurzach', 'biberach', 'ehingen', 'muensingen', 'urach', 'neuffen', 'kirchheim'],
+      mark: [17, 'Tannheimer Tal']
     }
   ];
 
@@ -879,51 +1024,80 @@
     return svg;
   }
 
-  function mapsUrl(tour) {
+  function mapsUrl(from, to, via) {
     return 'https://www.google.com/maps/dir/?api=1' +
-      '&origin=' + encodeURIComponent(START) +
-      '&destination=' + encodeURIComponent(START) +
-      '&waypoints=' + tour.maps.map(encodeURIComponent).join('%7C') +
+      '&origin=' + encodeURIComponent(from) +
+      '&destination=' + encodeURIComponent(to) +
+      '&waypoints=' + via.map(encodeURIComponent).join('%7C') +
       '&travelmode=driving';
+  }
+
+  var PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg>';
+
+  function tourCard(t, num) {
+    var bars = '';
+    for (var b = 1; b <= 5; b++) bars += '<i' + (b <= t.curves ? ' class="on"' : '') + '></i>';
+    var stats =
+      '<li><span class="stat-v">ca. ' + t.km + '</span> km</li>' +
+      (t.days ? '<li><span class="stat-v">' + t.days.length + '</span> Tage</li>'
+        : '<li><span class="stat-v">ca. ' + esc(t.time) + '</span> Std.</li>') +
+      '<li><span aria-hidden="true">Kurven</span><span class="bars" aria-hidden="true">' + bars + '</span>' +
+        '<span class="sr-only">Kurven: ' + t.curves + ' von 5</span></li>' +
+      (t.days ? '' : '<li>' + esc(t.type) + '</li>');
+    var route;
+    if (t.days) {
+      route = t.days.map(function (d, i) {
+        return '<div class="day">' +
+          '<p class="day-head"><span class="meta-k">Tag ' + (i + 1) + '</span>ca. ' + d.km + ' km · ca. ' + esc(d.time) + ' Std.' +
+            '<a class="day-map" href="' + esc(mapsUrl(d.from, d.to, d.via)) + '" target="_blank" rel="noopener">' + PIN + 'Karte' +
+            '<span class="sr-only"> für Tag ' + (i + 1) + ' in Google Maps</span></a></p>' +
+          '<p class="day-route">' + esc(d.route.join(' → ')) + '</p></div>';
+      }).join('') +
+      '<p class="tour-meta"><span class="meta-k">Übernachtung</span>' + esc(t.stay) + '</p>';
+    } else {
+      route = '<p class="tour-meta"><span class="meta-k">Route</span>' + esc(t.route.join(' → ')) + '</p>' +
+        '<p class="tour-meta"><span class="meta-k">Pause</span>' + esc(t.pause) + '</p>';
+    }
+    var notes = (t.notes || []).map(function (n) { return '<p class="tour-note">' + esc(n) + '</p>'; }).join('');
+    var mapsBtn = t.days ? '' :
+      '<a class="maps" href="' + esc(mapsUrl(START, START, t.via)) + '" target="_blank" rel="noopener">' + PIN +
+        'Route<span class="sr-only"> in Google Maps ansehen: ' + esc(t.name) + '</span></a>';
+
+    var art = document.createElement('article');
+    art.className = 'tour';
+    art.id = 'tour-' + t.id;
+    art.setAttribute('aria-labelledby', 'tn-' + t.id);
+    art.innerHTML =
+      '<div class="tour-map"></div>' +
+      '<div class="tour-body">' +
+        '<div class="tour-top"><span class="tour-num" aria-hidden="true">' + pad2(num) + '</span>' +
+          '<p class="tour-region">' + esc(t.region) + '</p></div>' +
+        '<h3 class="tour-name" id="tn-' + t.id + '">' + esc(t.name) + '</h3>' +
+        '<ul class="tour-stats">' + stats + '</ul>' +
+        '<p class="tour-text">' + esc(t.text) + '</p>' +
+        route + notes +
+        '<div class="tour-actions">' +
+          '<label class="join"><input type="checkbox" name="tour" id="t-' + t.id + '" value="' + t.id + '">' +
+            '<span class="join-face"><span class="join-box" aria-hidden="true"></span>Bin dabei' +
+            '<span class="sr-only">: ' + esc(t.name) + '</span></span></label>' +
+          mapsBtn +
+        '</div>' +
+      '</div>';
+    art.querySelector('.tour-map').appendChild(drawMap(t));
+    return art;
   }
 
   function renderTours() {
     var list = $('tour-list');
-    TOURS.forEach(function (t, i) {
-      var bars = '';
-      for (var b = 1; b <= 5; b++) bars += '<i' + (b <= t.curves ? ' class="on"' : '') + '></i>';
-      var art = document.createElement('article');
-      art.className = 'tour';
-      art.id = 'tour-' + t.id;
-      art.setAttribute('aria-labelledby', 'tn-' + t.id);
-      art.innerHTML =
-        '<div class="tour-map"></div>' +
-        '<div class="tour-body">' +
-          '<div class="tour-top"><span class="tour-num" aria-hidden="true">' + pad2(i + 1) + '</span>' +
-            '<p class="tour-region">' + esc(t.region) + '</p></div>' +
-          '<h2 class="tour-name" id="tn-' + t.id + '">' + esc(t.name) + '</h2>' +
-          '<ul class="tour-stats">' +
-            '<li><span class="stat-v">ca. ' + t.km + '</span> km</li>' +
-            '<li><span class="stat-v">ca. ' + esc(t.time) + '</span> Std.</li>' +
-            '<li><span aria-hidden="true">Kurven</span><span class="bars" aria-hidden="true">' + bars + '</span>' +
-              '<span class="sr-only">Kurven: ' + t.curves + ' von 5</span></li>' +
-            '<li>' + esc(t.type) + '</li>' +
-          '</ul>' +
-          '<p class="tour-text">' + esc(t.text) + '</p>' +
-          '<p class="tour-meta"><span class="meta-k">Route</span>' + esc(t.route.join(' → ')) + '</p>' +
-          '<p class="tour-meta"><span class="meta-k">Pause</span>' + esc(t.pause) + '</p>' +
-          '<div class="tour-actions">' +
-            '<label class="join"><input type="checkbox" name="tour" id="t-' + t.id + '" value="' + t.id + '">' +
-              '<span class="join-face"><span class="join-box" aria-hidden="true"></span>Bin dabei' +
-              '<span class="sr-only">: ' + esc(t.name) + '</span></span></label>' +
-            '<a class="maps" href="' + esc(mapsUrl(t)) + '" target="_blank" rel="noopener">' +
-              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg>' +
-              'Route<span class="sr-only"> in Google Maps ansehen: ' + esc(t.name) + '</span></a>' +
-          '</div>' +
-        '</div>';
-      var map = art.querySelector('.tour-map');
-      map.appendChild(drawMap(t));
-      list.appendChild(art);
+    var num = 0;
+    GROUPS.forEach(function (g) {
+      var head = document.createElement('div');
+      head.className = 'group-head';
+      head.innerHTML = '<h2 class="group-title">' + esc(g.title) + '</h2><p class="group-sub">' + esc(g.sub) + '</p>';
+      list.appendChild(head);
+      TOURS.forEach(function (t) {
+        if (t.group === g.id) list.appendChild(tourCard(t, ++num));
+      });
     });
   }
 
@@ -1098,7 +1272,7 @@
   }
   function buildMessage(c) {
     var lines = ['Motorrad-Touren 2027 🏍️', 'Ich bin dabei bei:'];
-    c.tours.forEach(function (t) { lines.push('• ' + t.name + ' (ca. ' + t.km + ' km)'); });
+    c.tours.forEach(function (t) { lines.push('• ' + t.name + ' (' + (t.days ? t.days.length + ' Tage, ' : '') + 'ca. ' + t.km + ' km)'); });
     if (c.fav) lines.push('Meine Nummer 1: ' + c.fav.name);
     if (c.months.length) lines.push('Monate: ' + c.months.join(', '));
     if (c.days.length) lines.push('Tage: ' + c.days.join(', '));
