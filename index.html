@@ -364,30 +364,6 @@
     transform: translateY(-2px);
   }
   .group-sub { margin: 4px 0 0; font-size: .95rem; color: var(--text-dim); }
-  .day { margin: 0 0 10px; }
-  .day-head { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin: 0; font-size: .93rem; font-weight: 600; }
-  .day-map {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    min-height: 36px;
-    margin-left: auto;
-    padding: 6px 12px;
-    border: 1px solid var(--line-strong);
-    border-radius: 999px;
-    color: var(--text);
-    font: 700 .84rem/1 var(--font-head);
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    text-decoration: none;
-    touch-action: manipulation;
-  }
-  .day-map svg { width: 14px; height: 14px; flex: none; color: var(--orange); }
-  .day-map:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
-  .day-route { margin: 3px 0 0; font-size: .93rem; line-height: 1.45; color: var(--text-dim); }
-  @media (hover: hover) {
-    .day-map:hover { border-color: rgba(255, 255, 255, .45); }
-  }
   .tours-note { max-width: 640px; margin: 20px 0 0; font-size: .93rem; color: var(--text-dim); }
   /* Leiste unten mit Zähler und Weiter */
   .back-row { display: flex; justify-content: center; margin-top: 14px; }
@@ -604,7 +580,7 @@
       <div class="tours-head">
         <p class="eyebrow">Saison 2027</p>
         <h1 class="title" id="tours-heading" tabindex="-1" data-heading>Wo bist du dabei?</h1>
-        <p class="lead">Alle Touren starten und enden in Winnenden und gehen nur über Landstraßen, ohne Autobahn. Das passt auch mit 125er. Die Zeiten sind reine Fahrzeit, Pausen kommen dazu. Gern auch mehrere.</p>
+        <p class="lead">Alle Touren starten und enden in Winnenden, gehen nur über Landstraßen (passt also auch mit 125er) und sind an einem Tag zu schaffen. Die Zeiten sind reine Fahrzeit, Pausen kommen dazu. Gern auch mehrere.</p>
         <button type="button" class="btn-text" id="all-btn">Alle auswählen</button>
       </div>
 
@@ -732,42 +708,46 @@
   // Orte als [Breite, Länge] für die kleinen Routen-Skizzen
   var P = {
     winnenden: [48.8757, 9.3985], allmersbach: [48.9060, 9.4680], unterweissach: [48.9330, 9.4810], althuette: [48.9150, 9.5690],
-    berglen: [48.8630, 9.4650], rudersberg: [48.8852, 9.5272], welzheim: [48.8746, 9.6342],
-    ebnisee: [48.9170, 9.6100], kaisersbach: [48.9307, 9.6385], murrhardt: [48.9797, 9.5784],
-    backnang: [48.9474, 9.4306], sulzbach: [49.0031, 9.5004], spiegelberg: [49.0412, 9.4379],
-    wuestenrot: [49.0808, 9.4600], platte: [49.0960, 9.4150], loewenstein: [49.0955, 9.3830],
-    breitenau: [49.1180, 9.3630], beilstein: [49.0410, 9.3140], grossbottwar: [48.9990, 9.2930],
-    steinheimmurr: [48.9660, 9.2780], affalterbach: [48.9170, 9.3220],
-    schorndorf: [48.8053, 9.5274], adelberg: [48.7636, 9.5978], waeschenbeuren: [48.7586, 9.6888],
-    hohenstaufen: [48.7440, 9.7160], rechberg: [48.7440, 9.7950], wissgoldingen: [48.7270, 9.7850],
-    donzdorf: [48.6880, 9.8090], nenningen: [48.6860, 9.8420], degenfeld: [48.7050, 9.8800],
-    furtle: [48.7250, 9.8800], weiler: [48.7500, 9.8590], gmuend: [48.7996, 9.7980],
-    mutlangen: [48.8250, 9.7980], alfdorf: [48.8430, 9.7180],
-    buoch: [48.8380, 9.4420], baltmannsweiler: [48.7430, 9.4490], reichenbach: [48.7100, 9.4630],
-    kirchheim: [48.6480, 9.4510], owen: [48.5870, 9.4490], oberlenningen: [48.5510, 9.4740],
-    gutenberg: [48.5340, 9.4970], schopfloch: [48.5560, 9.5230], grabenstetten: [48.5240, 9.4620],
-    urach: [48.4930, 9.3990], metzingen: [48.5370, 9.2860], neuffen: [48.5550, 9.3750], beuren: [48.5700, 9.4040],
-    mainhardt: [49.0760, 9.5560], hall: [49.1120, 9.7370], braunsbach: [49.1990, 9.7900], langenburg: [49.2530, 9.8560],
-    ilshofen: [49.1700, 9.9180], vellberg: [49.0860, 9.8790], gaildorf: [48.9990, 9.7700],
-    marbach: [48.9390, 9.2590], mundelsheim: [49.0000, 9.2080], hessigheim: [48.9930, 9.1860], besigheim: [48.9990, 9.1420],
-    sachsenheim: [48.9590, 9.0640], ochsenbach: [49.0400, 9.0100], sternenfels: [49.0510, 8.8530], maulbronn: [49.0000, 8.8100],
-    vaihingen: [48.9330, 8.9580], markgroeningen: [48.9050, 9.0800], asperg: [48.9060, 9.1410], freiberg: [48.9330, 9.1920],
+    ebnisee: [48.9170, 9.6100], kaisersbach: [48.9307, 9.6385], welzheim: [48.8746, 9.6342], rudersberg: [48.8852, 9.5272],
+    berglen: [48.8630, 9.4650], backnang: [48.9474, 9.4306], sulzbach: [49.0031, 9.5004], spiegelberg: [49.0412, 9.4379],
+    wuestenrot: [49.0808, 9.4600], platte: [49.0960, 9.4150], loewenstein: [49.0955, 9.3830], breitenau: [49.1180, 9.3630],
+    beilstein: [49.0410, 9.3140], grossbottwar: [48.9990, 9.2930], steinheimmurr: [48.9660, 9.2780], affalterbach: [48.9170, 9.3220],
+    schorndorf: [48.8053, 9.5274], adelberg: [48.7636, 9.5978], waeschenbeuren: [48.7586, 9.6888], hohenstaufen: [48.7440, 9.7160],
+    rechberg: [48.7440, 9.7950], wissgoldingen: [48.7270, 9.7850], donzdorf: [48.6880, 9.8090], nenningen: [48.6860, 9.8420],
+    degenfeld: [48.7050, 9.8800], furtle: [48.7250, 9.8800], weiler: [48.7500, 9.8590], gmuend: [48.7996, 9.7980],
+    mutlangen: [48.8250, 9.7980], alfdorf: [48.8430, 9.7180], buoch: [48.8380, 9.4420], baltmannsweiler: [48.7430, 9.4490],
+    reichenbach: [48.7100, 9.4630], kirchheim: [48.6480, 9.4510], owen: [48.5870, 9.4490], oberlenningen: [48.5510, 9.4740],
+    gutenberg: [48.5340, 9.4970], schopfloch: [48.5560, 9.5230], grabenstetten: [48.5240, 9.4620], urach: [48.4930, 9.3990],
+    metzingen: [48.5370, 9.2860], neuffen: [48.5550, 9.3750], beuren: [48.5700, 9.4040], mainhardt: [49.0760, 9.5560],
+    hall: [49.1120, 9.7370], braunsbach: [49.1990, 9.7900], langenburg: [49.2530, 9.8560], ilshofen: [49.1700, 9.9180],
+    vellberg: [49.0860, 9.8790], gaildorf: [48.9990, 9.7700], murrhardt: [48.9797, 9.5784], marbach: [48.9390, 9.2590],
+    mundelsheim: [49.0000, 9.2080], hessigheim: [48.9930, 9.1860], besigheim: [48.9990, 9.1420], sachsenheim: [48.9590, 9.0640],
+    ochsenbach: [49.0400, 9.0100], sternenfels: [49.0510, 8.8530], maulbronn: [49.0000, 8.8100], vaihingen: [48.9330, 8.9580],
+    markgroeningen: [48.9050, 9.0800], asperg: [48.9060, 9.1410], freiberg: [48.9330, 9.1920], donnstetten: [48.5020, 9.5530],
+    muensingen: [48.4130, 9.4950], buttenhausen: [48.3540, 9.4790], indelhausen: [48.3300, 9.5000], lauterach: [48.2930, 9.5720],
+    rechtenstein: [48.2400, 9.5440], zwiefalten: [48.2310, 9.4630], hayingen: [48.2760, 9.4790], pfronstetten: [48.2780, 9.3550],
+    gomadingen: [48.3990, 9.3900], seeburg: [48.4580, 9.4200], goenningen: [48.4520, 9.1620], moessingen: [48.4060, 9.0570],
+    hechingen: [48.3520, 8.9630], jungingen: [48.3300, 9.0400], burladingen: [48.2900, 9.1100], gammertingen: [48.2510, 9.2210],
+    trochtelfingen: [48.3070, 9.2410], lichtenstein: [48.4070, 9.2570], engstingen: [48.3860, 9.2900], weinsberg: [49.1510, 9.2850],
+    erlenbach: [49.1730, 9.2700], neckarsulm: [49.1920, 9.2250], friedrichshall: [49.2310, 9.2150], wimpfen: [49.2290, 9.1640],
+    gundelsheim: [49.2840, 9.1600], guttenberg: [49.2940, 9.1390], hornberg: [49.3220, 9.1340], neckargerach: [49.3990, 9.0730],
+    zwingenberg: [49.4170, 9.0430], mosbach: [49.3520, 9.1430], moeckmuehl: [49.3230, 9.3570], widdern: [49.3150, 9.4200],
+    jagsthausen: [49.3080, 9.4650], schoental: [49.3270, 9.5020], oehringen: [49.2000, 9.5050], pfedelbach: [49.1780, 9.5050],
     gschwend: [48.9330, 9.7470], abtsgmuend: [48.8960, 9.9970], aalen: [48.8370, 10.0930], bopfingen: [48.8570, 10.3530],
     noerdlingen: [48.8510, 10.4890], neresheim: [48.7550, 10.3340], heidenheim: [48.6780, 10.1530], steinheimalb: [48.6900, 10.0640],
-    bartholomae: [48.7540, 9.9810], heubach: [48.7920, 9.9340],
-    buehlertann: [49.0430, 9.9100], ellwangen: [48.9620, 10.1310], dinkelsbuehl: [49.0700, 10.3190], crailsheim: [49.1350, 10.0700],
-    hemmingen: [48.8660, 9.0350], weissach: [48.8470, 8.9280], weilderstadt: [48.7510, 8.8710], calw: [48.7140, 8.7400],
-    hirsau: [48.7350, 8.7350], teinach: [48.6900, 8.6900], neuweiler: [48.6670, 8.5970], wildberg: [48.6230, 8.7460],
-    nagold: [48.5520, 8.7250], altensteig: [48.5870, 8.6040], pfalzgrafenweiler: [48.5260, 8.5650], enzkloesterle: [48.6660, 8.4730],
-    wildbad: [48.7510, 8.5500], calmbach: [48.7750, 8.5830], liebenzell: [48.7720, 8.7310], freudenstadt: [48.4630, 8.4110],
-    baiersbronn: [48.5060, 8.3700], ruhestein: [48.5550, 8.2260], mummelsee: [48.5980, 8.2010], sand: [48.6590, 8.2350],
-    herrenwies: [48.6690, 8.2960], forbach: [48.6840, 8.3570], gernsbach: [48.7640, 8.3400], kaltenbronn: [48.7150, 8.4590]
+    bartholomae: [48.7540, 9.9810], heubach: [48.7920, 9.9340], buehlertann: [49.0430, 9.9100], ellwangen: [48.9620, 10.1310],
+    dinkelsbuehl: [49.0700, 10.3190], crailsheim: [49.1350, 10.0700], kirchberg: [49.2000, 9.9810], rotamsee: [49.2500, 10.0300],
+    rothenburg: [49.3770, 10.1790], schrozberg: [49.3450, 9.9800], hemmingen: [48.8660, 9.0350], weissach: [48.8470, 8.9280],
+    weilderstadt: [48.7510, 8.8710], calw: [48.7140, 8.7400], teinach: [48.6900, 8.6900], neuweiler: [48.6670, 8.5970],
+    enzkloesterle: [48.6660, 8.4730], wildbad: [48.7510, 8.5500], calmbach: [48.7750, 8.5830], liebenzell: [48.7720, 8.7310],
+    hirsau: [48.7350, 8.7350]
   };
 
   var GROUPS = [
     { id: 'home', title: 'Rund um Winnenden', sub: 'Feierabendrunden und Halbtagestouren.' },
+    { id: 'big', title: 'Große Tagestouren', sub: 'Rund 5 Stunden Fahrzeit, auf die Alb und an den Neckar.' },
     { id: 'by', title: 'Ab nach Bayern', sub: 'Tagestouren mit Pause in einer schönen Altstadt.' },
-    { id: 'sw', title: 'Ab in den Schwarzwald', sub: 'Eine lange Tagestour und ein Wochenende mit einer Übernachtung.' }
+    { id: 'sw', title: 'Ab in den Schwarzwald', sub: 'Eine Tagestour ins Nagold- und Enztal.' }
   ];
 
   // Touren ab Winnenden, nur über Landstraßen. Kilometer und Fahrzeit sind ungefähre Werte ohne Pausen.
@@ -833,6 +813,36 @@
       mark: [9, 'Kloster Maulbronn']
     },
     {
+      id: 'lautertal', group: 'big', region: 'Schwäbische Alb', type: 'Tagestour', name: 'Großes Lautertal',
+      km: 235, time: '5', curves: 4,
+      text: 'Durchs Lenninger Tal auf die Alb und dann das Große Lautertal hinunter, vorbei an Burgruinen und Wacholderheiden bis Lauterach an der Donau. Zurück über Zwiefalten, am Gestüt Marbach vorbei und über Bad Urach.',
+      route: ['Winnenden', 'Kirchheim unter Teck', 'Lenninger Tal', 'Gutenberger Steige', 'Münsingen', 'Buttenhausen', 'Lautertal', 'Lauterach', 'Zwiefalten', 'Gomadingen', 'Bad Urach', 'Neuffen', 'Kirchheim unter Teck', 'Winnenden'],
+      pause: 'Zwiefalten mit Barock-Münster und Klosterbrauerei',
+      via: ['Buttenhausen, Münsingen', 'Lauterach, Alb-Donau-Kreis', 'Zwiefalten'],
+      path: ['winnenden', 'buoch', 'baltmannsweiler', 'reichenbach', 'kirchheim', 'owen', 'oberlenningen', 'gutenberg', 'donnstetten', 'muensingen', 'buttenhausen', 'indelhausen', 'lauterach', 'rechtenstein', 'zwiefalten', 'hayingen', 'pfronstetten', 'gomadingen', 'seeburg', 'urach', 'metzingen', 'neuffen', 'beuren', 'kirchheim'],
+      mark: [11, 'Lautertal']
+    },
+    {
+      id: 'hohenzollern', group: 'big', region: 'Schwäbische Alb', type: 'Tagestour', name: 'Burg Hohenzollern & Lichtenstein',
+      km: 250, time: '5¼', curves: 4,
+      text: 'Am Fuß der Alb entlang bis Hechingen, wo die Burg Hohenzollern auf ihrem Berg thront. Dann durchs Killertal hoch auf die Alb, über Gammertingen zum Schloss Lichtenstein und über Münsingen und die Gutenberger Steige zurück.',
+      route: ['Winnenden', 'Kirchheim unter Teck', 'Neuffen', 'Metzingen', 'Mössingen', 'Hechingen', 'Killertal', 'Burladingen', 'Gammertingen', 'Trochtelfingen', 'Lichtenstein', 'Münsingen', 'Gutenberger Steige', 'Kirchheim unter Teck', 'Winnenden'],
+      pause: 'Burg Hohenzollern: Die Motorräder bleiben unten am Parkplatz, hoch geht’s mit dem Shuttlebus oder in 25 Minuten zu Fuß',
+      via: ['Hechingen', 'Gammertingen', 'Schloss Lichtenstein'],
+      path: ['winnenden', 'buoch', 'baltmannsweiler', 'reichenbach', 'kirchheim', 'beuren', 'neuffen', 'metzingen', 'goenningen', 'moessingen', 'hechingen', 'jungingen', 'burladingen', 'gammertingen', 'trochtelfingen', 'lichtenstein', 'engstingen', 'gomadingen', 'muensingen', 'donnstetten', 'gutenberg', 'oberlenningen', 'owen', 'kirchheim'],
+      mark: [10, 'Hohenzollern']
+    },
+    {
+      id: 'neckarburgen', group: 'big', region: 'Neckartal & Odenwald', type: 'Tagestour', name: 'Burgen am Neckar',
+      km: 240, time: '5', curves: 3,
+      text: 'Durchs Bottwartal nach Bad Wimpfen mit seinem Blauen Turm, dann am Neckar entlang an Burg Guttenberg und Burg Hornberg vorbei bis Zwingenberg im Odenwald. Zurück über Möckmühl durchs Jagsttal und am Kloster Schöntal vorbei.',
+      route: ['Winnenden', 'Marbach', 'Beilstein', 'Weinsberg', 'Bad Wimpfen', 'Gundelsheim', 'Burg Guttenberg', 'Burg Hornberg', 'Zwingenberg', 'Mosbach', 'Möckmühl', 'Jagsthausen', 'Schöntal', 'Öhringen', 'Mainhardt', 'Backnang', 'Winnenden'],
+      pause: 'Bad Wimpfen, Altstadt hoch über dem Neckar',
+      via: ['Bad Wimpfen', 'Zwingenberg, Neckar', 'Kloster Schöntal'],
+      path: ['winnenden', 'affalterbach', 'marbach', 'beilstein', 'weinsberg', 'erlenbach', 'neckarsulm', 'friedrichshall', 'wimpfen', 'gundelsheim', 'guttenberg', 'hornberg', 'neckargerach', 'zwingenberg', 'mosbach', 'moeckmuehl', 'widdern', 'jagsthausen', 'schoental', 'oehringen', 'pfedelbach', 'mainhardt', 'sulzbach', 'backnang', 'allmersbach'],
+      mark: [8, 'Bad Wimpfen']
+    },
+    {
       id: 'ries', group: 'by', region: 'Bayern · Nördlinger Ries', type: 'Tagestour', name: 'Nördlingen im Ries',
       km: 235, time: '4¾', curves: 2,
       text: 'Durchs obere Kochertal auf die Ostalb und rüber nach Bayern: Nördlingen liegt mitten in einem Meteoritenkrater, und auf der alten Stadtmauer kann man einmal ganz um die Altstadt laufen. Zurück über Neresheim und den Albuch.',
@@ -853,6 +863,16 @@
       mark: [7, 'Dinkelsbühl']
     },
     {
+      id: 'rothenburg', group: 'by', region: 'Bayern · Romantische Straße', type: 'Tagestour', name: 'Rothenburg ob der Tauber',
+      km: 240, time: '5', curves: 2,
+      text: 'Über Murrhardt und Gaildorf nach Schwäbisch Hall und durchs Hohenloher Land nach Rothenburg ob der Tauber, der wohl bekanntesten Altstadt an der Romantischen Straße. Zurück über Langenburg und das Kochertal.',
+      route: ['Winnenden', 'Backnang', 'Murrhardt', 'Gaildorf', 'Schwäbisch Hall', 'Ilshofen', 'Kirchberg an der Jagst', 'Rot am See', 'Rothenburg ob der Tauber', 'Schrozberg', 'Langenburg', 'Braunsbach', 'Schwäbisch Hall', 'Mainhardt', 'Backnang', 'Winnenden'],
+      pause: 'Rothenburg ob der Tauber, Marktplatz und Plönlein',
+      via: ['Kirchberg an der Jagst', 'Rothenburg ob der Tauber', 'Langenburg'],
+      path: ['winnenden', 'allmersbach', 'backnang', 'murrhardt', 'gaildorf', 'hall', 'ilshofen', 'kirchberg', 'rotamsee', 'rothenburg', 'schrozberg', 'langenburg', 'braunsbach', 'hall', 'mainhardt', 'sulzbach', 'backnang'],
+      mark: [9, 'Rothenburg']
+    },
+    {
       id: 'nagoldtal', group: 'sw', region: 'Nordschwarzwald', type: 'Tagestour', name: 'Nagoldtal & Enztal',
       km: 230, time: '5', curves: 4,
       text: 'Übers Heckengäu nach Calw, durchs Nagoldtal nach Bad Teinach und über die Höhen ins Enztal nach Bad Wildbad. Zurück über Bad Liebenzell und am Kloster Hirsau vorbei.',
@@ -861,22 +881,6 @@
       via: ['Bad Teinach-Zavelstein', 'Enzklösterle', 'Bad Liebenzell'],
       path: ['winnenden', 'affalterbach', 'marbach', 'freiberg', 'asperg', 'markgroeningen', 'hemmingen', 'weissach', 'weilderstadt', 'calw', 'teinach', 'neuweiler', 'enzkloesterle', 'wildbad', 'calmbach', 'liebenzell', 'hirsau'],
       mark: [13, 'Bad Wildbad']
-    },
-    {
-      id: 'hochstrasse', group: 'sw', region: 'Nordschwarzwald', type: '2 Tage', name: 'Schwarzwaldhochstraße & Murgtal',
-      km: 345, curves: 5,
-      text: 'Am ersten Tag durchs Nagoldtal und über Altensteig nach Freudenstadt, das den größten Marktplatz Deutschlands hat. Am zweiten Tag hoch zum Ruhestein, über die Schwarzwaldhochstraße zum Mummelsee, an der Schwarzenbach-Talsperre vorbei ins Murgtal und über den Kaltenbronn und Bad Wildbad zurück.',
-      days: [
-        { km: 145, time: '3', from: START, to: 'Freudenstadt', via: ['Weil der Stadt', 'Nagold', 'Altensteig'],
-          route: ['Winnenden', 'Markgröningen', 'Weil der Stadt', 'Calw', 'Wildberg', 'Nagold', 'Altensteig', 'Freudenstadt'] },
-        { km: 200, time: '4½', from: 'Freudenstadt', to: START, via: ['Mummelsee', 'Forbach', 'Kaltenbronn'],
-          route: ['Freudenstadt', 'Baiersbronn', 'Ruhestein', 'Mummelsee', 'Schwarzwaldhochstraße', 'Schwarzenbach-Talsperre', 'Forbach', 'Gernsbach', 'Kaltenbronn', 'Bad Wildbad', 'Calw', 'Weil der Stadt', 'Winnenden'] }
-      ],
-      stay: 'Eine Nacht in Freudenstadt oder Baiersbronn',
-      notes: ['Auf der Schwarzwaldhochstraße gibt’s Tempolimits und am Wochenende viele Kontrollen. Für die Saison 2027 sind dort neue Regeln für Motorräder geplant, also vor der Tour kurz nachschauen.'],
-      path: ['winnenden', 'affalterbach', 'marbach', 'freiberg', 'asperg', 'markgroeningen', 'hemmingen', 'weissach', 'weilderstadt', 'calw', 'wildberg', 'nagold', 'altensteig', 'pfalzgrafenweiler', 'freudenstadt',
-        'baiersbronn', 'ruhestein', 'mummelsee', 'sand', 'herrenwies', 'forbach', 'gernsbach', 'kaltenbronn', 'wildbad', 'calmbach', 'liebenzell', 'hirsau'],
-      mark: [17, 'Mummelsee']
     }
   ];
 
@@ -998,29 +1002,16 @@
     for (var b = 1; b <= 5; b++) bars += '<i' + (b <= t.curves ? ' class="on"' : '') + '></i>';
     var stats =
       '<li><span class="stat-v">ca. ' + t.km + '</span> km</li>' +
-      (t.days ? '<li><span class="stat-v">' + t.days.length + '</span> Tage</li>'
-        : '<li><span class="stat-v">ca. ' + esc(t.time) + '</span> Std.</li>') +
+      '<li><span class="stat-v">ca. ' + esc(t.time) + '</span> Std.</li>' +
       '<li><span aria-hidden="true">Kurven</span><span class="bars" aria-hidden="true">' + bars + '</span>' +
         '<span class="sr-only">Kurven: ' + t.curves + ' von 5</span></li>' +
-      (t.days ? '' : '<li>' + esc(t.type) + '</li>');
-    var route;
-    if (t.days) {
-      route = t.days.map(function (d, i) {
-        return '<div class="day">' +
-          '<p class="day-head"><span class="meta-k">Tag ' + (i + 1) + '</span>ca. ' + d.km + ' km · ca. ' + esc(d.time) + ' Std.' +
-            '<a class="day-map" href="' + esc(mapsUrl(d.from, d.to, d.via)) + '" target="_blank" rel="noopener">' + PIN + 'Karte' +
-            '<span class="sr-only"> für Tag ' + (i + 1) + ' in Google Maps</span></a></p>' +
-          '<p class="day-route">' + esc(d.route.join(' → ')) + '</p></div>';
-      }).join('') +
-      '<p class="tour-meta"><span class="meta-k">Übernachtung</span>' + esc(t.stay) + '</p>';
-    } else {
-      route = '<p class="tour-meta"><span class="meta-k">Route</span>' + esc(t.route.join(' → ')) + '</p>' +
-        '<p class="tour-meta"><span class="meta-k">Pause</span>' + esc(t.pause) + '</p>';
-    }
+      '<li>' + esc(t.type) + '</li>';
+    var route = '<p class="tour-meta"><span class="meta-k">Route</span>' + esc(t.route.join(' → ')) + '</p>' +
+      '<p class="tour-meta"><span class="meta-k">Pause</span>' + esc(t.pause) + '</p>';
     var notes = (t.notes || []).map(function (n) {
       return '<p class="tour-meta"><span class="meta-k">Gut zu wissen</span>' + esc(n) + '</p>';
     }).join('');
-    var mapsBtn = t.days ? '' :
+    var mapsBtn =
       '<a class="maps" href="' + esc(mapsUrl(START, START, t.via)) + '" target="_blank" rel="noopener">' + PIN +
         'Route<span class="sr-only"> in Google Maps ansehen: ' + esc(t.name) + '</span></a>';
 
@@ -1233,7 +1224,7 @@
   }
   function buildMessage(c) {
     var lines = ['Motorrad-Touren 2027 🏍️', 'Ich bin dabei bei:'];
-    c.tours.forEach(function (t) { lines.push('• ' + t.name + ' (' + (t.days ? t.days.length + ' Tage, ' : '') + 'ca. ' + t.km + ' km)'); });
+    c.tours.forEach(function (t) { lines.push('• ' + t.name + ' (ca. ' + t.km + ' km)'); });
     if (c.fav) lines.push('Meine Nummer 1: ' + c.fav.name);
     if (c.months.length) lines.push('Monate: ' + c.months.join(', '));
     if (c.days.length) lines.push('Tage: ' + c.days.join(', '));
