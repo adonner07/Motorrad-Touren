@@ -193,6 +193,12 @@
   .gauge.on .g-gear { fill: var(--green); }
   .gauge.abs-on .g-abs { fill: var(--amber); }
   .gauge.on .g-lcd { fill: #9df5c8; }
+  .gauge.shake { animation: shake .09s linear infinite; }
+  @keyframes shake {
+    25% { transform: translate(.6px, -.4px); }
+    50% { transform: translate(-.5px, .5px); }
+    75% { transform: translate(.4px, .3px); }
+  }
   .start-text { min-height: 7.5em; display: flex; flex-direction: column; align-items: center; }
   .start-text .lead { max-width: 30em; }
   .start-text .btn { margin-top: 18px; min-width: 240px; }
@@ -387,6 +393,58 @@
     transform: translateY(-2px);
   }
   .group-sub { margin: 4px 0 0; font-size: .95rem; color: var(--text-dim); }
+  /* Große Tourenkarte */
+  .overview { margin: 20px 0 0; }
+  .overview-box {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background-color: #101215;
+    background-image:
+      radial-gradient(60% 60% at 45% 45%, rgba(255, 122, 26, .08), rgba(255, 122, 26, 0) 70%),
+      linear-gradient(rgba(255, 255, 255, .03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, .03) 1px, transparent 1px);
+    background-size: auto, 30px 30px, 30px 30px;
+  }
+  .overview-box svg { display: block; width: 100%; height: auto; }
+  .overview figcaption { margin-top: 8px; font-size: .9rem; line-height: 1.4; color: var(--text-dim); }
+  .ov-line { fill: none; stroke: #4a4f56; stroke-width: 3; stroke-linejoin: round; transition: stroke .25s ease; }
+  .ov-glow { fill: none; stroke: var(--orange); stroke-width: 13; stroke-linejoin: round; opacity: 0; transition: opacity .25s ease; }
+  .ov-hit { fill: none; stroke: transparent; stroke-width: 22; pointer-events: stroke; cursor: pointer; }
+  .ov-tour.is-on .ov-line { stroke: var(--orange); stroke-width: 4.5; }
+  .ov-tour.is-on .ov-glow { opacity: .22; }
+  .ov-tour.is-hover .ov-line { stroke: #f2efe9; stroke-width: 4.5; }
+  .ov-region, .ov-city-label { paint-order: stroke; stroke: #101215; stroke-width: 6px; stroke-linejoin: round; }
+  .ov-region { font: 700 19px var(--font-head); letter-spacing: 4px; fill: rgba(242, 239, 233, .34); text-anchor: middle; }
+  .ov-city { fill: rgba(242, 239, 233, .5); }
+  .ov-city-label { font: 600 17px var(--font-head); letter-spacing: 2px; fill: rgba(242, 239, 233, .5); }
+  .ov-home { fill: #101215; stroke: #f2efe9; stroke-width: 3; }
+  .ov-pole { stroke: #f2efe9; stroke-width: 2.5; }
+  .ov-home-label {
+    font: 800 21px var(--font-head);
+    letter-spacing: 3px;
+    fill: #f2efe9;
+    text-anchor: middle;
+    paint-order: stroke;
+    stroke: #101215;
+    stroke-width: 6px;
+    stroke-linejoin: round;
+  }
+  .tour.flash { animation: flash 1.3s ease; }
+  @keyframes flash { 0%, 100% { box-shadow: 0 0 0 0 rgba(255, 181, 71, 0); } 25% { box-shadow: 0 0 0 4px rgba(255, 181, 71, .95); } }
+  /* Fahrzeit als Balken (ein Abschnitt pro Stunde) */
+  .dur { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 10px; margin: -2px 0 12px; }
+  .dur-k { font: 700 .76rem/1 var(--font-head); letter-spacing: .14em; text-transform: uppercase; color: var(--text); }
+  .dur-bar { position: relative; height: 8px; overflow: hidden; border-radius: 4px; background: #2b2f34; }
+  .dur-bar i { position: absolute; inset: 0 auto 0 0; border-radius: 4px; background: linear-gradient(90deg, var(--amber), var(--orange)); }
+  .dur-bar::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(90deg, transparent 0 calc(100% / 6 - 2px), var(--panel) calc(100% / 6 - 2px) calc(100% / 6));
+  }
+  .dur-v { font: 700 .98rem/1 var(--font-head); letter-spacing: .02em; white-space: nowrap; }
   .tours-note { max-width: 640px; margin: 20px 0 0; font-size: .93rem; color: var(--text-dim); }
   /* Leiste unten mit Zähler und Weiter */
   .back-row { display: flex; justify-content: center; margin-top: 14px; }
@@ -458,6 +516,69 @@
   @media (hover: hover) {
     .chip:hover input:not(:checked) + .chip-face { border-color: rgba(255, 255, 255, .45); }
   }
+  /* Monate als Saison-Leiste */
+  .months { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+  .month { position: relative; display: block; }
+  .month input, .option input { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+  .month-face {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    height: 108px;
+    padding: 8px 2px 10px;
+    border: 1.5px solid var(--line-strong);
+    border-radius: 12px;
+    background: var(--panel-deep);
+    transition: border-color .2s ease, background-color .2s ease;
+  }
+  .m-bar {
+    width: 10px;
+    height: calc(var(--h) * 48px);
+    border-radius: 5px;
+    background: linear-gradient(var(--amber), var(--orange));
+    opacity: .4;
+    transition: opacity .2s ease, box-shadow .2s ease;
+  }
+  .m-deg { font: 600 .74rem/1 var(--font-body); color: var(--text-dim); }
+  .m-name { font: 800 .95rem/1 var(--font-head); letter-spacing: .04em; text-transform: uppercase; }
+  .month input:checked + .month-face { border-color: var(--orange); background: rgba(255, 122, 26, .15); }
+  .month input:checked + .month-face .m-bar { opacity: 1; box-shadow: 0 0 10px rgba(255, 122, 26, .7); }
+  .month input:focus-visible + .month-face, .option input:focus-visible + .option-face { outline: 3px solid var(--amber); outline-offset: 2px; }
+  .q-hint { margin: 8px 0 0; font-size: .84rem; line-height: 1.4; color: var(--text-dim); }
+  /* Große Auswahlfelder mit Symbol */
+  .options { display: grid; gap: 8px; }
+  .option { position: relative; display: block; }
+  .option-face {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    min-height: 62px;
+    padding: 10px 14px;
+    border: 1.5px solid var(--line-strong);
+    border-radius: 14px;
+    background: var(--panel-deep);
+    transition: border-color .2s ease, background-color .2s ease;
+  }
+  .option-face::after {
+    content: "";
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid rgba(255, 255, 255, .5);
+    border-radius: 50%;
+  }
+  .option-ico { width: 26px; height: 26px; color: var(--text-dim); transition: color .2s ease; }
+  .option-text { display: grid; gap: 2px; min-width: 0; }
+  .option-title { font-weight: 700; line-height: 1.25; }
+  .option-sub { font-size: .86rem; line-height: 1.3; color: var(--text-dim); }
+  .option input:checked + .option-face { border-color: var(--orange); background: rgba(255, 122, 26, .12); }
+  .option input:checked + .option-face .option-ico { color: var(--orange); }
+  .option input:checked + .option-face::after { border-color: var(--orange); background: radial-gradient(circle, #141517 0 3.5px, var(--orange) 4px); }
+  @media (hover: hover) {
+    .month:hover input:not(:checked) + .month-face, .option:hover input:not(:checked) + .option-face { border-color: rgba(255, 255, 255, .45); }
+  }
   .idea {
     display: block;
     width: 100%;
@@ -494,7 +615,22 @@
     from { transform: perspective(300px) rotateY(-12deg) skewY(-3deg); }
     to { transform: perspective(300px) rotateY(10deg) skewY(3deg); }
   }
-  .summary { display: grid; gap: 12px; margin: 22px 0 0; padding: 18px 16px; border: 1px solid var(--line); border-radius: 18px; background: rgba(22, 24, 27, .9); }
+  .done-map { margin-top: 22px; }
+  .done-stats { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 14px 0 0; padding: 0; list-style: none; }
+  .done-stats li { padding: 8px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel-deep); font-size: .92rem; color: var(--text-dim); }
+  .done-stats b { margin-right: 5px; font: 800 1.15rem/1 var(--font-head); color: var(--text); }
+  /* Zusammenfassung wie ein Startticket mit Zielflaggen-Kante */
+  .summary { position: relative; display: grid; gap: 12px; margin: 18px 0 0; padding: 28px 16px 18px; overflow: hidden; border: 1px solid var(--line); border-radius: 18px; background: rgba(22, 24, 27, .9); }
+  .summary::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: repeating-conic-gradient(#f2efe9 0 25%, #16181b 0 50%) 0 0 / 10px 10px;
+    opacity: .85;
+  }
   .sum-row { display: grid; gap: 2px; }
   .sum-row dt { font: 700 .76rem/1.3 var(--font-head); letter-spacing: .16em; text-transform: uppercase; color: var(--orange); }
   .sum-row dd { margin: 0; font-weight: 600; white-space: pre-line; overflow-wrap: anywhere; }
@@ -575,7 +711,7 @@
         <text class="g-gear" x="120" y="172">N</text>
         <text class="g-abs" x="76" y="168">ABS</text>
         <rect class="g-box" x="68" y="192" width="104" height="22" rx="5"/>
-        <text class="g-lcd" x="120" y="207">START WINNENDEN</text>
+        <text class="g-lcd" id="lcd" x="120" y="207">START WINNENDEN</text>
         <g id="needle" transform="rotate(150 120 120)" filter="url(#g-glow)">
           <polygon class="g-needle" points="103,117.6 120,115.8 210,119.3 210,120.7 120,124.2 103,122.4"/>
         </g>
@@ -604,6 +740,10 @@
         <p class="eyebrow">Saison 2027</p>
         <h1 class="title" id="tours-heading" tabindex="-1" data-heading>Wo bist du dabei?</h1>
         <p class="lead">Alle Touren starten und enden in Winnenden, gehen nur über Landstraßen (passt also auch mit 125er) und sind an einem Tag zu schaffen. Die Zeiten sind reine Fahrzeit, Pausen kommen dazu. Gern auch mehrere.</p>
+        <figure class="overview">
+          <div class="overview-box" id="overview"></div>
+          <figcaption>Alle Touren auf einen Blick. Was du auswählst, leuchtet orange. Tipp auf eine Linie, dann springst du zur Tour.</figcaption>
+        </figure>
         <nav class="jump" id="jump" aria-label="Zu den Gruppen springen"></nav>
         <button type="button" class="btn-text" id="all-btn">Alle auswählen</button>
       </div>
@@ -638,15 +778,16 @@
 
         <div class="q"><fieldset class="q-set">
           <legend class="q-label">Wann hast du am meisten Lust?</legend>
-          <div class="chips">
-            <label class="chip"><input type="checkbox" name="month" value="April"><span class="chip-face">April</span></label>
-            <label class="chip"><input type="checkbox" name="month" value="Mai"><span class="chip-face">Mai</span></label>
-            <label class="chip"><input type="checkbox" name="month" value="Juni"><span class="chip-face">Juni</span></label>
-            <label class="chip"><input type="checkbox" name="month" value="Juli"><span class="chip-face">Juli</span></label>
-            <label class="chip"><input type="checkbox" name="month" value="August"><span class="chip-face">August</span></label>
-            <label class="chip"><input type="checkbox" name="month" value="September"><span class="chip-face">September</span></label>
-            <label class="chip"><input type="checkbox" name="month" value="Oktober"><span class="chip-face">Oktober</span></label>
+          <div class="months">
+            <label class="month"><input type="checkbox" name="month" value="April"><span class="month-face"><span class="m-bar" style="--h: 0.44"></span><span class="m-deg">16°</span><span class="m-name" aria-hidden="true">Apr</span><span class="sr-only">April</span></span></label>
+            <label class="month"><input type="checkbox" name="month" value="Mai"><span class="month-face"><span class="m-bar" style="--h: 0.67"></span><span class="m-deg">20°</span><span class="m-name" aria-hidden="true">Mai</span><span class="sr-only">Mai</span></span></label>
+            <label class="month"><input type="checkbox" name="month" value="Juni"><span class="month-face"><span class="m-bar" style="--h: 0.83"></span><span class="m-deg">23°</span><span class="m-name" aria-hidden="true">Jun</span><span class="sr-only">Juni</span></span></label>
+            <label class="month"><input type="checkbox" name="month" value="Juli"><span class="month-face"><span class="m-bar" style="--h: 0.94"></span><span class="m-deg">25°</span><span class="m-name" aria-hidden="true">Jul</span><span class="sr-only">Juli</span></span></label>
+            <label class="month"><input type="checkbox" name="month" value="August"><span class="month-face"><span class="m-bar" style="--h: 0.94"></span><span class="m-deg">25°</span><span class="m-name" aria-hidden="true">Aug</span><span class="sr-only">August</span></span></label>
+            <label class="month"><input type="checkbox" name="month" value="September"><span class="month-face"><span class="m-bar" style="--h: 0.67"></span><span class="m-deg">20°</span><span class="m-name" aria-hidden="true">Sep</span><span class="sr-only">September</span></span></label>
+            <label class="month"><input type="checkbox" name="month" value="Oktober"><span class="month-face"><span class="m-bar" style="--h: 0.39"></span><span class="m-deg">15°</span><span class="m-name" aria-hidden="true">Okt</span><span class="sr-only">Oktober</span></span></label>
           </div>
+          <p class="q-hint">Die Zahlen sind ungefähre Tageshöchstwerte in Stuttgart.</p>
         </fieldset></div>
 
         <div class="q"><fieldset class="q-set">
@@ -661,19 +802,19 @@
 
         <div class="q"><fieldset class="q-set">
           <legend class="q-label">Wie bist du dabei?</legend>
-          <div class="chips">
-            <label class="chip chip-radio"><input type="radio" name="role" value="Ich fahr selbst"><span class="chip-face">Ich fahr selbst</span></label>
-            <label class="chip chip-radio"><input type="radio" name="role" value="Ich fahr hinten mit"><span class="chip-face">Ich fahr hinten mit</span></label>
-            <label class="chip chip-radio"><input type="radio" name="role" value="Weiß ich noch nicht"><span class="chip-face">Weiß ich noch nicht</span></label>
+          <div class="options">
+            <label class="option"><input type="radio" name="role" value="Ich fahr selbst"><span class="option-face"><svg class="option-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 15.5C4 10.8 7.6 7 12.2 7c4.5 0 7.8 3.4 7.8 7.8V18H7.2A3.2 3.2 0 0 1 4 15.5z"/><path d="M12 11.5h8"/></svg><span class="option-text"><span class="option-title">Ich fahr selbst</span><span class="option-sub">Mit meinem eigenen Motorrad</span></span></span></label>
+            <label class="option"><input type="radio" name="role" value="Ich fahr hinten mit"><span class="option-face"><svg class="option-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="9" cy="7" r="2.6"/><circle cx="15.5" cy="8.5" r="2.4"/><path d="M4 19.5c.5-3.6 2.4-6 5-6s4.5 2.4 5 6"/><path d="M13.5 14.2c.6-.5 1.3-.7 2-.7 2.3 0 3.9 2.2 4.4 5.5"/></svg><span class="option-text"><span class="option-title">Ich fahr hinten mit</span><span class="option-sub">Als Sozius bei jemandem hinten drauf</span></span></span></label>
+            <label class="option"><input type="radio" name="role" value="Weiß ich noch nicht"><span class="option-face"><svg class="option-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.6 2.3c-.7.3-1.2 1-1.2 1.8v.4"/><path d="M12 16.9v.2"/></svg><span class="option-text"><span class="option-title">Weiß ich noch nicht</span><span class="option-sub">Das entscheide ich später</span></span></span></label>
           </div>
         </fieldset></div>
 
         <div class="q"><fieldset class="q-set">
           <legend class="q-label">Wie soll’s sein?</legend>
-          <div class="chips">
-            <label class="chip chip-radio"><input type="radio" name="style" value="Gemütlich cruisen"><span class="chip-face">Gemütlich cruisen</span></label>
-            <label class="chip chip-radio"><input type="radio" name="style" value="Zügig, aber entspannt"><span class="chip-face">Zügig, aber entspannt</span></label>
-            <label class="chip chip-radio"><input type="radio" name="style" value="Viele Kurven, bitte"><span class="chip-face">Viele Kurven, bitte</span></label>
+          <div class="options">
+            <label class="option"><input type="radio" name="style" value="Gemütlich cruisen"><span class="option-face"><svg class="option-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 10h11v4a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5z"/><path d="M16 11.5h1.3a2.4 2.4 0 0 1 0 4.8H16"/><path d="M8.5 3.5c-.6 1 .6 1.8 0 3M12 3.5c-.6 1 .6 1.8 0 3"/></svg><span class="option-text"><span class="option-title">Gemütlich cruisen</span><span class="option-sub">Viel schauen und öfter mal anhalten</span></span></span></label>
+            <label class="option"><input type="radio" name="style" value="Zügig, aber entspannt"><span class="option-face"><svg class="option-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 17a8 8 0 1 1 16 0"/><path d="M12 17l3.8-4.6"/><path d="M6.5 13.5l1 .6M17.5 13.5l-1 .6M12 9v1.2"/></svg><span class="option-text"><span class="option-title">Zügig, aber entspannt</span><span class="option-sub">Flüssig fahren, ohne Hetze</span></span></span></label>
+            <label class="option"><input type="radio" name="style" value="Viele Kurven, bitte"><span class="option-face"><svg class="option-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 21c0-4.5 10-3.5 10-8.5S7 8 7 3.5"/><path d="M4.8 5.8 7 3.3l2.2 2.5"/></svg><span class="option-text"><span class="option-title">Viele Kurven, bitte</span><span class="option-sub">Je kurviger, desto besser</span></span></span></label>
           </div>
         </fieldset></div>
 
@@ -701,6 +842,9 @@
         <h1 class="title" id="done-heading" tabindex="-1" data-heading>Danke dir!</h1>
         <p class="lead">Schick mir deine Antwort, dann plane ich die erste Ausfahrt.</p>
       </div>
+
+      <div class="done-map overview-box" id="done-map"></div>
+      <ul class="done-stats" id="done-stats"></ul>
 
       <dl class="summary" id="summary"></dl>
 
@@ -1125,6 +1269,111 @@
     return svg;
   }
 
+  /* ---------- Große Tourenkarte ---------- */
+  var REGIONS = [
+    ['SCHWARZWALD', 48.66, 8.62], ['KRAICHGAU', 49.22, 8.84], ['ODENWALD', 49.47, 9.06], ['HOHENLOHE', 49.31, 9.70],
+    ['TAUBERTAL', 49.53, 9.93], ['BAYERN', 49.18, 10.42], ['OSTALB', 48.70, 10.18], ['SCHWÄBISCHE ALB', 48.31, 9.28]
+  ];
+  var STUTTGART = [48.776, 9.182];
+  function buildOverview(box, ids, opts) {
+    var W = 600, PAD = 34;
+    var tours = ids ? TOURS.filter(function (t) { return ids.indexOf(t.id) !== -1; }) : TOURS;
+    var k = Math.cos(48.9 * Math.PI / 180);
+    var minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+    tours.forEach(function (t) {
+      t.path.forEach(function (key) {
+        var x = P[key][1] * k, y = -P[key][0];
+        minX = Math.min(minX, x); maxX = Math.max(maxX, x);
+        minY = Math.min(minY, y); maxY = Math.max(maxY, y);
+      });
+    });
+    var spanX = maxX - minX, spanY = maxY - minY;
+    var H = Math.round(Math.min(560, Math.max(300, (W - 2 * PAD) * spanY / spanX + 2 * PAD)));
+    var sc = Math.min((W - 2 * PAD) / spanX, (H - 2 * PAD) / spanY);
+    var ox = (W - spanX * sc) / 2, oy = (H - spanY * sc) / 2;
+    function xy(g) { return [ox + (g[1] * k - minX) * sc, oy + (-g[0] - minY) * sc]; }
+    function inside(p, mx, my) { return p[0] > mx && p[0] < W - mx && p[1] > my && p[1] < H - my; }
+
+    var svg = svgEl('svg', { viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': opts.label });
+    var layer = svgEl('g', {}), labels = svgEl('g', {}), top = svgEl('g', {});
+    REGIONS.forEach(function (r) {
+      var p = xy([r[1], r[2]]);
+      if (!inside(p, -60, -40)) return;
+      var half = r[0].length * 7.8;
+      var tx = svgEl('text', {
+        x: Math.min(Math.max(p[0], half + 10), W - half - 10).toFixed(1),
+        y: Math.min(Math.max(p[1], 28), H - 14).toFixed(1),
+        class: 'ov-region'
+      });
+      tx.textContent = r[0];
+      labels.appendChild(tx);
+    });
+    var st = xy(STUTTGART);
+    if (inside(st, 20, 20)) {
+      labels.appendChild(svgEl('circle', { cx: st[0].toFixed(1), cy: st[1].toFixed(1), r: 5, class: 'ov-city' }));
+      var sl = svgEl('text', { x: (st[0] - 10).toFixed(1), y: (st[1] + 6).toFixed(1), 'text-anchor': 'end', class: 'ov-city-label' });
+      sl.textContent = 'STUTTGART';
+      labels.appendChild(sl);
+    }
+    var items = {};
+    tours.forEach(function (t) {
+      var d = smoothLoop(t.path.map(function (key) { return xy(P[key]); }));
+      var g = svgEl('g', { class: 'ov-tour' });
+      g.appendChild(svgEl('path', { d: d, class: 'ov-glow' }));
+      g.appendChild(svgEl('path', { d: d, class: 'ov-line' }));
+      if (opts.onPick) {
+        var hit = svgEl('path', { d: d, class: 'ov-hit' });
+        hit.addEventListener('click', function () { opts.onPick(t); });
+        g.appendChild(hit);
+      }
+      layer.appendChild(g);
+      items[t.id] = g;
+    });
+    svg.appendChild(layer);
+    svg.appendChild(labels);
+    svg.appendChild(top);
+    // Winnenden: Start und Ziel jeder Tour
+    var hp = xy(P.winnenden);
+    var home = svgEl('g', { transform: 'translate(' + hp[0].toFixed(1) + ' ' + hp[1].toFixed(1) + ')' });
+    home.appendChild(svgEl('path', { d: 'M0 -7V-36', class: 'ov-pole' }));
+    for (var r = 0; r < 2; r++) {
+      for (var c = 0; c < 3; c++) {
+        home.appendChild(svgEl('rect', { x: c * 7, y: -36 + r * 7, width: 7, height: 7, class: (r + c) % 2 ? 'm-ck-d' : 'm-ck-l' }));
+      }
+    }
+    home.appendChild(svgEl('circle', { r: 8, class: 'ov-home' }));
+    var hl = svgEl('text', { y: hp[1] + 34 > H - 6 ? -46 : 34, class: 'ov-home-label' });
+    hl.textContent = 'WINNENDEN';
+    home.appendChild(hl);
+    svg.appendChild(home);
+
+    box.textContent = '';
+    box.appendChild(svg);
+    return {
+      update: function (sel) {
+        tours.forEach(function (t) {
+          var on = sel.indexOf(t.id) !== -1;
+          items[t.id].classList.toggle('is-on', on);
+          (on ? top : layer).appendChild(items[t.id]);
+        });
+      },
+      hover: function (id, on) { if (items[id]) items[id].classList.toggle('is-hover', on); }
+    };
+  }
+  var overview = null;
+
+  // Fahrzeiten wie '5¼' in Stunden umrechnen und zurück
+  var FRAC = { '¼': .25, '½': .5, '¾': .75 };
+  function hours(t) {
+    var m = /^(\d*)([¼½¾]?)$/.exec(t);
+    return m ? (+m[1] || 0) + (FRAC[m[2]] || 0) : 0;
+  }
+  function fmtHours(h) {
+    var q = Math.round(h * 4) / 4, whole = Math.floor(q), rest = q - whole;
+    return (whole || !rest ? String(whole) : '') + ({ 0.25: '¼', 0.5: '½', 0.75: '¾' }[rest] || '');
+  }
+  function fmtKm(n) { return n.toLocaleString('de-DE'); }
+
   function mapsUrl(from, to, via) {
     return 'https://www.google.com/maps/dir/?api=1' +
       '&origin=' + encodeURIComponent(from) +
@@ -1140,10 +1389,12 @@
     for (var b = 1; b <= 5; b++) bars += '<i' + (b <= t.curves ? ' class="on"' : '') + '></i>';
     var stats =
       '<li><span class="stat-v">ca. ' + t.km + '</span> km</li>' +
-      '<li><span class="stat-v">ca. ' + esc(t.time) + '</span> Std.</li>' +
       '<li><span aria-hidden="true">Kurven</span><span class="bars" aria-hidden="true">' + bars + '</span>' +
         '<span class="sr-only">Kurven: ' + t.curves + ' von 5</span></li>' +
       '<li>' + esc(t.type) + '</li>';
+    var dur = '<div class="dur"><span class="dur-k" aria-hidden="true">Fahrzeit</span>' +
+      '<span class="dur-bar" aria-hidden="true"><i style="width: ' + Math.min(100, hours(t.time) / 6 * 100).toFixed(1) + '%"></i></span>' +
+      '<span class="dur-v"><span class="sr-only">Fahrzeit </span>ca. ' + esc(t.time) + ' Std.</span></div>';
     var route = '<p class="tour-meta"><span class="meta-k">Route</span>' + esc(t.route.join(' → ')) + '</p>' +
       '<p class="tour-meta"><span class="meta-k">Pause</span>' + esc(t.pause) + '</p>';
     var notes = (t.notes || []).map(function (n) {
@@ -1163,7 +1414,7 @@
         '<div class="tour-top"><span class="tour-num" aria-hidden="true">' + pad2(num) + '</span>' +
           '<p class="tour-region">' + esc(t.region) + '</p></div>' +
         '<h3 class="tour-name" id="tn-' + t.id + '">' + esc(t.name) + '</h3>' +
-        '<ul class="tour-stats">' + stats + '</ul>' +
+        '<ul class="tour-stats">' + stats + '</ul>' + dur +
         '<p class="tour-text">' + esc(t.text) + '</p>' +
         route + notes +
         '<div class="tour-actions">' +
@@ -1174,6 +1425,9 @@
         '</div>' +
       '</div>';
     art.querySelector('.tour-map').appendChild(drawMap(t));
+    // Auf dem großen Bildschirm leuchtet die Tour beim Drüberfahren auch in der großen Karte auf
+    art.addEventListener('mouseenter', function () { if (overview) overview.hover(t.id, true); });
+    art.addEventListener('mouseleave', function () { if (overview) overview.hover(t.id, false); });
     return art;
   }
 
@@ -1303,10 +1557,11 @@
     ignited = true;
     document.body.classList.add('on');
     gauge.classList.add('on');
+    $('lcd').textContent = TOURS.length + ' TOUREN';
     if (reduced()) { setNeedle(IDLE); reveal(); return; }
-    gauge.classList.add('abs-on');
+    gauge.classList.add('abs-on', 'shake');
     animateNeedle([[0, MIN], [650, MAX], [850, MAX], [1550, IDLE]], function () {
-      gauge.classList.remove('abs-on');
+      gauge.classList.remove('abs-on', 'shake');
       reveal();
     });
   }
@@ -1321,8 +1576,10 @@
     var sel = selectedTours();
     TOURS.forEach(function (t) { $('tour-' + t.id).classList.toggle('is-on', $('t-' + t.id).checked); });
     var count = $('dock-count');
+    var km = sel.reduce(function (sum, t) { return sum + t.km; }, 0);
     count.textContent = sel.length === 0 ? 'Noch keine Tour ausgewählt'
-      : sel.length === 1 ? '1 Tour ausgewählt' : sel.length + ' Touren ausgewählt';
+      : (sel.length === 1 ? '1 Tour' : sel.length + ' Touren') + ' · ca. ' + fmtKm(km) + ' km';
+    if (overview) overview.update(sel.map(function (t) { return t.id; }));
     count.classList.toggle('has', sel.length > 0);
     $('all-btn').textContent = sel.length === TOURS.length ? 'Alle abwählen' : 'Alle auswählen';
     if (sel.length) $('tours-error').textContent = '';
@@ -1408,6 +1665,14 @@
       div.appendChild(dd);
       dl.appendChild(div);
     });
+    var ids = c.tours.map(function (t) { return t.id; });
+    buildOverview($('done-map'), ids, { label: 'Karte mit deinen Touren' }).update(ids);
+    var km = c.tours.reduce(function (sum, t) { return sum + t.km; }, 0);
+    var h = c.tours.reduce(function (sum, t) { return sum + hours(t.time); }, 0);
+    $('done-stats').innerHTML =
+      '<li><b>' + c.tours.length + '</b>' + (c.tours.length === 1 ? 'Tour' : 'Touren') + '</li>' +
+      '<li><b>ca. ' + fmtKm(km) + '</b>km</li>' +
+      '<li><b>ca. ' + fmtHours(h) + '</b>Std. Fahrzeit</li>';
     var msg = buildMessage(c);
     $('preview').textContent = msg;
     $('send').href = 'https://wa.me/?text=' + encodeURIComponent(msg);
@@ -1450,6 +1715,16 @@
   }, true);
 
   renderTours();
+  overview = buildOverview($('overview'), null, {
+    label: 'Karte mit allen Touren ab Winnenden',
+    onPick: function (t) {
+      var card = $('tour-' + t.id);
+      card.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'center' });
+      card.classList.remove('flash');
+      void card.offsetWidth;
+      card.classList.add('flash');
+    }
+  });
 
   $('ignite').addEventListener('click', ignite);
   gauge.addEventListener('click', ignite);
