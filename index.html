@@ -349,7 +349,30 @@
     .join:hover input:not(:checked) + .join-face { border-color: rgba(255, 255, 255, .45); }
     .maps:hover { border-color: var(--line-strong); }
   }
-  .group-head { grid-column: 1 / -1; margin-top: 14px; }
+  .jump { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .jump a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 8px 14px;
+    border: 1.5px solid var(--line-strong);
+    border-radius: 999px;
+    background: var(--panel-deep);
+    color: var(--text);
+    font: 700 .95rem/1 var(--font-head);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    touch-action: manipulation;
+  }
+  .jump a span { color: var(--orange); }
+  .jump a:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+  @media (hover: hover) {
+    .jump a:hover { border-color: rgba(255, 255, 255, .45); }
+  }
+  .group-head { grid-column: 1 / -1; margin-top: 14px; scroll-margin-top: 16px; }
+  .group-head:focus { outline: none; }
   .group-head:first-child { margin-top: 0; }
   .group-title { margin: 0; font: 800 1.55rem/1.1 var(--font-head); letter-spacing: .02em; text-transform: uppercase; }
   .group-title::before {
@@ -581,6 +604,7 @@
         <p class="eyebrow">Saison 2027</p>
         <h1 class="title" id="tours-heading" tabindex="-1" data-heading>Wo bist du dabei?</h1>
         <p class="lead">Alle Touren starten und enden in Winnenden, gehen nur über Landstraßen (passt also auch mit 125er) und sind an einem Tag zu schaffen. Die Zeiten sind reine Fahrzeit, Pausen kommen dazu. Gern auch mehrere.</p>
+        <nav class="jump" id="jump" aria-label="Zu den Gruppen springen"></nav>
         <button type="button" class="btn-text" id="all-btn">Alle auswählen</button>
       </div>
 
@@ -709,34 +733,48 @@
   var P = {
     winnenden: [48.8757, 9.3985], allmersbach: [48.9060, 9.4680], unterweissach: [48.9330, 9.4810], althuette: [48.9150, 9.5690],
     ebnisee: [48.9170, 9.6100], kaisersbach: [48.9307, 9.6385], welzheim: [48.8746, 9.6342], rudersberg: [48.8852, 9.5272],
-    berglen: [48.8630, 9.4650], backnang: [48.9474, 9.4306], sulzbach: [49.0031, 9.5004], spiegelberg: [49.0412, 9.4379],
-    wuestenrot: [49.0808, 9.4600], platte: [49.0960, 9.4150], loewenstein: [49.0955, 9.3830], breitenau: [49.1180, 9.3630],
-    beilstein: [49.0410, 9.3140], grossbottwar: [48.9990, 9.2930], steinheimmurr: [48.9660, 9.2780], affalterbach: [48.9170, 9.3220],
-    schorndorf: [48.8053, 9.5274], adelberg: [48.7636, 9.5978], waeschenbeuren: [48.7586, 9.6888], hohenstaufen: [48.7440, 9.7160],
-    rechberg: [48.7440, 9.7950], wissgoldingen: [48.7270, 9.7850], donzdorf: [48.6880, 9.8090], nenningen: [48.6860, 9.8420],
-    degenfeld: [48.7050, 9.8800], furtle: [48.7250, 9.8800], weiler: [48.7500, 9.8590], gmuend: [48.7996, 9.7980],
-    mutlangen: [48.8250, 9.7980], alfdorf: [48.8430, 9.7180], buoch: [48.8380, 9.4420], baltmannsweiler: [48.7430, 9.4490],
-    reichenbach: [48.7100, 9.4630], kirchheim: [48.6480, 9.4510], owen: [48.5870, 9.4490], oberlenningen: [48.5510, 9.4740],
-    gutenberg: [48.5340, 9.4970], schopfloch: [48.5560, 9.5230], grabenstetten: [48.5240, 9.4620], urach: [48.4930, 9.3990],
-    metzingen: [48.5370, 9.2860], neuffen: [48.5550, 9.3750], beuren: [48.5700, 9.4040], mainhardt: [49.0760, 9.5560],
-    hall: [49.1120, 9.7370], braunsbach: [49.1990, 9.7900], langenburg: [49.2530, 9.8560], ilshofen: [49.1700, 9.9180],
-    vellberg: [49.0860, 9.8790], gaildorf: [48.9990, 9.7700], murrhardt: [48.9797, 9.5784], marbach: [48.9390, 9.2590],
-    mundelsheim: [49.0000, 9.2080], hessigheim: [48.9930, 9.1860], besigheim: [48.9990, 9.1420], sachsenheim: [48.9590, 9.0640],
+    berglen: [48.8630, 9.4650], murrhardt: [48.9797, 9.5784], grosserlach: [49.0550, 9.5150], mainhardt: [49.0760, 9.5560],
+    sulzbach: [49.0031, 9.5004], backnang: [48.9474, 9.4306], spiegelberg: [49.0412, 9.4379], wuestenrot: [49.0808, 9.4600],
+    platte: [49.0960, 9.4150], loewenstein: [49.0955, 9.3830], breitenau: [49.1180, 9.3630], beilstein: [49.0410, 9.3140],
+    grossbottwar: [48.9990, 9.2930], steinheimmurr: [48.9660, 9.2780], affalterbach: [48.9170, 9.3220], buoch: [48.8380, 9.4420],
+    remshalden: [48.8100, 9.4300], struempfelbach: [48.7920, 9.3790], aichwald: [48.7520, 9.3850], baltmannsweiler: [48.7430, 9.4490],
+    hohengehren: [48.7400, 9.4800], thomashardt: [48.7420, 9.5230], adelberg: [48.7636, 9.5978], waeschenbeuren: [48.7586, 9.6888],
+    lorch: [48.7980, 9.6890], marbach: [48.9390, 9.2590], ilsfeld: [49.0560, 9.2460], talheim: [49.0860, 9.1910],
+    lauffen: [49.0760, 9.1440], brackenheim: [49.0770, 9.0650], cleebronn: [49.0470, 9.0400], boennigheim: [49.0400, 9.0940],
+    besigheim: [48.9990, 9.1420], mundelsheim: [49.0000, 9.2080], ebersbach: [48.7160, 9.5240], schlierbach: [48.6740, 9.5190],
+    badboll: [48.6420, 9.6150], aichelberg: [48.6340, 9.5620], weilheim: [48.6150, 9.5380], bissingen: [48.5990, 9.4930],
+    owen: [48.5870, 9.4490], kirchheim: [48.6480, 9.4510], reichenbach: [48.7100, 9.4630], gschwend: [48.9330, 9.7470],
+    leinzell: [48.8490, 9.8770], gmuend: [48.7996, 9.7980], mutlangen: [48.8250, 9.7980], alfdorf: [48.8430, 9.7180],
+    pluederhausen: [48.7950, 9.6000], schorndorf: [48.8053, 9.5274], hohenstaufen: [48.7440, 9.7160], rechberg: [48.7440, 9.7950],
+    wissgoldingen: [48.7270, 9.7850], donzdorf: [48.6880, 9.8090], nenningen: [48.6860, 9.8420], degenfeld: [48.7050, 9.8800],
+    furtle: [48.7250, 9.8800], weiler: [48.7500, 9.8590], oberlenningen: [48.5510, 9.4740], gutenberg: [48.5340, 9.4970],
+    schopfloch: [48.5560, 9.5230], grabenstetten: [48.5240, 9.4620], urach: [48.4930, 9.3990], metzingen: [48.5370, 9.2860],
+    neuffen: [48.5550, 9.3750], beuren: [48.5700, 9.4040], hessigheim: [48.9930, 9.1860], sachsenheim: [48.9590, 9.0640],
     ochsenbach: [49.0400, 9.0100], sternenfels: [49.0510, 8.8530], maulbronn: [49.0000, 8.8100], vaihingen: [48.9330, 8.9580],
-    markgroeningen: [48.9050, 9.0800], asperg: [48.9060, 9.1410], freiberg: [48.9330, 9.1920], donnstetten: [48.5020, 9.5530],
+    markgroeningen: [48.9050, 9.0800], asperg: [48.9060, 9.1410], freiberg: [48.9330, 9.1920], hall: [49.1120, 9.7370],
+    braunsbach: [49.1990, 9.7900], langenburg: [49.2530, 9.8560], ilshofen: [49.1700, 9.9180], vellberg: [49.0860, 9.8790],
+    gaildorf: [48.9990, 9.7700], donnstetten: [48.5020, 9.5530], westerheim: [48.5150, 9.6200], laichingen: [48.4890, 9.6870],
+    blaubeuren: [48.4120, 9.7850], amstetten: [48.5780, 9.8750], geislingen: [48.6240, 9.8300], zaberfeld: [49.0560, 8.9270],
+    kuernbach: [49.0730, 8.8440], bretten: [49.0360, 8.7060], gochsheim: [49.1100, 8.7400], sulzfeld: [49.1050, 8.8600],
+    eppingen: [49.1370, 8.9100], gemmingen: [49.1560, 8.9810], steinsberg: [49.2260, 8.8920], rappenau: [49.2390, 9.1010],
+    friedrichshall: [49.2310, 9.2150], neckarsulm: [49.1920, 9.2250], weinsberg: [49.1510, 9.2850], untergroeningen: [48.9170, 9.8870],
+    abtsgmuend: [48.8960, 9.9970], ellwangen: [48.9620, 10.1310], rainau: [48.8980, 10.1950], lauchheim: [48.8710, 10.2420],
+    aalen: [48.8370, 10.0930], oberkochen: [48.7830, 10.1050], wental: [48.7380, 10.0120], bartholomae: [48.7540, 9.9810],
+    heubach: [48.7920, 9.9340], plochingen: [48.7120, 9.4190], nuertingen: [48.6260, 9.3360], neckartenzlingen: [48.5890, 9.2340],
+    walddorf: [48.5870, 9.1750], bebenhausen: [48.5610, 9.0600], tuebingen: [48.5200, 9.0560], wurmlingen: [48.5050, 8.9950],
+    rottenburg: [48.4770, 8.9340], hirrlingen: [48.4110, 8.8890], moessingen: [48.4060, 9.0570], goenningen: [48.4520, 9.1620],
     muensingen: [48.4130, 9.4950], buttenhausen: [48.3540, 9.4790], indelhausen: [48.3300, 9.5000], lauterach: [48.2930, 9.5720],
     rechtenstein: [48.2400, 9.5440], zwiefalten: [48.2310, 9.4630], hayingen: [48.2760, 9.4790], pfronstetten: [48.2780, 9.3550],
-    gomadingen: [48.3990, 9.3900], seeburg: [48.4580, 9.4200], goenningen: [48.4520, 9.1620], moessingen: [48.4060, 9.0570],
-    hechingen: [48.3520, 8.9630], jungingen: [48.3300, 9.0400], burladingen: [48.2900, 9.1100], gammertingen: [48.2510, 9.2210],
-    trochtelfingen: [48.3070, 9.2410], lichtenstein: [48.4070, 9.2570], engstingen: [48.3860, 9.2900], weinsberg: [49.1510, 9.2850],
-    erlenbach: [49.1730, 9.2700], neckarsulm: [49.1920, 9.2250], friedrichshall: [49.2310, 9.2150], wimpfen: [49.2290, 9.1640],
+    gomadingen: [48.3990, 9.3900], seeburg: [48.4580, 9.4200], erlenbach: [49.1730, 9.2700], wimpfen: [49.2290, 9.1640],
     gundelsheim: [49.2840, 9.1600], guttenberg: [49.2940, 9.1390], hornberg: [49.3220, 9.1340], neckargerach: [49.3990, 9.0730],
     zwingenberg: [49.4170, 9.0430], mosbach: [49.3520, 9.1430], moeckmuehl: [49.3230, 9.3570], widdern: [49.3150, 9.4200],
     jagsthausen: [49.3080, 9.4650], schoental: [49.3270, 9.5020], oehringen: [49.2000, 9.5050], pfedelbach: [49.1780, 9.5050],
-    gschwend: [48.9330, 9.7470], abtsgmuend: [48.8960, 9.9970], aalen: [48.8370, 10.0930], bopfingen: [48.8570, 10.3530],
-    noerdlingen: [48.8510, 10.4890], neresheim: [48.7550, 10.3340], heidenheim: [48.6780, 10.1530], steinheimalb: [48.6900, 10.0640],
-    bartholomae: [48.7540, 9.9810], heubach: [48.7920, 9.9340], buehlertann: [49.0430, 9.9100], ellwangen: [48.9620, 10.1310],
-    dinkelsbuehl: [49.0700, 10.3190], crailsheim: [49.1350, 10.0700], kirchberg: [49.2000, 9.9810], rotamsee: [49.2500, 10.0300],
+    kuenzelsau: [49.2820, 9.6870], doerzbach: [49.3810, 9.7070], mergentheim: [49.4920, 9.7730], weikersheim: [49.4790, 9.8990],
+    creglingen: [49.4690, 10.0310], blaufelden: [49.2980, 9.9750], gerabronn: [49.2490, 9.9200], hechingen: [48.3520, 8.9630],
+    jungingen: [48.3300, 9.0400], burladingen: [48.2900, 9.1100], gammertingen: [48.2510, 9.2210], trochtelfingen: [48.3070, 9.2410],
+    lichtenstein: [48.4070, 9.2570], engstingen: [48.3860, 9.2900], buehlertann: [49.0430, 9.9100], dinkelsbuehl: [49.0700, 10.3190],
+    crailsheim: [49.1350, 10.0700], bopfingen: [48.8570, 10.3530], noerdlingen: [48.8510, 10.4890], neresheim: [48.7550, 10.3340],
+    heidenheim: [48.6780, 10.1530], steinheimalb: [48.6900, 10.0640], kirchberg: [49.2000, 9.9810], rotamsee: [49.2500, 10.0300],
     rothenburg: [49.3770, 10.1790], schrozberg: [49.3450, 9.9800], hemmingen: [48.8660, 9.0350], weissach: [48.8470, 8.9280],
     weilderstadt: [48.7510, 8.8710], calw: [48.7140, 8.7400], teinach: [48.6900, 8.6900], neuweiler: [48.6670, 8.5970],
     enzkloesterle: [48.6660, 8.4730], wildbad: [48.7510, 8.5500], calmbach: [48.7750, 8.5830], liebenzell: [48.7720, 8.7310],
@@ -744,8 +782,8 @@
   };
 
   var GROUPS = [
-    { id: 'home', title: 'Rund um Winnenden', sub: 'Feierabendrunden und Halbtagestouren.' },
-    { id: 'big', title: 'Große Tagestouren', sub: 'Rund 5 Stunden Fahrzeit, auf die Alb und an den Neckar.' },
+    { id: 'home', title: 'Rund um Winnenden', sub: 'Feierabendrunden und Halbtagestouren, 1 bis 3½ Stunden.' },
+    { id: 'big', title: 'Große Tagestouren', sub: 'Mit 4 bis 5¼ Stunden Fahrzeit, auf die Alb, an Neckar und Tauber und in den Kraichgau.' },
     { id: 'by', title: 'Ab nach Bayern', sub: 'Tagestouren mit Pause in einer schönen Altstadt.' },
     { id: 'sw', title: 'Ab in den Schwarzwald', sub: 'Eine Tagestour ins Nagold- und Enztal.' }
   ];
@@ -763,6 +801,16 @@
       mark: [4, 'Ebnisee']
     },
     {
+      id: 'limes', group: 'home', region: 'Schwäbischer Wald', type: 'Halbtagestour', name: 'Am Limes entlang',
+      km: 95, time: '2', curves: 4,
+      text: 'Auf den Spuren der Römer: Der Limes ist UNESCO-Welterbe und lief mitten durch den Schwäbischen Wald. Über Welzheim mit seinem Ostkastell und Murrhardt bis Mainhardt und durchs Murrtal zurück.',
+      route: ['Winnenden', 'Rudersberg', 'Welzheim', 'Kaisersbach', 'Murrhardt', 'Großerlach', 'Mainhardt', 'Sulzbach an der Murr', 'Backnang', 'Winnenden'],
+      pause: 'Welzheim mit dem Archäologischen Park Ostkastell',
+      via: ['Welzheim', 'Murrhardt', 'Mainhardt'],
+      path: ['winnenden', 'rudersberg', 'welzheim', 'kaisersbach', 'murrhardt', 'grosserlach', 'mainhardt', 'sulzbach', 'backnang', 'allmersbach'],
+      mark: [2, 'Welzheim']
+    },
+    {
       id: 'loewenstein', group: 'home', region: 'Löwensteiner Berge', type: 'Halbtagestour', name: 'Zur Löwensteiner Platte',
       km: 90, time: '2', curves: 5,
       text: 'Enge Kehren zwischen Spiegelberg und Wüstenrot, Benzingespräche am Bikertreff und danach runter zum Breitenauer See. Rund um Spiegelberg gibt’s Tempolimits und Kontrollen, also locker bleiben.',
@@ -771,6 +819,46 @@
       via: ['Spiegelberg, Baden-Württemberg', 'Breitenauer See, Obersulm', 'Großbottwar'],
       path: ['winnenden', 'allmersbach', 'backnang', 'sulzbach', 'spiegelberg', 'wuestenrot', 'platte', 'loewenstein', 'breitenau', 'beilstein', 'grossbottwar', 'steinheimmurr', 'affalterbach'],
       mark: [6, 'Löwensteiner Platte']
+    },
+    {
+      id: 'remstal', group: 'home', region: 'Remstal', type: 'Halbtagestour', name: 'Schurwald & Klöster',
+      km: 95, time: '2', curves: 3,
+      text: 'Durch die Weinberge im Remstal nach Strümpfelbach, hoch auf den Schurwald mit Blick bis zur Alb und an den Klöstern Adelberg und Lorch vorbei. Zurück durch den Welzheimer Wald.',
+      route: ['Winnenden', 'Remshalden', 'Strümpfelbach', 'Aichwald', 'Baltmannsweiler', 'Adelberg', 'Wäschenbeuren', 'Lorch', 'Welzheim', 'Rudersberg', 'Winnenden'],
+      pause: 'Kloster Lorch, das Stauferkloster hoch über dem Remstal',
+      via: ['Strümpfelbach, Weinstadt', 'Kloster Adelberg', 'Kloster Lorch'],
+      path: ['winnenden', 'buoch', 'remshalden', 'struempfelbach', 'aichwald', 'baltmannsweiler', 'hohengehren', 'thomashardt', 'adelberg', 'waeschenbeuren', 'lorch', 'welzheim', 'rudersberg', 'berglen'],
+      mark: [10, 'Kloster Lorch']
+    },
+    {
+      id: 'zabergaeu', group: 'home', region: 'Zabergäu & Neckar', type: 'Halbtagestour', name: 'Neckarschlinge & Zabergäu',
+      km: 100, time: '2¼', curves: 2,
+      text: 'Über Ilsfeld zur Neckarschlinge bei Lauffen, durch die Weinberge nach Brackenheim und hoch auf den Michaelsberg mit Blick übers ganze Zabergäu. Zurück über Bönnigheim und Besigheim.',
+      route: ['Winnenden', 'Marbach', 'Ilsfeld', 'Lauffen am Neckar', 'Brackenheim', 'Cleebronn', 'Bönnigheim', 'Besigheim', 'Mundelsheim', 'Marbach', 'Winnenden'],
+      pause: 'Michaelsberg bei Cleebronn mit Blick übers Zabergäu',
+      via: ['Lauffen am Neckar', 'Brackenheim', 'Besigheim'],
+      path: ['winnenden', 'affalterbach', 'marbach', 'ilsfeld', 'talheim', 'lauffen', 'brackenheim', 'cleebronn', 'boennigheim', 'besigheim', 'mundelsheim', 'marbach'],
+      mark: [7, 'Michaelsberg']
+    },
+    {
+      id: 'voralb', group: 'home', region: 'Voralb & Teck', type: 'Halbtagestour', name: 'Bad Boll & Teck',
+      km: 105, time: '2¼', curves: 3,
+      text: 'Über den Schurwald ins Filstal und dann am Fuß der Alb entlang: Bad Boll, Aichelberg, Weilheim unter der Limburg und immer die Burg Teck im Blick. Über Owen und Kirchheim zurück.',
+      route: ['Winnenden', 'Schurwald', 'Ebersbach an der Fils', 'Bad Boll', 'Aichelberg', 'Weilheim an der Teck', 'Bissingen an der Teck', 'Owen', 'Kirchheim unter Teck', 'Winnenden'],
+      pause: 'Weilheim an der Teck, Fachwerk-Altstadt am Fuß der Limburg',
+      via: ['Ebersbach an der Fils', 'Bad Boll', 'Bissingen an der Teck'],
+      path: ['winnenden', 'buoch', 'baltmannsweiler', 'ebersbach', 'schlierbach', 'badboll', 'aichelberg', 'weilheim', 'bissingen', 'owen', 'kirchheim', 'reichenbach'],
+      mark: [5, 'Bad Boll']
+    },
+    {
+      id: 'leintal', group: 'home', region: 'Welzheimer Wald & Leintal', type: 'Halbtagestour', name: 'Ins Leintal',
+      km: 115, time: '2½', curves: 4,
+      text: 'Über Welzheim und Gschwend tief in den Schwäbischen Wald und runter ins ruhige Leintal. Pause in Schwäbisch Gmünd, dann über Mutlangen und Alfdorf und durchs Remstal zurück.',
+      route: ['Winnenden', 'Rudersberg', 'Welzheim', 'Gschwend', 'Leinzell', 'Schwäbisch Gmünd', 'Mutlangen', 'Alfdorf', 'Plüderhausen', 'Schorndorf', 'Winnenden'],
+      pause: 'Schwäbisch Gmünd, Marktplatz mit Cafés',
+      via: ['Gschwend', 'Leinzell', 'Schwäbisch Gmünd'],
+      path: ['winnenden', 'rudersberg', 'welzheim', 'gschwend', 'leinzell', 'gmuend', 'mutlangen', 'alfdorf', 'pluederhausen', 'schorndorf', 'berglen'],
+      mark: [4, 'Leintal']
     },
     {
       id: 'kaiserberge', group: 'home', region: 'Stauferland & Ostalb', type: 'Halbtagestour', name: 'Kaiserberge & Furtlepass',
@@ -793,6 +881,16 @@
       mark: [10, 'Bad Urach']
     },
     {
+      id: 'stromberg', group: 'home', region: 'Neckar & Stromberg', type: 'Halbtagestour', name: 'Weinberge & Kloster Maulbronn',
+      km: 140, time: '3¼', curves: 3,
+      text: 'Neckarschleifen und Weinberge, die Felsengärten bei Hessigheim und dann kleine Sträßchen durch den Stromberg bis zum Kloster Maulbronn, das zum UNESCO-Welterbe gehört.',
+      route: ['Winnenden', 'Marbach', 'Mundelsheim', 'Hessigheim', 'Besigheim', 'Sachsenheim', 'Stromberg', 'Sternenfels', 'Maulbronn', 'Vaihingen an der Enz', 'Markgröningen', 'Marbach', 'Winnenden'],
+      pause: 'Kloster Maulbronn, mit Pause im Klosterhof',
+      via: ['Hessigheim', 'Ochsenbach, Sachsenheim', 'Maulbronn'],
+      path: ['winnenden', 'affalterbach', 'marbach', 'mundelsheim', 'hessigheim', 'besigheim', 'sachsenheim', 'ochsenbach', 'sternenfels', 'maulbronn', 'vaihingen', 'markgroeningen', 'asperg', 'freiberg', 'marbach'],
+      mark: [9, 'Kloster Maulbronn']
+    },
+    {
       id: 'hohenlohe', group: 'home', region: 'Hohenlohe', type: 'Tagestour', name: 'Kocher & Jagst',
       km: 170, time: '3½', curves: 3,
       text: 'Die große Runde: Fachwerk in Schwäbisch Hall, Kurven über dem Kochertal bei Braunsbach und Schloss Langenburg hoch über der Jagst. Über Vellberg und Gaildorf geht’s zurück.',
@@ -803,14 +901,44 @@
       mark: [7, 'Langenburg']
     },
     {
-      id: 'stromberg', group: 'home', region: 'Neckar & Stromberg', type: 'Halbtagestour', name: 'Weinberge & Kloster Maulbronn',
-      km: 140, time: '3¼', curves: 3,
-      text: 'Neckarschleifen und Weinberge, die Felsengärten bei Hessigheim und dann kleine Sträßchen durch den Stromberg bis zum Kloster Maulbronn, das zum UNESCO-Welterbe gehört.',
-      route: ['Winnenden', 'Marbach', 'Mundelsheim', 'Hessigheim', 'Besigheim', 'Sachsenheim', 'Stromberg', 'Sternenfels', 'Maulbronn', 'Vaihingen an der Enz', 'Markgröningen', 'Marbach', 'Winnenden'],
-      pause: 'Kloster Maulbronn, mit Pause im Klosterhof',
-      via: ['Hessigheim', 'Ochsenbach, Sachsenheim', 'Maulbronn'],
-      path: ['winnenden', 'affalterbach', 'marbach', 'mundelsheim', 'hessigheim', 'besigheim', 'sachsenheim', 'ochsenbach', 'sternenfels', 'maulbronn', 'vaihingen', 'markgroeningen', 'asperg', 'freiberg', 'marbach'],
-      mark: [9, 'Kloster Maulbronn']
+      id: 'blautopf', group: 'big', region: 'Schwäbische Alb', type: 'Tagestour', name: 'Zum Blautopf',
+      km: 180, time: '4', curves: 4,
+      text: 'Durchs Lenninger Tal auf die Alb und über Laichingen nach Blaubeuren zum Blautopf mit seinem tiefblauen Wasser. Zurück die Geislinger Steige hinunter und über Donzdorf und den Schurwald.',
+      route: ['Winnenden', 'Kirchheim unter Teck', 'Lenninger Tal', 'Gutenberger Steige', 'Westerheim', 'Laichingen', 'Blaubeuren', 'Amstetten', 'Geislinger Steige', 'Donzdorf', 'Wäschenbeuren', 'Schorndorf', 'Winnenden'],
+      pause: 'Blaubeuren mit Blautopf und Kloster',
+      via: ['Laichingen', 'Blaubeuren', 'Geislingen an der Steige'],
+      path: ['winnenden', 'buoch', 'baltmannsweiler', 'reichenbach', 'kirchheim', 'owen', 'oberlenningen', 'gutenberg', 'donnstetten', 'westerheim', 'laichingen', 'blaubeuren', 'amstetten', 'geislingen', 'donzdorf', 'waeschenbeuren', 'adelberg', 'schorndorf', 'berglen'],
+      mark: [11, 'Blautopf']
+    },
+    {
+      id: 'kraichgau', group: 'big', region: 'Kraichgau & Zabergäu', type: 'Tagestour', name: 'Kraichgau-Burgen',
+      km: 220, time: '4½', curves: 3,
+      text: 'Durchs Zabergäu am Ehmetsklinge-See vorbei nach Bretten und dann über die sanften Hügel des Kraichgaus: Burg Ravensburg bei Sulzfeld, Fachwerk in Eppingen und Burg Steinsberg, genannt „Kompass des Kraichgaus“. Zurück über Bad Rappenau und Weinsberg.',
+      route: ['Winnenden', 'Marbach', 'Besigheim', 'Brackenheim', 'Zaberfeld', 'Bretten', 'Sulzfeld', 'Eppingen', 'Burg Steinsberg', 'Bad Rappenau', 'Neckarsulm', 'Weinsberg', 'Großbottwar', 'Winnenden'],
+      pause: 'Eppingen, Fachwerk-Altstadt',
+      via: ['Zaberfeld', 'Bretten', 'Burg Steinsberg'],
+      path: ['winnenden', 'affalterbach', 'marbach', 'besigheim', 'boennigheim', 'brackenheim', 'zaberfeld', 'kuernbach', 'bretten', 'gochsheim', 'sulzfeld', 'eppingen', 'gemmingen', 'steinsberg', 'rappenau', 'friedrichshall', 'neckarsulm', 'weinsberg', 'beilstein', 'grossbottwar', 'affalterbach'],
+      mark: [13, 'Burg Steinsberg']
+    },
+    {
+      id: 'ostalb', group: 'big', region: 'Ostalb', type: 'Tagestour', name: 'Ellwangen & Kapfenburg',
+      km: 210, time: '4½', curves: 3,
+      text: 'Über Murrhardt und Gaildorf das obere Kochertal hinauf nach Ellwangen mit Schloss und Wallfahrtskirche Schönenberg. Weiter zum Limestor bei Dalkingen und zum Schloss Kapfenburg, dann durchs Wental mit seinen Felsen und am Rosenstein vorbei zurück.',
+      route: ['Winnenden', 'Backnang', 'Murrhardt', 'Gaildorf', 'Abtsgmünd', 'Ellwangen', 'Rainau', 'Lauchheim', 'Aalen', 'Wental', 'Bartholomä', 'Heubach', 'Schwäbisch Gmünd', 'Schorndorf', 'Winnenden'],
+      pause: 'Ellwangen, Altstadt unterm Schloss',
+      via: ['Ellwangen (Jagst)', 'Schloss Kapfenburg', 'Bartholomä'],
+      path: ['winnenden', 'allmersbach', 'backnang', 'murrhardt', 'gaildorf', 'untergroeningen', 'abtsgmuend', 'ellwangen', 'rainau', 'lauchheim', 'aalen', 'oberkochen', 'wental', 'bartholomae', 'heubach', 'gmuend', 'waeschenbeuren', 'adelberg', 'schorndorf', 'berglen'],
+      mark: [7, 'Ellwangen']
+    },
+    {
+      id: 'tuebingen', group: 'big', region: 'Schönbuch & Neckar', type: 'Tagestour', name: 'Bebenhausen & Tübingen',
+      km: 200, time: '4½', curves: 3,
+      text: 'Durchs Neckartal und den Schönbuch zum Kloster Bebenhausen, dann nach Tübingen mit seiner Altstadt am Neckar. Weiter zur Wurmlinger Kapelle und nach Rottenburg, zurück am Fuß der Alb über Mössingen und Neuffen.',
+      route: ['Winnenden', 'Schurwald', 'Plochingen', 'Nürtingen', 'Neckartenzlingen', 'Bebenhausen', 'Tübingen', 'Wurmlingen', 'Rottenburg', 'Mössingen', 'Metzingen', 'Neuffen', 'Kirchheim unter Teck', 'Winnenden'],
+      pause: 'Tübingen, Altstadt und Neckarfront mit Stocherkähnen',
+      via: ['Kloster Bebenhausen', 'Wurmlinger Kapelle', 'Mössingen'],
+      path: ['winnenden', 'buoch', 'baltmannsweiler', 'plochingen', 'nuertingen', 'neckartenzlingen', 'walddorf', 'bebenhausen', 'tuebingen', 'wurmlingen', 'rottenburg', 'hirrlingen', 'moessingen', 'goenningen', 'metzingen', 'neuffen', 'beuren', 'kirchheim', 'reichenbach'],
+      mark: [8, 'Tübingen']
     },
     {
       id: 'lautertal', group: 'big', region: 'Schwäbische Alb', type: 'Tagestour', name: 'Großes Lautertal',
@@ -823,16 +951,6 @@
       mark: [11, 'Lautertal']
     },
     {
-      id: 'hohenzollern', group: 'big', region: 'Schwäbische Alb', type: 'Tagestour', name: 'Burg Hohenzollern & Lichtenstein',
-      km: 250, time: '5¼', curves: 4,
-      text: 'Am Fuß der Alb entlang bis Hechingen, wo die Burg Hohenzollern auf ihrem Berg thront. Dann durchs Killertal hoch auf die Alb, über Gammertingen zum Schloss Lichtenstein und über Münsingen und die Gutenberger Steige zurück.',
-      route: ['Winnenden', 'Kirchheim unter Teck', 'Neuffen', 'Metzingen', 'Mössingen', 'Hechingen', 'Killertal', 'Burladingen', 'Gammertingen', 'Trochtelfingen', 'Lichtenstein', 'Münsingen', 'Gutenberger Steige', 'Kirchheim unter Teck', 'Winnenden'],
-      pause: 'Burg Hohenzollern: Die Motorräder bleiben unten am Parkplatz, hoch geht’s mit dem Shuttlebus oder in 25 Minuten zu Fuß',
-      via: ['Hechingen', 'Gammertingen', 'Schloss Lichtenstein'],
-      path: ['winnenden', 'buoch', 'baltmannsweiler', 'reichenbach', 'kirchheim', 'beuren', 'neuffen', 'metzingen', 'goenningen', 'moessingen', 'hechingen', 'jungingen', 'burladingen', 'gammertingen', 'trochtelfingen', 'lichtenstein', 'engstingen', 'gomadingen', 'muensingen', 'donnstetten', 'gutenberg', 'oberlenningen', 'owen', 'kirchheim'],
-      mark: [10, 'Hohenzollern']
-    },
-    {
       id: 'neckarburgen', group: 'big', region: 'Neckartal & Odenwald', type: 'Tagestour', name: 'Burgen am Neckar',
       km: 240, time: '5', curves: 3,
       text: 'Durchs Bottwartal nach Bad Wimpfen mit seinem Blauen Turm, dann am Neckar entlang an Burg Guttenberg und Burg Hornberg vorbei bis Zwingenberg im Odenwald. Zurück über Möckmühl durchs Jagsttal und am Kloster Schöntal vorbei.',
@@ -843,14 +961,24 @@
       mark: [8, 'Bad Wimpfen']
     },
     {
-      id: 'ries', group: 'by', region: 'Bayern · Nördlinger Ries', type: 'Tagestour', name: 'Nördlingen im Ries',
-      km: 235, time: '4¾', curves: 2,
-      text: 'Durchs obere Kochertal auf die Ostalb und rüber nach Bayern: Nördlingen liegt mitten in einem Meteoritenkrater, und auf der alten Stadtmauer kann man einmal ganz um die Altstadt laufen. Zurück über Neresheim und den Albuch.',
-      route: ['Winnenden', 'Welzheim', 'Gschwend', 'Abtsgmünd', 'Aalen', 'Bopfingen', 'Nördlingen', 'Neresheim', 'Heidenheim', 'Bartholomä', 'Heubach', 'Schwäbisch Gmünd', 'Schorndorf', 'Winnenden'],
-      pause: 'Nördlingen, Altstadt mit Stadtmauer und dem Kirchturm „Daniel“',
-      via: ['Abtsgmünd', 'Nördlingen', 'Heubach'],
-      path: ['winnenden', 'rudersberg', 'welzheim', 'gschwend', 'abtsgmuend', 'aalen', 'bopfingen', 'noerdlingen', 'neresheim', 'heidenheim', 'steinheimalb', 'bartholomae', 'heubach', 'gmuend', 'waeschenbeuren', 'adelberg', 'schorndorf', 'berglen'],
-      mark: [7, 'Nördlingen']
+      id: 'taubertal', group: 'big', region: 'Taubertal & Hohenlohe', type: 'Tagestour', name: 'Taubertal & Weikersheim',
+      km: 250, time: '5', curves: 3,
+      text: 'Über Öhringen und Künzelsau ins Jagsttal und weiter nach Bad Mergentheim. Dann durchs Taubertal nach Weikersheim mit Schloss und Barockgarten und bis Creglingen. Zurück über die Hohenloher Ebene und Schwäbisch Hall.',
+      route: ['Winnenden', 'Backnang', 'Mainhardt', 'Öhringen', 'Künzelsau', 'Dörzbach', 'Bad Mergentheim', 'Weikersheim', 'Creglingen', 'Blaufelden', 'Ilshofen', 'Schwäbisch Hall', 'Mainhardt', 'Backnang', 'Winnenden'],
+      pause: 'Weikersheim, Schloss mit Barockgarten und Marktplatz',
+      via: ['Künzelsau', 'Weikersheim', 'Creglingen'],
+      path: ['winnenden', 'allmersbach', 'backnang', 'sulzbach', 'mainhardt', 'oehringen', 'kuenzelsau', 'doerzbach', 'mergentheim', 'weikersheim', 'creglingen', 'blaufelden', 'gerabronn', 'ilshofen', 'hall', 'mainhardt', 'sulzbach', 'backnang'],
+      mark: [9, 'Weikersheim']
+    },
+    {
+      id: 'hohenzollern', group: 'big', region: 'Schwäbische Alb', type: 'Tagestour', name: 'Burg Hohenzollern & Lichtenstein',
+      km: 250, time: '5¼', curves: 4,
+      text: 'Am Fuß der Alb entlang bis Hechingen, wo die Burg Hohenzollern auf ihrem Berg thront. Dann durchs Killertal hoch auf die Alb, über Gammertingen zum Schloss Lichtenstein und über Münsingen und die Gutenberger Steige zurück.',
+      route: ['Winnenden', 'Kirchheim unter Teck', 'Neuffen', 'Metzingen', 'Mössingen', 'Hechingen', 'Killertal', 'Burladingen', 'Gammertingen', 'Trochtelfingen', 'Lichtenstein', 'Münsingen', 'Gutenberger Steige', 'Kirchheim unter Teck', 'Winnenden'],
+      pause: 'Burg Hohenzollern: Die Motorräder bleiben unten am Parkplatz, hoch geht’s mit dem Shuttlebus oder in 25 Minuten zu Fuß',
+      via: ['Hechingen', 'Gammertingen', 'Schloss Lichtenstein'],
+      path: ['winnenden', 'buoch', 'baltmannsweiler', 'reichenbach', 'kirchheim', 'beuren', 'neuffen', 'metzingen', 'goenningen', 'moessingen', 'hechingen', 'jungingen', 'burladingen', 'gammertingen', 'trochtelfingen', 'lichtenstein', 'engstingen', 'gomadingen', 'muensingen', 'donnstetten', 'gutenberg', 'oberlenningen', 'owen', 'kirchheim'],
+      mark: [10, 'Hohenzollern']
     },
     {
       id: 'dinkelsbuehl', group: 'by', region: 'Bayern · Romantische Straße', type: 'Tagestour', name: 'Dinkelsbühl',
@@ -861,6 +989,16 @@
       via: ['Gaildorf', 'Dinkelsbühl', 'Schwäbisch Hall'],
       path: ['winnenden', 'allmersbach', 'backnang', 'murrhardt', 'gaildorf', 'buehlertann', 'ellwangen', 'dinkelsbuehl', 'crailsheim', 'vellberg', 'hall', 'mainhardt', 'sulzbach', 'backnang'],
       mark: [7, 'Dinkelsbühl']
+    },
+    {
+      id: 'ries', group: 'by', region: 'Bayern · Nördlinger Ries', type: 'Tagestour', name: 'Nördlingen im Ries',
+      km: 235, time: '4¾', curves: 2,
+      text: 'Durchs obere Kochertal auf die Ostalb und rüber nach Bayern: Nördlingen liegt mitten in einem Meteoritenkrater, und auf der alten Stadtmauer kann man einmal ganz um die Altstadt laufen. Zurück über Neresheim und den Albuch.',
+      route: ['Winnenden', 'Welzheim', 'Gschwend', 'Abtsgmünd', 'Aalen', 'Bopfingen', 'Nördlingen', 'Neresheim', 'Heidenheim', 'Bartholomä', 'Heubach', 'Schwäbisch Gmünd', 'Schorndorf', 'Winnenden'],
+      pause: 'Nördlingen, Altstadt mit Stadtmauer und dem Kirchturm „Daniel“',
+      via: ['Abtsgmünd', 'Nördlingen', 'Heubach'],
+      path: ['winnenden', 'rudersberg', 'welzheim', 'gschwend', 'abtsgmuend', 'aalen', 'bopfingen', 'noerdlingen', 'neresheim', 'heidenheim', 'steinheimalb', 'bartholomae', 'heubach', 'gmuend', 'waeschenbeuren', 'adelberg', 'schorndorf', 'berglen'],
+      mark: [7, 'Nördlingen']
     },
     {
       id: 'rothenburg', group: 'by', region: 'Bayern · Romantische Straße', type: 'Tagestour', name: 'Rothenburg ob der Tauber',
@@ -1041,10 +1179,23 @@
 
   function renderTours() {
     var list = $('tour-list');
+    var jump = $('jump');
     var num = 0;
     GROUPS.forEach(function (g) {
       var head = document.createElement('div');
       head.className = 'group-head';
+      head.id = 'g-' + g.id;
+      head.tabIndex = -1;
+      // Sprung per Skript, damit kein #-Eintrag im Verlauf landet (der Zurück-Knopf gehört den Schritten)
+      var link = document.createElement('a');
+      link.href = '#g-' + g.id;
+      link.innerHTML = esc(g.title) + ' <span>' + TOURS.filter(function (t) { return t.group === g.id; }).length + '</span>';
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        head.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' });
+        try { head.focus({ preventScroll: true }); } catch (err) { head.focus(); }
+      });
+      jump.appendChild(link);
       head.innerHTML = '<h2 class="group-title">' + esc(g.title) + '</h2><p class="group-sub">' + esc(g.sub) + '</p>';
       list.appendChild(head);
       TOURS.forEach(function (t) {
