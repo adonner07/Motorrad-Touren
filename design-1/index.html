@@ -416,6 +416,10 @@
   .maps[aria-expanded="true"] { border-color: var(--orange); }
   .waze { margin-top: 10px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel-deep); }
   .waze-hint { margin: 0 0 10px; font-size: .86rem; line-height: 1.4; color: var(--text-dim); }
+  .nav-k { margin: 0 0 8px; font: 700 .78rem/1 var(--font-head); letter-spacing: .14em; text-transform: uppercase; color: var(--text); }
+  .waze-legs + .nav-k { margin-top: 16px; }
+  .waze-hint.nav-tip { margin: 12px 0 0; }
+  .leg-n svg { width: 13px; height: 13px; }
   .waze-legs { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
   .waze-legs a {
     display: flex;
@@ -931,6 +935,7 @@
   }
   .waze, .waze-legs a { border-radius: 4px; }
   .leg-n { color: #fff; font-style: italic; }
+  .nav-k { color: var(--amber); font-style: italic; }
 </style>
 </head>
 <body>
@@ -1022,7 +1027,7 @@
 
       <div class="tour-list" id="tour-list"></div>
 
-      <p class="tours-note">Vor jeder Tour checken wir kurz Baustellen und Sperrungen. Ein paar Strecken in der Gegend sind am Wochenende für Motorräder gesperrt, die sind hier schon rausgelassen. Tipp fürs Handy: In Waze bei den Navigations-Einstellungen „Autobahnen vermeiden“ einschalten, dann bleibt die Route auf der Landstraße.</p>
+      <p class="tours-note">Vor jeder Tour checken wir kurz Baustellen und Sperrungen. Ein paar Strecken in der Gegend sind am Wochenende für Motorräder gesperrt, die sind hier schon rausgelassen. Tipp fürs Handy: In Google Maps oder Waze „Autobahnen vermeiden“ einschalten, dann bleibt die Route auf der Landstraße.</p>
 
       <div class="back-row"><button type="button" class="btn-text" data-go="start">Zurück</button></div>
 
@@ -1649,12 +1654,21 @@
   }
   function fmtKm(n) { return n.toLocaleString('de-DE'); }
 
+  // Google Maps öffnet die ganze Runde mit allen Zwischenzielen auf einmal
+  function gmapsUrl(stops) {
+    return 'https://www.google.com/maps/dir/?api=1' +
+      '&origin=' + encodeURIComponent(START) +
+      '&destination=' + encodeURIComponent(START) +
+      '&waypoints=' + stops.map(function (st) { return encodeURIComponent(st[0]); }).join('%7C') +
+      '&travelmode=driving';
+  }
   // Waze öffnet per Link nur ein Ziel. Deshalb gibt es pro Tour einzelne Etappen.
   function wazeUrl(query, key) {
     return 'https://waze.com/ul?q=' + encodeURIComponent(query) +
       '&ll=' + P[key][0].toFixed(4) + '%2C' + P[key][1].toFixed(4) + '&navigate=yes';
   }
 
+  var PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg>';
   var NAV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.5 11.2 20.5 3.5 12.8 20.5l-1.9-7.4z"/></svg>';
 
   function tourCard(t, num) {
@@ -1675,17 +1689,22 @@
     }).join('');
     var mapsBtn =
       '<button type="button" class="maps" aria-expanded="false" aria-controls="wz-' + t.id + '">' + NAV +
-        'Waze<span class="sr-only">: Etappen für ' + esc(t.name) + '</span></button>';
+        'Route<span class="sr-only">: Navigation für ' + esc(t.name) + '</span></button>';
     var legs = t.stops.concat([[START, 'winnenden', 'Zurück nach Winnenden']]);
     var waze =
       '<div class="waze" id="wz-' + t.id + '" hidden>' +
-        '<p class="waze-hint">Waze kann immer nur ein Ziel auf einmal. Tipp die Etappen der Reihe nach an, ' +
-          'und stell in Waze „Autobahnen vermeiden“ ein.</p>' +
+        '<p class="nav-k">Google Maps</p>' +
+        '<ul class="waze-legs"><li><a href="' + esc(gmapsUrl(t.stops)) + '" target="_blank" rel="noopener">' +
+          '<span class="leg-n" aria-hidden="true">' + PIN + '</span>Ganze Runde öffnen' +
+          '<span class="sr-only"> (öffnet Google Maps)</span></a></li></ul>' +
+        '<p class="nav-k">Waze</p>' +
+        '<p class="waze-hint">Waze kann immer nur ein Ziel auf einmal. Tipp die Etappen der Reihe nach an.</p>' +
         '<ol class="waze-legs">' + legs.map(function (leg, i) {
           return '<li><a href="' + esc(wazeUrl(leg[0], leg[1])) + '" target="_blank" rel="noopener">' +
             '<span class="leg-n" aria-hidden="true">' + (i + 1) + '</span>' + esc(leg[2]) +
             '<span class="sr-only"> (Etappe ' + (i + 1) + ', öffnet Waze)</span></a></li>';
         }).join('') + '</ol>' +
+        '<p class="waze-hint nav-tip">In beiden Apps „Autobahnen vermeiden“ einschalten, dann bleibt’s auf der Landstraße.</p>' +
       '</div>';
 
     var art = document.createElement('article');
