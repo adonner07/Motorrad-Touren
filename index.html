@@ -1468,7 +1468,9 @@
       }
     }
     home.appendChild(svgEl('circle', { r: 8, class: 'ov-home' }));
-    var hl = svgEl('text', { y: hp[1] + 34 > H - 6 ? -46 : 34, class: 'ov-home-label' });
+    // Beschriftung (ca. 160 breit) bleibt im Bild, auch wenn Winnenden am Rand liegt
+    var hlx = Math.min(Math.max(0, 94 - hp[0]), W - 94 - hp[0]);
+    var hl = svgEl('text', { x: hlx.toFixed(1), y: hp[1] + 34 > H - 6 ? -46 : 34, class: 'ov-home-label' });
     hl.textContent = 'WINNENDEN';
     home.appendChild(hl);
     svg.appendChild(home);
