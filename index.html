@@ -152,57 +152,117 @@
   .actions { display: grid; gap: 8px; justify-items: center; margin-top: 26px; }
   .actions .btn { width: 100%; max-width: 420px; }
 
-  /* 1 · Start mit Drehzahlmesser */
-  .start { display: flex; flex-direction: column; align-items: center; text-align: center; padding-top: 3vh; }
-  .gauge {
-    display: block;
-    width: min(84vw, 330px);
-    height: auto;
-    margin: 18px auto 4px;
+  /* 1 · Start: Motorrad auf der Straße */
+  .start {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 64px);
+    min-height: calc(100dvh - 64px);
+    text-align: center;
+  }
+  .start-facts { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin: 16px 0 0; padding: 0; list-style: none; }
+  .start-facts li {
+    padding: 6px 11px;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    font: 700 .82rem/1 var(--font-head);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .start-facts li:first-child { border-color: var(--orange); color: var(--orange); }
+  .ride-scene {
+    position: relative;
+    width: 100vw;
+    height: 150px;
+    margin: 26px calc(50% - 50vw) 16px;
+    overflow: hidden;
     cursor: pointer;
-    touch-action: manipulation;
-    user-select: none;
     -webkit-user-select: none;
+    user-select: none;
   }
-  .g-bezel { fill: none; stroke: url(#g-chrome); stroke-width: 5; }
-  .g-face { fill: url(#g-face); }
-  .g-backlight { fill: url(#g-light); opacity: 0; transition: opacity 1s ease; }
-  .g-scale { fill: none; stroke: #3a3e44; stroke-width: 2; transition: stroke .6s ease; }
-  .g-red { fill: none; stroke: #5a2421; stroke-width: 7; transition: stroke .6s ease; }
-  .g-tick { fill: none; stroke: #4b5056; stroke-width: 2.6; stroke-linecap: round; transition: stroke .6s ease; }
-  .g-minor { stroke-width: 1.5; }
-  .g-tick-red { stroke: #5a2421; stroke-width: 2.2; }
-  .g-num { font: 700 15px var(--font-head); fill: #5d6268; text-anchor: middle; transition: fill .6s ease; }
-  .g-num.red { fill: #5a2421; }
-  .g-unit { font: 600 8.5px var(--font-head); letter-spacing: .14em; fill: #50555b; text-anchor: middle; transition: fill .6s ease; }
-  .g-box { fill: #0a0b0c; stroke: #2b2f34; stroke-width: 1.2; }
-  .g-gear { font: 800 24px var(--font-head); fill: #17271f; text-anchor: middle; transition: fill .4s ease; }
-  .g-abs { font: 800 9px var(--font-head); letter-spacing: .08em; fill: #2e2718; text-anchor: middle; transition: fill .2s ease; }
-  .g-lcd { font: 700 10.5px var(--font-head); letter-spacing: .16em; fill: #1f2a25; text-anchor: middle; transition: fill .6s ease; }
-  .g-needle { fill: #ff5a1f; }
-  .g-hub { fill: #23262a; stroke: #4c5157; stroke-width: 1.5; }
-  .g-hub-dot { fill: #ff5a1f; }
-  .gauge.on .g-backlight { opacity: 1; }
-  .gauge.on .g-scale { stroke: #8b9097; }
-  .gauge.on .g-red { stroke: var(--red); }
-  .gauge.on .g-tick { stroke: #e2ded5; }
-  .gauge.on .g-tick-red { stroke: var(--red); }
-  .gauge.on .g-num { fill: #ece8df; }
-  .gauge.on .g-num.red { fill: var(--red); }
-  .gauge.on .g-unit { fill: #9a9ea4; }
-  .gauge.on .g-gear { fill: var(--green); }
-  .gauge.abs-on .g-abs { fill: var(--amber); }
-  .gauge.on .g-lcd { fill: #9df5c8; }
-  .gauge.shake { animation: shake .09s linear infinite; }
-  @keyframes shake {
-    25% { transform: translate(.6px, -.4px); }
-    50% { transform: translate(-.5px, .5px); }
-    75% { transform: translate(.4px, .3px); }
+  .road {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 14px;
+    height: 58px;
+    border-top: 2px solid #34383d;
+    border-bottom: 2px solid #34383d;
+    background: #202326;
   }
-  .start-text { min-height: 7.5em; display: flex; flex-direction: column; align-items: center; }
-  .start-text .lead { max-width: 30em; }
-  .start-text .btn { margin-top: 18px; min-width: 240px; }
-  .start-text.reveal { animation: enter .6s ease both; }
+  .road::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 3px;
+    margin-top: -1.5px;
+    background: repeating-linear-gradient(90deg, rgba(242, 239, 233, .7) 0 26px, transparent 26px 52px);
+  }
+  .bike {
+    position: absolute;
+    left: max(12px, calc(50% - 190px));
+    bottom: 22px;
+    width: 178px;
+    transform-origin: 22% 92%;
+  }
+  .bike svg { position: relative; display: block; width: 100%; height: auto; overflow: visible; }
+  .bike-body { animation: idle .14s linear infinite; }
+  @keyframes idle { 50% { transform: translateY(-.6px); } }
+  .wheel { transform-box: fill-box; transform-origin: center; }
+  .bike-beam { opacity: .16; transition: opacity .3s ease; }
+  .puff {
+    position: absolute;
+    left: 6%;
+    top: 60%;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(210, 210, 210, .35);
+    opacity: 0;
+    animation: puff 1.8s ease-out infinite;
+  }
+  .puff.p2 { animation-delay: .6s; }
+  .puff.p3 { animation-delay: 1.2s; }
+  @keyframes puff {
+    0% { opacity: .7; transform: translate(0, 0) scale(.4); }
+    100% { opacity: 0; transform: translate(-30px, -10px) scale(2); }
+  }
+  .speed {
+    position: absolute;
+    right: 94%;
+    width: 90px;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, rgba(242, 239, 233, 0), rgba(242, 239, 233, .7));
+    opacity: 0;
+  }
+  .speed.s1 { top: 30%; }
+  .speed.s2 { top: 50%; width: 120px; }
+  .speed.s3 { top: 70%; }
+  /* Los: Vorderrad kurz hoch, Gas und weg */
+  .ride-scene.go .bike { animation: ride 1.25s cubic-bezier(.6, 0, .9, .4) forwards; }
+  @keyframes ride {
+    0% { transform: translateX(0) rotate(0); }
+    14% { transform: translateX(4px) rotate(-6deg); }
+    30% { transform: translateX(36px) rotate(-2deg); }
+    100% { transform: translateX(115vw) rotate(0); }
+  }
+  .ride-scene.go .wheel { animation: spin .22s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .ride-scene.go .road::before { animation: dash .3s linear infinite; }
+  @keyframes dash { to { background-position: -52px 0; } }
+  .ride-scene.go .speed { animation: speed .3s ease .25s forwards; }
+  @keyframes speed { to { opacity: 1; } }
+  .ride-scene.go .puff { animation-duration: .5s; }
+  .ride-scene.go .bike-beam { opacity: .6; }
+  .start .lead { max-width: 30em; }
+  .start .btn { margin-top: 20px; min-width: 240px; }
+  .start .btn svg { width: 20px; height: 20px; }
 
   /* 2 · Touren */
   .tours-head { max-width: 640px; }
@@ -684,7 +744,7 @@
   .copy-status { min-height: 1.3em; margin: 0; text-align: center; font-weight: 600; color: var(--green); }
 
   @media (prefers-reduced-motion: reduce) {
-    .scene.enter, .start-text.reveal { animation: none; }
+    .scene.enter, .bike-body, .puff { animation: none; }
     .flag { animation: none; }
     .headlight { transition: none; }
   }
@@ -693,78 +753,66 @@
 <body>
   <div class="headlight" aria-hidden="true"></div>
 
-  <!-- 1 · Zündung an -->
+  <!-- 1 · Start -->
   <section class="scene" id="scene-start" aria-labelledby="start-heading">
     <div class="wrap start">
       <p class="eyebrow">Motorrad-Umfrage</p>
       <h1 class="title" id="start-heading" tabindex="-1" data-heading>Touren 2027</h1>
-
-      <svg class="gauge" id="gauge" viewBox="0 0 240 240" aria-hidden="true" focusable="false">
-        <defs>
-          <radialGradient id="g-face" cx="50%" cy="45%" r="60%">
-            <stop offset="0" stop-color="#202328"/>
-            <stop offset="1" stop-color="#0d0f11"/>
-          </radialGradient>
-          <radialGradient id="g-light" cx="50%" cy="50%" r="50%">
-            <stop offset="0" stop-color="#ff9a4d" stop-opacity=".16"/>
-            <stop offset=".7" stop-color="#ff7a1a" stop-opacity=".05"/>
-            <stop offset="1" stop-color="#ff7a1a" stop-opacity="0"/>
-          </radialGradient>
-          <linearGradient id="g-chrome" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#6b7178"/>
-            <stop offset=".5" stop-color="#202327"/>
-            <stop offset="1" stop-color="#5b6168"/>
-          </linearGradient>
-          <filter id="g-glow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="2.2" result="b"/>
-            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-        </defs>
-        <circle class="g-face" cx="120" cy="120" r="113"/>
-        <circle class="g-backlight" cx="120" cy="120" r="108"/>
-        <circle class="g-bezel" cx="120" cy="120" r="115"/>
-        <path class="g-scale" d="M33.40 170.00A100 100 0 1 1 218.48 102.64"/>
-          <path class="g-red" d="M218.48 102.64A100 100 0 0 1 206.60 170.00"/>
-          <path class="g-tick" d="M33.40 170.00L45.52 163.00M21.52 137.36L35.31 134.93M21.52 102.64L35.31 105.07M33.40 70.00L45.52 77.00M55.72 43.40L64.72 54.12M85.80 26.03L90.59 39.19M120.00 20.00L120.00 34.00M154.20 26.03L149.41 39.19M184.28 43.40L175.28 54.12M206.60 70.00L194.48 77.00"/>
-          <path class="g-tick g-minor" d="M26.03 154.20L32.61 151.81M20.00 120.00L27.00 120.00M26.03 85.80L32.61 88.19M43.40 55.72L48.76 60.22M70.00 33.40L73.50 39.46M102.64 21.52L103.85 28.41M137.36 21.52L136.15 28.41M170.00 33.40L166.50 39.46M196.60 55.72L191.24 60.22M213.97 85.80L207.39 88.19"/>
-          <path class="g-tick g-tick-red" d="M218.48 102.64L204.69 105.07M220.00 120.00L213.00 120.00M218.48 137.36L204.69 134.93M213.97 154.20L207.39 151.81M206.60 170.00L194.48 163.00"/>
-          <text class="g-num" x="56.8" y="161.5">0</text>
-          <text class="g-num" x="48.1" y="137.7">1</text>
-          <text class="g-num" x="48.1" y="112.3">2</text>
-          <text class="g-num" x="56.8" y="88.5">3</text>
-          <text class="g-num" x="73.1" y="69.1">4</text>
-          <text class="g-num" x="95.0" y="56.4">5</text>
-          <text class="g-num" x="120.0" y="52.0">6</text>
-          <text class="g-num" x="145.0" y="56.4">7</text>
-          <text class="g-num" x="166.9" y="69.1">8</text>
-          <text class="g-num" x="183.2" y="88.5">9</text>
-          <text class="g-num red" x="191.9" y="112.3">10</text>
-          <text class="g-num red" x="191.9" y="137.7">11</text>
-          <text class="g-num red" x="183.2" y="161.5">12</text>
-        <text class="g-unit" x="120" y="88">x1000 U/MIN</text>
-        <rect class="g-box" x="102" y="146" width="36" height="34" rx="6"/>
-        <text class="g-gear" x="120" y="172">N</text>
-        <text class="g-abs" x="76" y="168">ABS</text>
-        <rect class="g-box" x="68" y="192" width="104" height="22" rx="5"/>
-        <text class="g-lcd" id="lcd" x="120" y="207">START WINNENDEN</text>
-        <g id="needle" transform="rotate(150 120 120)" filter="url(#g-glow)">
-          <polygon class="g-needle" points="103,117.6 120,115.8 210,119.3 210,120.7 120,124.2 103,122.4"/>
-        </g>
-        <circle class="g-hub" cx="120" cy="120" r="10"/>
-        <circle class="g-hub-dot" cx="120" cy="120" r="3.5"/>
-      </svg>
-
-      <div class="start-text" id="pre-ign">
-        <p class="lead">Bereit? Dann dreh den Schlüssel um.</p>
-        <button type="button" class="btn btn-primary" id="ignite">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="8" cy="15" r="4.5"/><path d="M11.3 11.8L20 3.2M16.5 6.6l2.4 2.4M14.2 8.9l1.8 1.8"/></svg>
-          Zündung an
-        </button>
+      <ul class="start-facts">
+        <li id="fact-count">23 Touren</li>
+        <li>ab Winnenden</li>
+        <li>nur Landstraße</li>
+      </ul>
+      <div class="ride-scene" id="ride-scene" aria-hidden="true">
+        <div class="road"></div>
+        <div class="bike">
+          <span class="speed s1"></span><span class="speed s2"></span><span class="speed s3"></span>
+          <span class="puff p1"></span><span class="puff p2"></span><span class="puff p3"></span>
+          <svg viewBox="0 0 240 140" focusable="false">
+            <defs>
+              <linearGradient id="beam" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0" stop-color="#ffe2a8" stop-opacity=".9"/>
+                <stop offset="1" stop-color="#ffe2a8" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <ellipse cx="122" cy="131" rx="98" ry="5" fill="rgba(0,0,0,.5)"/>
+            <path class="bike-beam" d="M182 52 L330 26 L330 92 Z" fill="url(#beam)"/>
+            <g transform="translate(54 104)"><g class="wheel"><circle r="26" fill="#0b0c0d"/><circle r="26" fill="none" stroke="#3a3e44" stroke-width="1.5"/><circle r="17" fill="none" stroke="#9aa0a6" stroke-width="2.5"/><path d="M0 -17V17M-17 0H17M-12 -12L12 12M-12 12L12 -12" stroke="#6b7178" stroke-width="1.8"/><circle r="10" fill="none" stroke="#5b6168" stroke-width="2"/><circle r="4" fill="#c9cdd2"/></g></g>
+            <g transform="translate(190 104)"><g class="wheel"><circle r="26" fill="#0b0c0d"/><circle r="26" fill="none" stroke="#3a3e44" stroke-width="1.5"/><circle r="17" fill="none" stroke="#9aa0a6" stroke-width="2.5"/><path d="M0 -17V17M-17 0H17M-12 -12L12 12M-12 12L12 -12" stroke="#6b7178" stroke-width="1.8"/><circle r="10" fill="none" stroke="#5b6168" stroke-width="2"/><circle r="4" fill="#c9cdd2"/></g></g>
+            <g class="bike-body">
+              <path d="M54 104 L106 96" stroke="#4a4f56" stroke-width="7" stroke-linecap="round"/>
+              <path d="M118 112 C100 118 78 118 54 110" stroke="#8b9097" stroke-width="5" fill="none" stroke-linecap="round"/>
+              <path d="M60 106 L30 98" stroke="#b8bec5" stroke-width="9" stroke-linecap="round"/>
+              <path d="M100 80 h38 l8 10 v14 l-9 9 h-30 l-9 -11 z" fill="#3a3e44"/>
+              <path d="M106 87h30M106 93h32M106 99h31" stroke="#25282c" stroke-width="2"/>
+              <path d="M164 54 L136 82 L106 96" stroke="#5b6168" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M106 70 L66 60" stroke="#5b6168" stroke-width="5" stroke-linecap="round"/>
+              <path d="M70 58 C88 52 106 52 118 57 L116 66 C100 66 84 66 72 66 Z" fill="#15171a" stroke="#2b2f34"/>
+              <path d="M40 50 L74 57 L72 66 L50 63 Z" fill="#ff7a1a"/>
+              <rect x="36" y="50" width="6" height="5" rx="1.5" fill="#ff3b30"/>
+              <path d="M114 58 C122 45 150 41 164 50 L160 64 C142 69 126 69 114 67 Z" fill="#ff7a1a"/>
+              <path d="M124 52 C134 47 148 46 156 49" stroke="#ffb27a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+              <path d="M166 52 L190 104" stroke="#c9cdd2" stroke-width="5" stroke-linecap="round"/>
+              <path d="M170 86 Q190 72 210 88" stroke="#3a3e44" stroke-width="5" fill="none" stroke-linecap="round"/>
+              <circle cx="178" cy="56" r="8" fill="#2b2f34"/>
+              <circle cx="180" cy="56" r="5.5" fill="#ffe2a8"/>
+              <path d="M152 40 L170 44" stroke="#2b2f34" stroke-width="4" stroke-linecap="round"/>
+              <path d="M96 60 L124 70 L114 94" stroke="#2a2e33" stroke-width="11" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M107 95 h13" stroke="#111214" stroke-width="7" stroke-linecap="round"/>
+              <path d="M94 58 L120 32" stroke="#2a2e33" stroke-width="15" stroke-linecap="round"/>
+              <path d="M104 46 L118 33" stroke="#ff7a1a" stroke-width="3" stroke-linecap="round"/>
+              <path d="M120 34 L140 44 L156 41" stroke="#2a2e33" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="130" cy="20" r="12" fill="#f2efe9"/>
+              <rect x="131" y="15" width="11" height="8" rx="3" fill="#1b1d21"/>
+            </g>
+          </svg>
+        </div>
       </div>
-      <div class="start-text" id="post-ign" hidden>
-        <p class="lead">Nächstes Jahr wird gefahren! Ich hab ein paar Touren ab Winnenden rausgesucht, alle nur über Landstraßen, also auch gut mit 125er. Sag mir, wo du dabei bist.</p>
-        <button type="button" class="btn btn-primary" id="to-tours">Touren ansehen</button>
-      </div>
+      <p class="lead">Nächstes Jahr wird gefahren! Ich hab ein paar Touren ab Winnenden rausgesucht, alle nur über Landstraßen, also auch gut mit 125er. Sag mir, wo du dabei bist.</p>
+      <button type="button" class="btn btn-primary" id="start-ride">
+        Los geht’s
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+      </button>
     </div>
   </section>
 
@@ -1605,6 +1653,7 @@
   function go(step, push) {
     if (STEPS.indexOf(step) === -1) step = 'start';
     if ((step === 'details' || step === 'done') && !selectedTours().length) step = 'tours';
+    if (step === 'start') resetRide();
     STEPS.forEach(function (s) {
       scenes[s].hidden = s !== step;
       scenes[s].classList.remove('enter');
@@ -1622,63 +1671,20 @@
     if (h) { try { h.focus({ preventScroll: true }); } catch (e) { h.focus(); } }
   }
 
-  /* ---------- 1 · Zündung ---------- */
-  var MIN = 150, MAX = 390, IDLE = 172;
-  var needle = $('needle');
-  var gauge = $('gauge');
-  var angle = MIN, raf = 0, ignited = false;
-  function setNeedle(a) {
-    angle = a;
-    needle.setAttribute('transform', 'rotate(' + a.toFixed(2) + ' 120 120)');
-  }
-  function ease(u) { return u < .5 ? 2 * u * u : 1 - Math.pow(-2 * u + 2, 2) / 2; }
-  // keys: [[Zeit in ms, Winkel], …]
-  function animateNeedle(keys, done) {
-    if (raf) cancelAnimationFrame(raf);
-    var t0 = 0;
-    function frame(now) {
-      if (!t0) t0 = now;
-      var t = now - t0;
-      var i = 1;
-      while (i < keys.length && t > keys[i][0]) i++;
-      if (i >= keys.length) {
-        setNeedle(keys[keys.length - 1][1]);
-        raf = 0;
-        if (done) done();
-        return;
-      }
-      var a = keys[i - 1], b = keys[i];
-      setNeedle(a[1] + (b[1] - a[1]) * ease((t - a[0]) / (b[0] - a[0])));
-      raf = requestAnimationFrame(frame);
-    }
-    raf = requestAnimationFrame(frame);
-  }
-  function reveal() {
-    $('pre-ign').hidden = true;
-    var post = $('post-ign');
-    post.hidden = false;
-    post.classList.remove('reveal');
-    void post.offsetWidth;
-    if (!reduced()) post.classList.add('reveal');
-    $('to-tours').focus({ preventScroll: true });
-  }
-  function ignite() {
-    if (ignited) { rev(); return; }
-    ignited = true;
+  /* ---------- 1 · Start: Motorrad fährt los ---------- */
+  var riding = false;
+  function startRide() {
+    if (riding) return;
+    riding = true;
+    if (reduced()) { go('tours'); return; }
     document.body.classList.add('on');
-    gauge.classList.add('on');
-    $('lcd').textContent = TOURS.length + ' TOUREN';
-    if (reduced()) { setNeedle(IDLE); reveal(); return; }
-    gauge.classList.add('abs-on', 'shake');
-    animateNeedle([[0, MIN], [650, MAX], [850, MAX], [1550, IDLE]], function () {
-      gauge.classList.remove('abs-on', 'shake');
-      reveal();
-    });
+    $('ride-scene').classList.add('go');
+    setTimeout(function () { go('tours'); }, 1300);
   }
-  // einmal kurz Gas geben
-  function rev() {
-    if (reduced()) return;
-    animateNeedle([[0, angle], [230, MIN + 7.5 * 20], [800, IDLE]]);
+  function resetRide() {
+    riding = false;
+    document.body.classList.remove('on');
+    $('ride-scene').classList.remove('go');
   }
 
   /* ---------- 2 · Touren ---------- */
@@ -1839,9 +1845,9 @@
   });
   renderFilter();
 
-  $('ignite').addEventListener('click', ignite);
-  gauge.addEventListener('click', ignite);
-  $('to-tours').addEventListener('click', function () { go('tours'); });
+  $('start-ride').addEventListener('click', startRide);
+  $('ride-scene').addEventListener('click', startRide);
+  $('fact-count').textContent = TOURS.length + ' Touren';
 
   inputs('tour').forEach(function (el) {
     el.addEventListener('change', function () { syncTours(); save(); });
