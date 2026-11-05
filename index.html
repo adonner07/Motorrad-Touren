@@ -377,6 +377,37 @@
   @media (hover: hover) {
     .jump a:hover { border-color: rgba(255, 255, 255, .45); }
   }
+  /* Filter nach Kurven */
+  .filter { margin-top: 20px; }
+  .filter-label { margin: 0 0 8px; font: 800 1.1rem/1.2 var(--font-head); letter-spacing: .04em; text-transform: uppercase; }
+  .filter-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .fchip {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 42px;
+    padding: 8px 13px;
+    border: 1.5px solid var(--line-strong);
+    border-radius: 999px;
+    background: var(--panel-deep);
+    color: var(--text);
+    font: 700 .95rem/1 var(--font-head);
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: border-color .2s ease, background-color .2s ease;
+  }
+  .fchip .bars i { width: 5px; height: 11px; }
+  .fchip-n { color: var(--text-dim); }
+  .fchip[aria-pressed="true"] { border-color: var(--orange); background: rgba(255, 122, 26, .15); }
+  .fchip[aria-pressed="true"] .fchip-n { color: var(--orange); }
+  .fchip:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+  @media (hover: hover) {
+    .fchip:hover { border-color: rgba(255, 255, 255, .45); }
+  }
+  .filter-status { min-height: 1.4em; margin: 8px 0 0; font-size: .9rem; line-height: 1.4; color: var(--text-dim); }
   .group-head { grid-column: 1 / -1; margin-top: 14px; scroll-margin-top: 16px; }
   .group-head:focus { outline: none; }
   .group-head:first-child { margin-top: 0; }
@@ -415,6 +446,7 @@
   .ov-tour.is-on .ov-line { stroke: var(--orange); stroke-width: 4.5; }
   .ov-tour.is-on .ov-glow { opacity: .22; }
   .ov-tour.is-hover .ov-line { stroke: #f2efe9; stroke-width: 4.5; }
+  .ov-tour.is-hidden { display: none; }
   .ov-region, .ov-city-label { paint-order: stroke; stroke: #101215; stroke-width: 6px; stroke-linejoin: round; }
   .ov-region { font: 700 19px var(--font-head); letter-spacing: 4px; fill: rgba(242, 239, 233, .34); text-anchor: middle; }
   .ov-city { fill: rgba(242, 239, 233, .5); }
@@ -747,6 +779,11 @@
           <div class="overview-box" id="overview"></div>
           <figcaption>Alle Touren auf einen Blick. Was du auswählst, leuchtet orange. Tipp auf eine Linie, dann springst du zur Tour.</figcaption>
         </figure>
+        <div class="filter" role="group" aria-labelledby="filter-label">
+          <p class="filter-label" id="filter-label">Wie kurvig darf’s sein?</p>
+          <div class="filter-chips" id="filter-chips"></div>
+          <p class="filter-status" id="filter-status" aria-live="polite"></p>
+        </div>
         <nav class="jump" id="jump" aria-label="Zu den Gruppen springen"></nav>
         <button type="button" class="btn-text" id="all-btn">Alle auswählen</button>
       </div>
@@ -1360,7 +1397,10 @@
           (on ? top : layer).appendChild(items[t.id]);
         });
       },
-      hover: function (id, on) { if (items[id]) items[id].classList.toggle('is-hover', on); }
+      hover: function (id, on) { if (items[id]) items[id].classList.toggle('is-hover', on); },
+      show: function (ids) {
+        tours.forEach(function (t) { items[t.id].classList.toggle('is-hidden', ids.indexOf(t.id) === -1); });
+      }
     };
   }
   var overview = null;
@@ -1434,6 +1474,68 @@
     return art;
   }
 
+  var jumpLinks = {};
+
+  /* ---------- Filter nach Kurven ---------- */
+  var LEVELS = [
+    { n: 2, label: 'Entspannt' }, { n: 3, label: 'Mittel' }, { n: 4, label: 'Kurvig' }, { n: 5, label: 'Sehr kurvig' }
+  ];
+  var curveFilter = []; // leer heißt: alle Touren zeigen
+  function matches(t) { return !curveFilter.length || curveFilter.indexOf(t.curves) !== -1; }
+  function visibleTours() { return TOURS.filter(matches); }
+  function filterChip(label, count, bars, onClick) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'fchip';
+    b.innerHTML = (bars ? '<span class="bars" aria-hidden="true">' + bars + '</span>' : '') +
+      esc(label) + ' <span class="fchip-n">' + count + '</span>';
+    b.addEventListener('click', onClick);
+    $('filter-chips').appendChild(b);
+    return b;
+  }
+  function renderFilter() {
+    var all = filterChip('Alle', TOURS.length, '', function () { curveFilter = []; applyFilter(); save(); });
+    all.dataset.level = '';
+    LEVELS.forEach(function (l) {
+      var count = TOURS.filter(function (t) { return t.curves === l.n; }).length;
+      if (!count) return;
+      var bars = '';
+      for (var i = 1; i <= 5; i++) bars += '<i' + (i <= l.n ? ' class="on"' : '') + '></i>';
+      var chip = filterChip(l.label, count, bars, function () {
+        var at = curveFilter.indexOf(l.n);
+        if (at === -1) curveFilter.push(l.n); else curveFilter.splice(at, 1);
+        // alle Stufen an ist dasselbe wie keine
+        if (curveFilter.length === LEVELS.filter(function (x) { return TOURS.some(function (t) { return t.curves === x.n; }); }).length) curveFilter = [];
+        applyFilter();
+        save();
+      });
+      chip.dataset.level = l.n;
+    });
+  }
+  function updateFilterStatus() {
+    var n = visibleTours().length;
+    var hiddenSel = selectedTours().filter(function (t) { return !matches(t); }).length;
+    var parts = [];
+    if (curveFilter.length) parts.push(n === 1 ? '1 Tour passt' : n + ' Touren passen');
+    if (hiddenSel) parts.push(hiddenSel === 1 ? '1 ausgewählte Tour ist gerade ausgeblendet' : hiddenSel + ' ausgewählte Touren sind gerade ausgeblendet');
+    $('filter-status').textContent = parts.join(' · ');
+  }
+  function applyFilter() {
+    Array.prototype.forEach.call(document.querySelectorAll('.fchip'), function (b) {
+      var lvl = b.dataset.level;
+      b.setAttribute('aria-pressed', String(lvl ? curveFilter.indexOf(+lvl) !== -1 : !curveFilter.length));
+    });
+    TOURS.forEach(function (t) { $('tour-' + t.id).hidden = !matches(t); });
+    GROUPS.forEach(function (g) {
+      var n = TOURS.filter(function (t) { return t.group === g.id && matches(t); }).length;
+      $('g-' + g.id).hidden = !n;
+      jumpLinks[g.id].hidden = !n;
+      jumpLinks[g.id].querySelector('span').textContent = n;
+    });
+    if (overview) overview.show(visibleTours().map(function (t) { return t.id; }));
+    syncTours();
+  }
+
   function renderTours() {
     var list = $('tour-list');
     var jump = $('jump');
@@ -1447,6 +1549,7 @@
       var link = document.createElement('a');
       link.href = '#g-' + g.id;
       link.innerHTML = esc(g.title) + ' <span>' + TOURS.filter(function (t) { return t.group === g.id; }).length + '</span>';
+      jumpLinks[g.id] = link;
       link.addEventListener('click', function (e) {
         e.preventDefault();
         head.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' });
@@ -1472,7 +1575,8 @@
         day: checkedValues('day'),
         role: radioValue('role'),
         style: radioValue('style'),
-        idea: $('idea').value.slice(0, 300)
+        idea: $('idea').value.slice(0, 300),
+        curves: curveFilter
       }));
     } catch (e) { /* ohne Speicher geht es auch */ }
   }
@@ -1492,6 +1596,9 @@
     });
     if (typeof data.fav === 'string' && tourById(data.fav)) favId = data.fav;
     if (typeof data.idea === 'string') $('idea').value = data.idea.slice(0, 300);
+    if (Array.isArray(data.curves)) {
+      curveFilter = data.curves.filter(function (n) { return LEVELS.some(function (l) { return l.n === n; }); });
+    }
   }
 
   /* ---------- Navigation ---------- */
@@ -1584,8 +1691,10 @@
       : (sel.length === 1 ? '1 Tour' : sel.length + ' Touren') + ' · ca. ' + fmtKm(km) + ' km';
     if (overview) overview.update(sel.map(function (t) { return t.id; }));
     count.classList.toggle('has', sel.length > 0);
-    $('all-btn').textContent = sel.length === TOURS.length ? 'Alle abwählen' : 'Alle auswählen';
+    var vis = visibleTours();
+    $('all-btn').textContent = vis.every(function (t) { return $('t-' + t.id).checked; }) ? 'Alle abwählen' : 'Alle auswählen';
     if (sel.length) $('tours-error').textContent = '';
+    updateFilterStatus();
   }
 
   /* ---------- 3 · Details ---------- */
@@ -1728,6 +1837,7 @@
       card.classList.add('flash');
     }
   });
+  renderFilter();
 
   $('ignite').addEventListener('click', ignite);
   gauge.addEventListener('click', ignite);
@@ -1737,15 +1847,16 @@
     el.addEventListener('change', function () { syncTours(); save(); });
   });
   $('all-btn').addEventListener('click', function () {
-    var all = selectedTours().length !== TOURS.length;
-    inputs('tour').forEach(function (el) { el.checked = all; });
+    var vis = visibleTours();
+    var all = !vis.every(function (t) { return $('t-' + t.id).checked; });
+    vis.forEach(function (t) { $('t-' + t.id).checked = all; });
     syncTours();
     save();
   });
   $('to-details').addEventListener('click', function () {
     if (!selectedTours().length) {
       $('tours-error').textContent = 'Tipp bei mindestens einer Tour auf „Bin dabei“.';
-      $('t-' + TOURS[0].id).focus();
+      $('t-' + (visibleTours()[0] || TOURS[0]).id).focus();
       return;
     }
     go('details');
@@ -1773,7 +1884,7 @@
   try { history.scrollRestoration = 'manual'; } catch (e) { /* egal */ }
   try { history.replaceState({ step: 'start' }, ''); } catch (e) { /* egal */ }
   restore();
-  syncTours();
+  applyFilter();
   $('idea-count').textContent = $('idea').value.length + ' / 300';
 })();
 </script>
