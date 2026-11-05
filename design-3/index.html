@@ -408,9 +408,43 @@
     letter-spacing: .08em;
     text-transform: uppercase;
     text-decoration: none;
+    background: transparent;
+    cursor: pointer;
     touch-action: manipulation;
   }
   .maps svg { width: 17px; height: 17px; flex: none; color: var(--orange); }
+  .maps[aria-expanded="true"] { border-color: var(--orange); }
+  .waze { margin-top: 10px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel-deep); }
+  .waze-hint { margin: 0 0 10px; font-size: .86rem; line-height: 1.4; color: var(--text-dim); }
+  .waze-legs { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+  .waze-legs a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    padding: 8px 12px;
+    border: 1px solid var(--line-strong);
+    border-radius: 10px;
+    color: var(--text);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .waze-legs a::after { content: "↗"; margin-left: auto; color: var(--text-dim); }
+  .waze-legs a:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+  .leg-n {
+    display: inline-grid;
+    place-items: center;
+    flex: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--orange);
+    color: #141517;
+    font: 800 .85rem/1 var(--font-head);
+  }
+  @media (hover: hover) {
+    .waze-legs a:hover { border-color: var(--orange); }
+  }
   @media (hover: hover) {
     .join:hover input:not(:checked) + .join-face { border-color: rgba(255, 255, 255, .45); }
     .maps:hover { border-color: var(--line-strong); }
@@ -888,6 +922,9 @@
   @media (prefers-reduced-motion: reduce) {
     .sun { transition: none; }
   }
+  .waze { border-radius: 18px; }
+  .waze-legs a { border-radius: 14px; }
+  .leg-n { background: linear-gradient(90deg, var(--amber), var(--orange)); color: #2a1d5c; }
 </style>
 </head>
 <body>
@@ -979,7 +1016,7 @@
 
       <div class="tour-list" id="tour-list"></div>
 
-      <p class="tours-note">Vor jeder Tour checken wir kurz Baustellen und Sperrungen. Ein paar Strecken in der Gegend sind am Wochenende für Motorräder gesperrt, die sind hier schon rausgelassen. Tipp fürs Handy: In Google Maps bei den Routenoptionen „Autobahnen vermeiden“ einschalten, dann bleibt die Route auf der Landstraße.</p>
+      <p class="tours-note">Vor jeder Tour checken wir kurz Baustellen und Sperrungen. Ein paar Strecken in der Gegend sind am Wochenende für Motorräder gesperrt, die sind hier schon rausgelassen. Tipp fürs Handy: In Waze bei den Navigations-Einstellungen „Autobahnen vermeiden“ einschalten, dann bleibt die Route auf der Landstraße.</p>
 
       <div class="back-row"><button type="button" class="btn-text" data-go="start">Zurück</button></div>
 
@@ -1169,7 +1206,7 @@
       text: 'Kurz, kurvig und gleich um die Ecke: über Althütte in den Schwäbischen Wald, Pause am Ebnisee und durchs Wieslauftal zurück. Perfekt für einen Sommerabend.',
       route: ['Winnenden', 'Allmersbach im Tal', 'Weissach im Tal', 'Althütte', 'Ebnisee', 'Kaisersbach', 'Welzheim', 'Rudersberg', 'Winnenden'],
       pause: 'Ebnisee, ein beliebter Treffpunkt für Biker direkt am See',
-      via: ['Althütte', 'Ebnisee, Kaisersbach', 'Rudersberg'],
+      stops: [['Althütte', 'althuette', 'Althütte'], ['Ebnisee, Kaisersbach', 'ebnisee', 'Ebnisee'], ['Rudersberg', 'rudersberg', 'Rudersberg']],
       path: ['winnenden', 'allmersbach', 'unterweissach', 'althuette', 'ebnisee', 'kaisersbach', 'welzheim', 'rudersberg', 'berglen'],
       mark: [4, 'Ebnisee']
     },
@@ -1179,7 +1216,7 @@
       text: 'Auf den Spuren der Römer: Der Limes ist UNESCO-Welterbe und lief mitten durch den Schwäbischen Wald. Über Welzheim mit seinem Ostkastell und Murrhardt bis Mainhardt und durchs Murrtal zurück.',
       route: ['Winnenden', 'Rudersberg', 'Welzheim', 'Kaisersbach', 'Murrhardt', 'Großerlach', 'Mainhardt', 'Sulzbach an der Murr', 'Backnang', 'Winnenden'],
       pause: 'Welzheim mit dem Archäologischen Park Ostkastell',
-      via: ['Welzheim', 'Murrhardt', 'Mainhardt'],
+      stops: [['Welzheim', 'welzheim', 'Welzheim'], ['Murrhardt', 'murrhardt', 'Murrhardt'], ['Mainhardt', 'mainhardt', 'Mainhardt']],
       path: ['winnenden', 'rudersberg', 'welzheim', 'kaisersbach', 'murrhardt', 'grosserlach', 'mainhardt', 'sulzbach', 'backnang', 'allmersbach'],
       mark: [2, 'Welzheim']
     },
@@ -1189,7 +1226,7 @@
       text: 'Enge Kehren zwischen Spiegelberg und Wüstenrot, Benzingespräche am Bikertreff und danach runter zum Breitenauer See. Rund um Spiegelberg gibt’s Tempolimits und Kontrollen, also locker bleiben.',
       route: ['Winnenden', 'Backnang', 'Sulzbach an der Murr', 'Spiegelberg', 'Wüstenrot', 'Löwensteiner Platte', 'Löwenstein', 'Breitenauer See', 'Beilstein', 'Großbottwar', 'Affalterbach', 'Winnenden'],
       pause: 'Löwensteiner Platte, der Bikertreff mit Kiosk an der B 39',
-      via: ['Spiegelberg, Baden-Württemberg', 'Breitenauer See, Obersulm', 'Großbottwar'],
+      stops: [['Spiegelberg, Baden-Württemberg', 'spiegelberg', 'Spiegelberg'], ['Breitenauer See, Obersulm', 'breitenau', 'Breitenauer See'], ['Großbottwar', 'grossbottwar', 'Großbottwar']],
       path: ['winnenden', 'allmersbach', 'backnang', 'sulzbach', 'spiegelberg', 'wuestenrot', 'platte', 'loewenstein', 'breitenau', 'beilstein', 'grossbottwar', 'steinheimmurr', 'affalterbach'],
       mark: [6, 'Löwensteiner Platte']
     },
@@ -1199,7 +1236,7 @@
       text: 'Durch die Weinberge im Remstal nach Strümpfelbach, hoch auf den Schurwald mit Blick bis zur Alb und an den Klöstern Adelberg und Lorch vorbei. Zurück durch den Welzheimer Wald.',
       route: ['Winnenden', 'Remshalden', 'Strümpfelbach', 'Aichwald', 'Baltmannsweiler', 'Adelberg', 'Wäschenbeuren', 'Lorch', 'Welzheim', 'Rudersberg', 'Winnenden'],
       pause: 'Kloster Lorch, das Stauferkloster hoch über dem Remstal',
-      via: ['Strümpfelbach, Weinstadt', 'Kloster Adelberg', 'Kloster Lorch'],
+      stops: [['Strümpfelbach, Weinstadt', 'struempfelbach', 'Strümpfelbach'], ['Kloster Adelberg', 'adelberg', 'Kloster Adelberg'], ['Kloster Lorch', 'lorch', 'Kloster Lorch']],
       path: ['winnenden', 'buoch', 'remshalden', 'struempfelbach', 'aichwald', 'baltmannsweiler', 'hohengehren', 'thomashardt', 'adelberg', 'waeschenbeuren', 'lorch', 'welzheim', 'rudersberg', 'berglen'],
       mark: [10, 'Kloster Lorch']
     },
@@ -1209,7 +1246,7 @@
       text: 'Über Ilsfeld zur Neckarschlinge bei Lauffen, durch die Weinberge nach Brackenheim und hoch auf den Michaelsberg mit Blick übers ganze Zabergäu. Zurück über Bönnigheim und Besigheim.',
       route: ['Winnenden', 'Marbach', 'Ilsfeld', 'Lauffen am Neckar', 'Brackenheim', 'Cleebronn', 'Bönnigheim', 'Besigheim', 'Mundelsheim', 'Marbach', 'Winnenden'],
       pause: 'Michaelsberg bei Cleebronn mit Blick übers Zabergäu',
-      via: ['Lauffen am Neckar', 'Brackenheim', 'Besigheim'],
+      stops: [['Lauffen am Neckar', 'lauffen', 'Lauffen am Neckar'], ['Brackenheim', 'brackenheim', 'Brackenheim'], ['Besigheim', 'besigheim', 'Besigheim']],
       path: ['winnenden', 'affalterbach', 'marbach', 'ilsfeld', 'talheim', 'lauffen', 'brackenheim', 'cleebronn', 'boennigheim', 'besigheim', 'mundelsheim', 'marbach'],
       mark: [7, 'Michaelsberg']
     },
@@ -1219,7 +1256,7 @@
       text: 'Über den Schurwald ins Filstal und dann am Fuß der Alb entlang: Bad Boll, Aichelberg, Weilheim unter der Limburg und immer die Burg Teck im Blick. Über Owen und Kirchheim zurück.',
       route: ['Winnenden', 'Schurwald', 'Ebersbach an der Fils', 'Bad Boll', 'Aichelberg', 'Weilheim an der Teck', 'Bissingen an der Teck', 'Owen', 'Kirchheim unter Teck', 'Winnenden'],
       pause: 'Weilheim an der Teck, Fachwerk-Altstadt am Fuß der Limburg',
-      via: ['Ebersbach an der Fils', 'Bad Boll', 'Bissingen an der Teck'],
+      stops: [['Ebersbach an der Fils', 'ebersbach', 'Ebersbach an der Fils'], ['Bad Boll', 'badboll', 'Bad Boll'], ['Bissingen an der Teck', 'bissingen', 'Bissingen an der Teck']],
       path: ['winnenden', 'buoch', 'baltmannsweiler', 'ebersbach', 'schlierbach', 'badboll', 'aichelberg', 'weilheim', 'bissingen', 'owen', 'kirchheim', 'reichenbach'],
       mark: [5, 'Bad Boll']
     },
@@ -1229,7 +1266,7 @@
       text: 'Über Welzheim und Gschwend tief in den Schwäbischen Wald und runter ins ruhige Leintal. Pause in Schwäbisch Gmünd, dann über Mutlangen und Alfdorf und durchs Remstal zurück.',
       route: ['Winnenden', 'Rudersberg', 'Welzheim', 'Gschwend', 'Leinzell', 'Schwäbisch Gmünd', 'Mutlangen', 'Alfdorf', 'Plüderhausen', 'Schorndorf', 'Winnenden'],
       pause: 'Schwäbisch Gmünd, Marktplatz mit Cafés',
-      via: ['Gschwend', 'Leinzell', 'Schwäbisch Gmünd'],
+      stops: [['Gschwend', 'gschwend', 'Gschwend'], ['Leinzell', 'leinzell', 'Leinzell'], ['Schwäbisch Gmünd', 'gmuend', 'Schwäbisch Gmünd']],
       path: ['winnenden', 'rudersberg', 'welzheim', 'gschwend', 'leinzell', 'gmuend', 'mutlangen', 'alfdorf', 'pluederhausen', 'schorndorf', 'berglen'],
       mark: [4, 'Leintal']
     },
@@ -1239,7 +1276,7 @@
       text: 'Vorbei an Hohenstaufen und Hohenrechberg, dann über den Furtlepass, einen der wenigen Albpässe mit echtem Pass-Schild. Zurück geht’s über Alfdorf durch den Welzheimer Wald.',
       route: ['Winnenden', 'Schorndorf', 'Adelberg', 'Hohenstaufen', 'Rechberg', 'Donzdorf', 'Degenfeld', 'Furtlepass', 'Schwäbisch Gmünd', 'Alfdorf', 'Welzheim', 'Rudersberg', 'Winnenden'],
       pause: 'Hohenrechberg, Burgruine mit Weitblick über die Kaiserberge',
-      via: ['Hohenstaufen, Göppingen', 'Degenfeld, Schwäbisch Gmünd', 'Alfdorf'],
+      stops: [['Hohenstaufen, Göppingen', 'hohenstaufen', 'Hohenstaufen'], ['Degenfeld, Schwäbisch Gmünd', 'degenfeld', 'Degenfeld'], ['Alfdorf', 'alfdorf', 'Alfdorf']],
       path: ['winnenden', 'berglen', 'schorndorf', 'adelberg', 'waeschenbeuren', 'hohenstaufen', 'rechberg', 'wissgoldingen', 'donzdorf', 'nenningen', 'degenfeld', 'furtle', 'weiler', 'gmuend', 'mutlangen', 'alfdorf', 'welzheim', 'rudersberg'],
       mark: [11, 'Furtlepass']
     },
@@ -1249,7 +1286,7 @@
       text: 'Über den Schurwald an die Alb: unter der Burg Teck durchs Lenninger Tal, die Gutenberger Steige hoch und über die Albhochfläche nach Bad Urach. Zurück am Fuß der Alb über Neuffen. Die Neuffener Steige selbst lassen wir aus, die ist am Wochenende für Motorräder gesperrt.',
       route: ['Winnenden', 'Schurwald', 'Kirchheim unter Teck', 'Owen', 'Lenninger Tal', 'Gutenberger Steige', 'Schopfloch', 'Grabenstetten', 'Bad Urach', 'Metzingen', 'Neuffen', 'Kirchheim unter Teck', 'Winnenden'],
       pause: 'Bad Urach mit Altstadt, und wer mag, läuft zum Uracher Wasserfall',
-      via: ['Gutenberg, Lenningen', 'Bad Urach', 'Neuffen'],
+      stops: [['Gutenberg, Lenningen', 'gutenberg', 'Gutenberg'], ['Bad Urach', 'urach', 'Bad Urach'], ['Neuffen', 'neuffen', 'Neuffen']],
       path: ['winnenden', 'buoch', 'baltmannsweiler', 'reichenbach', 'kirchheim', 'owen', 'oberlenningen', 'gutenberg', 'schopfloch', 'grabenstetten', 'urach', 'metzingen', 'neuffen', 'beuren', 'kirchheim'],
       mark: [10, 'Bad Urach']
     },
@@ -1259,7 +1296,7 @@
       text: 'Neckarschleifen und Weinberge, die Felsengärten bei Hessigheim und dann kleine Sträßchen durch den Stromberg bis zum Kloster Maulbronn, das zum UNESCO-Welterbe gehört.',
       route: ['Winnenden', 'Marbach', 'Mundelsheim', 'Hessigheim', 'Besigheim', 'Sachsenheim', 'Stromberg', 'Sternenfels', 'Maulbronn', 'Vaihingen an der Enz', 'Markgröningen', 'Marbach', 'Winnenden'],
       pause: 'Kloster Maulbronn, mit Pause im Klosterhof',
-      via: ['Hessigheim', 'Ochsenbach, Sachsenheim', 'Maulbronn'],
+      stops: [['Hessigheim', 'hessigheim', 'Hessigheim'], ['Ochsenbach, Sachsenheim', 'ochsenbach', 'Ochsenbach'], ['Maulbronn', 'maulbronn', 'Maulbronn']],
       path: ['winnenden', 'affalterbach', 'marbach', 'mundelsheim', 'hessigheim', 'besigheim', 'sachsenheim', 'ochsenbach', 'sternenfels', 'maulbronn', 'vaihingen', 'markgroeningen', 'asperg', 'freiberg', 'marbach'],
       mark: [9, 'Kloster Maulbronn']
     },
@@ -1269,7 +1306,7 @@
       text: 'Die große Runde: Fachwerk in Schwäbisch Hall, Kurven über dem Kochertal bei Braunsbach und Schloss Langenburg hoch über der Jagst. Über Vellberg und Gaildorf geht’s zurück.',
       route: ['Winnenden', 'Backnang', 'Mainhardt', 'Schwäbisch Hall', 'Braunsbach', 'Langenburg', 'Ilshofen', 'Vellberg', 'Gaildorf', 'Murrhardt', 'Backnang', 'Winnenden'],
       pause: 'Langenburg, Schloss mit Blick übers Jagsttal',
-      via: ['Braunsbach', 'Langenburg', 'Gaildorf'],
+      stops: [['Braunsbach', 'braunsbach', 'Braunsbach'], ['Langenburg', 'langenburg', 'Langenburg'], ['Gaildorf', 'gaildorf', 'Gaildorf']],
       path: ['winnenden', 'allmersbach', 'backnang', 'sulzbach', 'mainhardt', 'hall', 'braunsbach', 'langenburg', 'ilshofen', 'vellberg', 'gaildorf', 'murrhardt', 'backnang'],
       mark: [7, 'Langenburg']
     },
@@ -1279,7 +1316,7 @@
       text: 'Durchs Lenninger Tal auf die Alb und über Laichingen nach Blaubeuren zum Blautopf mit seinem tiefblauen Wasser. Zurück die Geislinger Steige hinunter und über Donzdorf und den Schurwald.',
       route: ['Winnenden', 'Kirchheim unter Teck', 'Lenninger Tal', 'Gutenberger Steige', 'Westerheim', 'Laichingen', 'Blaubeuren', 'Amstetten', 'Geislinger Steige', 'Donzdorf', 'Wäschenbeuren', 'Schorndorf', 'Winnenden'],
       pause: 'Blaubeuren mit Blautopf und Kloster',
-      via: ['Laichingen', 'Blaubeuren', 'Geislingen an der Steige'],
+      stops: [['Laichingen', 'laichingen', 'Laichingen'], ['Blaubeuren', 'blaubeuren', 'Blaubeuren'], ['Geislingen an der Steige', 'geislingen', 'Geislingen an der Steige']],
       path: ['winnenden', 'buoch', 'baltmannsweiler', 'reichenbach', 'kirchheim', 'owen', 'oberlenningen', 'gutenberg', 'donnstetten', 'westerheim', 'laichingen', 'blaubeuren', 'amstetten', 'geislingen', 'donzdorf', 'waeschenbeuren', 'adelberg', 'schorndorf', 'berglen'],
       mark: [11, 'Blautopf']
     },
@@ -1289,7 +1326,7 @@
       text: 'Durchs Zabergäu am Ehmetsklinge-See vorbei nach Bretten und dann über die sanften Hügel des Kraichgaus: Burg Ravensburg bei Sulzfeld, Fachwerk in Eppingen und Burg Steinsberg, genannt „Kompass des Kraichgaus“. Zurück über Bad Rappenau und Weinsberg.',
       route: ['Winnenden', 'Marbach', 'Besigheim', 'Brackenheim', 'Zaberfeld', 'Bretten', 'Sulzfeld', 'Eppingen', 'Burg Steinsberg', 'Bad Rappenau', 'Neckarsulm', 'Weinsberg', 'Großbottwar', 'Winnenden'],
       pause: 'Eppingen, Fachwerk-Altstadt',
-      via: ['Zaberfeld', 'Bretten', 'Burg Steinsberg'],
+      stops: [['Zaberfeld', 'zaberfeld', 'Zaberfeld'], ['Bretten', 'bretten', 'Bretten'], ['Burg Steinsberg', 'steinsberg', 'Burg Steinsberg']],
       path: ['winnenden', 'affalterbach', 'marbach', 'besigheim', 'boennigheim', 'brackenheim', 'zaberfeld', 'kuernbach', 'bretten', 'gochsheim', 'sulzfeld', 'eppingen', 'gemmingen', 'steinsberg', 'rappenau', 'friedrichshall', 'neckarsulm', 'weinsberg', 'beilstein', 'grossbottwar', 'affalterbach'],
       mark: [13, 'Burg Steinsberg']
     },
@@ -1299,7 +1336,7 @@
       text: 'Über Murrhardt und Gaildorf das obere Kochertal hinauf nach Ellwangen mit Schloss und Wallfahrtskirche Schönenberg. Weiter zum Limestor bei Dalkingen und zum Schloss Kapfenburg, dann durchs Wental mit seinen Felsen und am Rosenstein vorbei zurück.',
       route: ['Winnenden', 'Backnang', 'Murrhardt', 'Gaildorf', 'Abtsgmünd', 'Ellwangen', 'Rainau', 'Lauchheim', 'Aalen', 'Wental', 'Bartholomä', 'Heubach', 'Schwäbisch Gmünd', 'Schorndorf', 'Winnenden'],
       pause: 'Ellwangen, Altstadt unterm Schloss',
-      via: ['Ellwangen (Jagst)', 'Schloss Kapfenburg', 'Bartholomä'],
+      stops: [['Ellwangen (Jagst)', 'ellwangen', 'Ellwangen'], ['Schloss Kapfenburg', 'lauchheim', 'Schloss Kapfenburg'], ['Bartholomä', 'bartholomae', 'Bartholomä']],
       path: ['winnenden', 'allmersbach', 'backnang', 'murrhardt', 'gaildorf', 'untergroeningen', 'abtsgmuend', 'ellwangen', 'rainau', 'lauchheim', 'aalen', 'oberkochen', 'wental', 'bartholomae', 'heubach', 'gmuend', 'waeschenbeuren', 'adelberg', 'schorndorf', 'berglen'],
       mark: [7, 'Ellwangen']
     },
@@ -1309,7 +1346,7 @@
       text: 'Durchs Neckartal und den Schönbuch zum Kloster Bebenhausen, dann nach Tübingen mit seiner Altstadt am Neckar. Weiter zur Wurmlinger Kapelle und nach Rottenburg, zurück am Fuß der Alb über Mössingen und Neuffen.',
       route: ['Winnenden', 'Schurwald', 'Plochingen', 'Nürtingen', 'Neckartenzlingen', 'Bebenhausen', 'Tübingen', 'Wurmlingen', 'Rottenburg', 'Mössingen', 'Metzingen', 'Neuffen', 'Kirchheim unter Teck', 'Winnenden'],
       pause: 'Tübingen, Altstadt und Neckarfront mit Stocherkähnen',
-      via: ['Kloster Bebenhausen', 'Wurmlinger Kapelle', 'Mössingen'],
+      stops: [['Kloster Bebenhausen', 'bebenhausen', 'Kloster Bebenhausen'], ['Wurmlinger Kapelle', 'wurmlingen', 'Wurmlinger Kapelle'], ['Mössingen', 'moessingen', 'Mössingen']],
       path: ['winnenden', 'buoch', 'baltmannsweiler', 'plochingen', 'nuertingen', 'neckartenzlingen', 'walddorf', 'bebenhausen', 'tuebingen', 'wurmlingen', 'rottenburg', 'hirrlingen', 'moessingen', 'goenningen', 'metzingen', 'neuffen', 'beuren', 'kirchheim', 'reichenbach'],
       mark: [8, 'Tübingen']
     },
@@ -1319,7 +1356,7 @@
       text: 'Durchs Lenninger Tal auf die Alb und dann das Große Lautertal hinunter, vorbei an Burgruinen und Wacholderheiden bis Lauterach an der Donau. Zurück über Zwiefalten, am Gestüt Marbach vorbei und über Bad Urach.',
       route: ['Winnenden', 'Kirchheim unter Teck', 'Lenninger Tal', 'Gutenberger Steige', 'Münsingen', 'Buttenhausen', 'Lautertal', 'Lauterach', 'Zwiefalten', 'Gomadingen', 'Bad Urach', 'Neuffen', 'Kirchheim unter Teck', 'Winnenden'],
       pause: 'Zwiefalten mit Barock-Münster und Klosterbrauerei',
-      via: ['Buttenhausen, Münsingen', 'Lauterach, Alb-Donau-Kreis', 'Zwiefalten'],
+      stops: [['Buttenhausen, Münsingen', 'buttenhausen', 'Buttenhausen'], ['Lauterach, Alb-Donau-Kreis', 'lauterach', 'Lauterach'], ['Zwiefalten', 'zwiefalten', 'Zwiefalten']],
       path: ['winnenden', 'buoch', 'baltmannsweiler', 'reichenbach', 'kirchheim', 'owen', 'oberlenningen', 'gutenberg', 'donnstetten', 'muensingen', 'buttenhausen', 'indelhausen', 'lauterach', 'rechtenstein', 'zwiefalten', 'hayingen', 'pfronstetten', 'gomadingen', 'seeburg', 'urach', 'metzingen', 'neuffen', 'beuren', 'kirchheim'],
       mark: [11, 'Lautertal']
     },
@@ -1329,7 +1366,7 @@
       text: 'Durchs Bottwartal nach Bad Wimpfen mit seinem Blauen Turm, dann am Neckar entlang an Burg Guttenberg und Burg Hornberg vorbei bis Zwingenberg im Odenwald. Zurück über Möckmühl durchs Jagsttal und am Kloster Schöntal vorbei.',
       route: ['Winnenden', 'Marbach', 'Beilstein', 'Weinsberg', 'Bad Wimpfen', 'Gundelsheim', 'Burg Guttenberg', 'Burg Hornberg', 'Zwingenberg', 'Mosbach', 'Möckmühl', 'Jagsthausen', 'Schöntal', 'Öhringen', 'Mainhardt', 'Backnang', 'Winnenden'],
       pause: 'Bad Wimpfen, Altstadt hoch über dem Neckar',
-      via: ['Bad Wimpfen', 'Zwingenberg, Neckar', 'Kloster Schöntal'],
+      stops: [['Bad Wimpfen', 'wimpfen', 'Bad Wimpfen'], ['Zwingenberg, Neckar', 'zwingenberg', 'Zwingenberg'], ['Kloster Schöntal', 'schoental', 'Kloster Schöntal']],
       path: ['winnenden', 'affalterbach', 'marbach', 'beilstein', 'weinsberg', 'erlenbach', 'neckarsulm', 'friedrichshall', 'wimpfen', 'gundelsheim', 'guttenberg', 'hornberg', 'neckargerach', 'zwingenberg', 'mosbach', 'moeckmuehl', 'widdern', 'jagsthausen', 'schoental', 'oehringen', 'pfedelbach', 'mainhardt', 'sulzbach', 'backnang', 'allmersbach'],
       mark: [8, 'Bad Wimpfen']
     },
@@ -1339,7 +1376,7 @@
       text: 'Über Öhringen und Künzelsau ins Jagsttal und weiter nach Bad Mergentheim. Dann durchs Taubertal nach Weikersheim mit Schloss und Barockgarten und bis Creglingen. Zurück über die Hohenloher Ebene und Schwäbisch Hall.',
       route: ['Winnenden', 'Backnang', 'Mainhardt', 'Öhringen', 'Künzelsau', 'Dörzbach', 'Bad Mergentheim', 'Weikersheim', 'Creglingen', 'Blaufelden', 'Ilshofen', 'Schwäbisch Hall', 'Mainhardt', 'Backnang', 'Winnenden'],
       pause: 'Weikersheim, Schloss mit Barockgarten und Marktplatz',
-      via: ['Künzelsau', 'Weikersheim', 'Creglingen'],
+      stops: [['Künzelsau', 'kuenzelsau', 'Künzelsau'], ['Weikersheim', 'weikersheim', 'Weikersheim'], ['Creglingen', 'creglingen', 'Creglingen']],
       path: ['winnenden', 'allmersbach', 'backnang', 'sulzbach', 'mainhardt', 'oehringen', 'kuenzelsau', 'doerzbach', 'mergentheim', 'weikersheim', 'creglingen', 'blaufelden', 'gerabronn', 'ilshofen', 'hall', 'mainhardt', 'sulzbach', 'backnang'],
       mark: [9, 'Weikersheim']
     },
@@ -1349,7 +1386,7 @@
       text: 'Am Fuß der Alb entlang bis Hechingen, wo die Burg Hohenzollern auf ihrem Berg thront. Dann durchs Killertal hoch auf die Alb, über Gammertingen zum Schloss Lichtenstein und über Münsingen und die Gutenberger Steige zurück.',
       route: ['Winnenden', 'Kirchheim unter Teck', 'Neuffen', 'Metzingen', 'Mössingen', 'Hechingen', 'Killertal', 'Burladingen', 'Gammertingen', 'Trochtelfingen', 'Lichtenstein', 'Münsingen', 'Gutenberger Steige', 'Kirchheim unter Teck', 'Winnenden'],
       pause: 'Burg Hohenzollern: Die Motorräder bleiben unten am Parkplatz, hoch geht’s mit dem Shuttlebus oder in 25 Minuten zu Fuß',
-      via: ['Hechingen', 'Gammertingen', 'Schloss Lichtenstein'],
+      stops: [['Hechingen', 'hechingen', 'Hechingen'], ['Gammertingen', 'gammertingen', 'Gammertingen'], ['Schloss Lichtenstein', 'lichtenstein', 'Schloss Lichtenstein']],
       path: ['winnenden', 'buoch', 'baltmannsweiler', 'reichenbach', 'kirchheim', 'beuren', 'neuffen', 'metzingen', 'goenningen', 'moessingen', 'hechingen', 'jungingen', 'burladingen', 'gammertingen', 'trochtelfingen', 'lichtenstein', 'engstingen', 'gomadingen', 'muensingen', 'donnstetten', 'gutenberg', 'oberlenningen', 'owen', 'kirchheim'],
       mark: [10, 'Hohenzollern']
     },
@@ -1359,7 +1396,7 @@
       text: 'Über Murrhardt und Gaildorf ins Bühlertal, an Ellwangen vorbei und rüber nach Dinkelsbühl, einer der schönsten Altstädte an der Romantischen Straße. Zurück über Crailsheim und Schwäbisch Hall.',
       route: ['Winnenden', 'Backnang', 'Murrhardt', 'Gaildorf', 'Bühlertann', 'Ellwangen', 'Dinkelsbühl', 'Crailsheim', 'Vellberg', 'Schwäbisch Hall', 'Mainhardt', 'Backnang', 'Winnenden'],
       pause: 'Dinkelsbühl, Fachwerk-Altstadt mit Stadtmauer',
-      via: ['Gaildorf', 'Dinkelsbühl', 'Schwäbisch Hall'],
+      stops: [['Gaildorf', 'gaildorf', 'Gaildorf'], ['Dinkelsbühl', 'dinkelsbuehl', 'Dinkelsbühl'], ['Schwäbisch Hall', 'hall', 'Schwäbisch Hall']],
       path: ['winnenden', 'allmersbach', 'backnang', 'murrhardt', 'gaildorf', 'buehlertann', 'ellwangen', 'dinkelsbuehl', 'crailsheim', 'vellberg', 'hall', 'mainhardt', 'sulzbach', 'backnang'],
       mark: [7, 'Dinkelsbühl']
     },
@@ -1369,7 +1406,7 @@
       text: 'Durchs obere Kochertal auf die Ostalb und rüber nach Bayern: Nördlingen liegt mitten in einem Meteoritenkrater, und auf der alten Stadtmauer kann man einmal ganz um die Altstadt laufen. Zurück über Neresheim und den Albuch.',
       route: ['Winnenden', 'Welzheim', 'Gschwend', 'Abtsgmünd', 'Aalen', 'Bopfingen', 'Nördlingen', 'Neresheim', 'Heidenheim', 'Bartholomä', 'Heubach', 'Schwäbisch Gmünd', 'Schorndorf', 'Winnenden'],
       pause: 'Nördlingen, Altstadt mit Stadtmauer und dem Kirchturm „Daniel“',
-      via: ['Abtsgmünd', 'Nördlingen', 'Heubach'],
+      stops: [['Abtsgmünd', 'abtsgmuend', 'Abtsgmünd'], ['Nördlingen', 'noerdlingen', 'Nördlingen'], ['Heubach', 'heubach', 'Heubach']],
       path: ['winnenden', 'rudersberg', 'welzheim', 'gschwend', 'abtsgmuend', 'aalen', 'bopfingen', 'noerdlingen', 'neresheim', 'heidenheim', 'steinheimalb', 'bartholomae', 'heubach', 'gmuend', 'waeschenbeuren', 'adelberg', 'schorndorf', 'berglen'],
       mark: [7, 'Nördlingen']
     },
@@ -1379,7 +1416,7 @@
       text: 'Über Murrhardt und Gaildorf nach Schwäbisch Hall und durchs Hohenloher Land nach Rothenburg ob der Tauber, der wohl bekanntesten Altstadt an der Romantischen Straße. Zurück über Langenburg und das Kochertal.',
       route: ['Winnenden', 'Backnang', 'Murrhardt', 'Gaildorf', 'Schwäbisch Hall', 'Ilshofen', 'Kirchberg an der Jagst', 'Rot am See', 'Rothenburg ob der Tauber', 'Schrozberg', 'Langenburg', 'Braunsbach', 'Schwäbisch Hall', 'Mainhardt', 'Backnang', 'Winnenden'],
       pause: 'Rothenburg ob der Tauber, Marktplatz und Plönlein',
-      via: ['Kirchberg an der Jagst', 'Rothenburg ob der Tauber', 'Langenburg'],
+      stops: [['Kirchberg an der Jagst', 'kirchberg', 'Kirchberg an der Jagst'], ['Rothenburg ob der Tauber', 'rothenburg', 'Rothenburg ob der Tauber'], ['Langenburg', 'langenburg', 'Langenburg']],
       path: ['winnenden', 'allmersbach', 'backnang', 'murrhardt', 'gaildorf', 'hall', 'ilshofen', 'kirchberg', 'rotamsee', 'rothenburg', 'schrozberg', 'langenburg', 'braunsbach', 'hall', 'mainhardt', 'sulzbach', 'backnang'],
       mark: [9, 'Rothenburg']
     },
@@ -1389,7 +1426,7 @@
       text: 'Übers Heckengäu nach Calw, durchs Nagoldtal nach Bad Teinach und über die Höhen ins Enztal nach Bad Wildbad. Zurück über Bad Liebenzell und am Kloster Hirsau vorbei.',
       route: ['Winnenden', 'Markgröningen', 'Weil der Stadt', 'Calw', 'Bad Teinach', 'Neuweiler', 'Enzklösterle', 'Bad Wildbad', 'Bad Liebenzell', 'Calw', 'Weil der Stadt', 'Winnenden'],
       pause: 'Bad Wildbad im Enztal, mit Baumwipfelpfad auf dem Sommerberg',
-      via: ['Bad Teinach-Zavelstein', 'Enzklösterle', 'Bad Liebenzell'],
+      stops: [['Bad Teinach-Zavelstein', 'teinach', 'Bad Teinach-Zavelstein'], ['Enzklösterle', 'enzkloesterle', 'Enzklösterle'], ['Bad Liebenzell', 'liebenzell', 'Bad Liebenzell']],
       path: ['winnenden', 'affalterbach', 'marbach', 'freiberg', 'asperg', 'markgroeningen', 'hemmingen', 'weissach', 'weilderstadt', 'calw', 'teinach', 'neuweiler', 'enzkloesterle', 'wildbad', 'calmbach', 'liebenzell', 'hirsau'],
       mark: [13, 'Bad Wildbad']
     }
@@ -1606,15 +1643,13 @@
   }
   function fmtKm(n) { return n.toLocaleString('de-DE'); }
 
-  function mapsUrl(from, to, via) {
-    return 'https://www.google.com/maps/dir/?api=1' +
-      '&origin=' + encodeURIComponent(from) +
-      '&destination=' + encodeURIComponent(to) +
-      '&waypoints=' + via.map(encodeURIComponent).join('%7C') +
-      '&travelmode=driving';
+  // Waze öffnet per Link nur ein Ziel. Deshalb gibt es pro Tour einzelne Etappen.
+  function wazeUrl(query, key) {
+    return 'https://waze.com/ul?q=' + encodeURIComponent(query) +
+      '&ll=' + P[key][0].toFixed(4) + '%2C' + P[key][1].toFixed(4) + '&navigate=yes';
   }
 
-  var PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/></svg>';
+  var NAV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.5 11.2 20.5 3.5 12.8 20.5l-1.9-7.4z"/></svg>';
 
   function tourCard(t, num) {
     var bars = '';
@@ -1633,8 +1668,19 @@
       return '<p class="tour-meta"><span class="meta-k">Gut zu wissen</span>' + esc(n) + '</p>';
     }).join('');
     var mapsBtn =
-      '<a class="maps" href="' + esc(mapsUrl(START, START, t.via)) + '" target="_blank" rel="noopener">' + PIN +
-        'Route<span class="sr-only"> in Google Maps ansehen: ' + esc(t.name) + '</span></a>';
+      '<button type="button" class="maps" aria-expanded="false" aria-controls="wz-' + t.id + '">' + NAV +
+        'Waze<span class="sr-only">: Etappen für ' + esc(t.name) + '</span></button>';
+    var legs = t.stops.concat([[START, 'winnenden', 'Zurück nach Winnenden']]);
+    var waze =
+      '<div class="waze" id="wz-' + t.id + '" hidden>' +
+        '<p class="waze-hint">Waze kann immer nur ein Ziel auf einmal. Tipp die Etappen der Reihe nach an, ' +
+          'und stell in Waze „Autobahnen vermeiden“ ein.</p>' +
+        '<ol class="waze-legs">' + legs.map(function (leg, i) {
+          return '<li><a href="' + esc(wazeUrl(leg[0], leg[1])) + '" target="_blank" rel="noopener">' +
+            '<span class="leg-n" aria-hidden="true">' + (i + 1) + '</span>' + esc(leg[2]) +
+            '<span class="sr-only"> (Etappe ' + (i + 1) + ', öffnet Waze)</span></a></li>';
+        }).join('') + '</ol>' +
+      '</div>';
 
     var art = document.createElement('article');
     art.className = 'tour';
@@ -1654,7 +1700,7 @@
             '<span class="join-face"><span class="join-box" aria-hidden="true"></span>Bin dabei' +
             '<span class="sr-only">: ' + esc(t.name) + '</span></span></label>' +
           mapsBtn +
-        '</div>' +
+        '</div>' + waze +
       '</div>';
     art.querySelector('.tour-map').appendChild(drawMap(t));
     // Auf dem großen Bildschirm leuchtet die Tour beim Drüberfahren auch in der großen Karte auf
@@ -1987,6 +2033,14 @@
   }, true);
 
   renderTours();
+  // Waze-Knopf klappt die Etappen auf und zu
+  $('tour-list').addEventListener('click', function (e) {
+    var btn = e.target.closest('.maps');
+    if (!btn) return;
+    var open = btn.getAttribute('aria-expanded') !== 'true';
+    btn.setAttribute('aria-expanded', String(open));
+    $(btn.getAttribute('aria-controls')).hidden = !open;
+  });
   overview = buildOverview($('overview'), null, {
     label: 'Karte mit allen Touren ab Winnenden',
     onPick: function (t) {
