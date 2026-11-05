@@ -877,7 +877,7 @@
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(58% 64% at 50% 78%, rgba(255, 222, 150, .95) 0%, rgba(255, 160, 115, .7) 24%, rgba(160, 100, 175, .34) 52%, rgba(10, 21, 48, 0) 78%),
+      radial-gradient(58% 64% at calc(50% + 30px) 78%, rgba(255, 222, 150, .95) 0%, rgba(255, 160, 115, .7) 24%, rgba(160, 100, 175, .34) 52%, rgba(10, 21, 48, 0) 78%),
       linear-gradient(0deg, rgba(10, 21, 48, 0) 18%, rgba(170, 110, 170, .22) 42%, rgba(10, 21, 48, 0) 72%);
     opacity: .9;
     transform-origin: 50% 100%;
@@ -886,8 +886,8 @@
   .ride-scene.go .sky::before { opacity: 1; transform: scale(1.12); }
   .sun {
     position: absolute;
-    left: 50%;
-    bottom: -92px;
+    left: calc(50% + 30px);
+    bottom: -62px;
     width: 240px;
     height: 240px;
     margin-left: -120px;
@@ -1036,10 +1036,56 @@
   @media (prefers-reduced-motion: reduce) {
     .wing { animation: none; }
   }
+
+  /* Griechischer Hintergrund: Akropolis im Sonnenaufgang, Sternbild Pegasus, Säulen und Fries */
+  :root {
+    --shaft: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpath d='M1 0V10M9 0V10' stroke='%23ffcf5f' stroke-opacity='.6'/%3E%3Cpath d='M3.7 0V10M5 0V10M6.3 0V10' stroke='%23ffcf5f' stroke-opacity='.28' stroke-width='.8'/%3E%3C/svg%3E");
+    --capital: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='12'%3E%3Cg fill='none' stroke='%23ffcf5f' stroke-opacity='.65'%3E%3Cpath d='M.5 .5H13.5V3.5H.5Z'/%3E%3Cpath d='M1 3.5C1.5 6 2.6 7.6 3 8H11C11.4 7.6 12.5 6 13 3.5'/%3E%3Cpath d='M3 10.5H11'/%3E%3C/g%3E%3C/svg%3E");
+    --column-base: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8'%3E%3Cg fill='none' stroke='%23ffcf5f' stroke-opacity='.65'%3E%3Cpath d='M3 .5C2 1.5 1.5 2.5 1.5 3.5H12.5C12.5 2.5 12 1.5 11 .5'/%3E%3Cpath d='M.5 4.5H13.5V7.5H.5Z'/%3E%3C/g%3E%3C/svg%3E");
+  }
+  .pegasus { position: absolute; top: 6px; left: max(8px, calc(50% - 188px)); width: 118px; height: auto; overflow: visible; transition: opacity 1s ease; }
+  .pg-l { fill: none; stroke: rgba(255, 207, 95, .42); stroke-width: .9; stroke-linecap: round; }
+  .pg-s circle { fill: #fff; }
+  .pg-t { font: 600 7.5px var(--font-myth); letter-spacing: 2.6px; fill: rgba(255, 207, 95, .8); }
+  body.on .pegasus { opacity: 0; }
+  .temple-frame { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .7; }
+  body[data-step="start"] .temple-frame { z-index: 2; }
+  .temple-frame::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 16px;
+    background:
+      linear-gradient(rgba(255, 207, 95, .55), rgba(255, 207, 95, .55)) 0 0 / 100% 1px no-repeat,
+      linear-gradient(rgba(255, 207, 95, .55), rgba(255, 207, 95, .55)) 0 15px / 100% 1px no-repeat,
+      var(--meander) repeat-x 0 2px / 16px 12px;
+    opacity: .75;
+  }
+  .temple-frame .col {
+    position: absolute;
+    top: 16px;
+    bottom: 0;
+    width: 10px;
+    padding: 12px 0 8px;
+    background: var(--shaft) repeat-y 0 0 / 10px 10px;
+    background-clip: content-box;
+    background-origin: content-box;
+  }
+  .temple-frame .col-l { left: 4px; }
+  .temple-frame .col-r { right: 4px; }
+  .temple-frame .col::before, .temple-frame .col::after { content: ""; position: absolute; left: -2px; width: 14px; }
+  .temple-frame .col::before { top: 0; height: 12px; background: var(--capital) no-repeat 0 0 / 14px 12px; }
+  .temple-frame .col::after { bottom: 0; height: 8px; background: var(--column-base) no-repeat 0 0 / 14px 8px; }
+  /* etwas mehr Luft zwischen Inhalt und Säulen */
+  .scene { padding-left: 22px; padding-right: 22px; }
+  .dock { margin-left: -22px; margin-right: -22px; padding-left: 22px; padding-right: 22px; }
 </style>
 </head>
-<body>
+<body data-step="start">
   <div class="headlight" aria-hidden="true"></div>
+  <div class="temple-frame" aria-hidden="true"><i class="col col-l"></i><i class="col col-r"></i></div>
 
   <!-- 1 · Start -->
   <section class="scene" id="scene-start" aria-labelledby="start-heading">
@@ -1052,7 +1098,7 @@
         <li>nur Landstraße</li>
       </ul>
       <div class="ride-scene" id="ride-scene" aria-hidden="true">
-        <div class="sky"><span class="sun"></span><svg class="hills" viewBox="0 0 1200 120" preserveAspectRatio="xMidYMax slice" focusable="false"><path class="h1" d="M0 64C60 50 120 44 190 52C250 59 300 46 350 44C390 42 420 44 440 44H494C520 44 550 66 590 75C610 79 630 77 650 72C690 62 720 50 760 46C810 40 860 44 900 50C960 58 1010 44 1070 40C1120 37 1160 46 1200 52V120H0ZM446 44V41H490V44ZM448 41V39H488V41ZM452.5 39V31H455.5V39ZM459.5 39V31H462.5V39ZM466.5 39V31H469.5V39ZM473.5 39V31H476.5V39ZM480.5 39V31H483.5V39ZM449 31V28H487V31ZM447 28L468 21L489 28Z"/><path class="h2" d="M0 84C70 72 140 70 210 78S330 70 400 66 490 74 540 84 600 92 640 88 730 70 790 68 900 78 960 82 1090 72 1200 76V120H0ZM730 74l4-11 4 11ZM738 72l5-14 5 14ZM749 71l4-10 4 10ZM422 68l4-11 4 11ZM431 67l5-13 5 13Z"/><path class="h3" d="M0 100C80 92 160 94 240 100S380 96 460 94 570 102 620 104 740 96 820 94 960 102 1040 102 1160 96 1200 98V120H0Z"/></svg></div>
+        <div class="sky"><svg class="pegasus" viewBox="0 0 140 96" focusable="false"><path class="pg-l" d="M18 34L66 28M66 28L72 72M72 72L22 76M22 76L18 34M72 72L94 66M94 66L108 72M108 72L132 64M66 28L92 20M92 20L116 9M66 28L90 38M90 38L114 33"/><g class="pg-s"><circle cx="18" cy="34" r="2.1"/><circle cx="66" cy="28" r="2.2"/><circle cx="72" cy="72" r="2.2"/><circle cx="22" cy="76" r="1.9"/><circle cx="94" cy="66" r="1.5"/><circle cx="108" cy="72" r="1.4"/><circle cx="132" cy="64" r="2.1"/><circle cx="92" cy="20" r="1.7"/><circle cx="116" cy="9" r="1.4"/><circle cx="90" cy="38" r="1.5"/><circle cx="114" cy="33" r="1.4"/></g><text class="pg-t" x="45" y="92" text-anchor="middle">PEGASUS</text></svg><span class="sun"></span><svg class="hills" viewBox="0 0 2400 120" preserveAspectRatio="xMidYMax slice" focusable="false"><path class="h1" d="M0 72C26.7 70.7 105 64.3 160 64C215 63.7 273.3 70.7 330 70C386.7 69.3 441.7 60.3 500 60C558.3 59.7 621.7 67.7 680 68C738.3 68.3 798.3 61.3 850 62C901.7 62.7 951.7 69.7 990 72C1028.3 74.3 1061.3 76 1080 76C1098.7 76 1098.3 72.7 1102 72C1114 70 1130 60 1146 58H1314C1330 60 1346 70 1358 72C1371.7 72.8 1406.3 77.3 1440 77C1473.7 76.7 1513.3 72.2 1560 70C1606.7 67.8 1666.7 64 1720 64C1773.3 64 1825 70.7 1880 70C1935 69.3 1993.3 60.7 2050 60C2106.7 59.3 2161.7 65.7 2220 66C2278.3 66.3 2370 62.7 2400 62V120H0ZM1166 58H1294V54H1166ZM1170 54H1290V51H1170ZM1177 51H1185V29H1177ZM1175 29H1187V27H1175ZM1196.6 51H1204.6V29H1196.6ZM1194.6 29H1206.6V27H1194.6ZM1216.2 51H1224.2V29H1216.2ZM1214.2 29H1226.2V27H1214.2ZM1235.8 51H1243.8V29H1235.8ZM1233.8 29H1245.8V27H1233.8ZM1255.4 51H1263.4V29H1255.4ZM1253.4 29H1265.4V27H1253.4ZM1275 51H1283V29H1275ZM1273 29H1285V27H1273ZM1172 27H1288V21H1172ZM1167 21H1293V18H1167ZM1165 18L1230 2L1295 18Z"/><path class="h2" d="M0 88C33.3 87 133.3 81.7 200 82C266.7 82.3 333.3 89.7 400 90C466.7 90.3 533.3 83.7 600 84C666.7 84.3 733.3 91.7 800 92C866.7 92.3 950 86.3 1000 86C1050 85.7 1066.7 88.8 1100 90C1133.3 91.2 1166.7 93 1200 93C1233.3 93 1266.7 91.2 1300 90C1333.3 88.8 1350 85.7 1400 86C1450 86.3 1533.3 92.3 1600 92C1666.7 91.7 1733.3 84.3 1800 84C1866.7 83.7 1933.3 90.3 2000 90C2066.7 89.7 2133.3 82.3 2200 82C2266.7 81.7 2366.7 87 2400 88V120H0ZM1058.5 94C1058.5 78.7 1061 65.1 1062 60C1063 65.1 1065.5 78.7 1065.5 94ZM1070.5 94C1070.5 75.5 1073 59.1 1074 53C1075 59.1 1077.5 75.5 1077.5 94ZM1083.5 94C1083.5 80 1086 67.7 1087 63C1088 67.7 1090.5 80 1090.5 94ZM1348.5 94C1348.5 77.3 1351 62.5 1352 57C1353 62.5 1355.5 77.3 1355.5 94ZM1360.5 94C1360.5 80.5 1363 68.5 1364 64C1365 68.5 1367.5 80.5 1367.5 94ZM1374.5 94C1374.5 78.7 1377 65.1 1378 60C1379 65.1 1381.5 78.7 1381.5 94ZM696.5 94C696.5 78.7 699 65.1 700 60C701 65.1 703.5 78.7 703.5 94ZM708.5 94C708.5 81.4 711 70.2 712 66C713 70.2 715.5 81.4 715.5 94ZM1696.5 94C1696.5 77.8 1699 63.4 1700 58C1701 63.4 1703.5 77.8 1703.5 94ZM1708.5 94C1708.5 81 1711 69.3 1712 65C1713 69.3 1715.5 81 1715.5 94Z"/><path class="h3" d="M0 102C40 101 160 95.7 240 96C320 96.3 400 103.7 480 104C560 104.3 640 98 720 98C800 98 880 103.7 960 104C1040 104.3 1120 100 1200 100C1280 100 1360 104.3 1440 104C1520 103.7 1600 98 1680 98C1760 98 1840 104.3 1920 104C2000 103.7 2080 96.3 2160 96C2240 95.7 2360 101 2400 102V120H0ZM1303.4 106H1306.6V97H1303.4ZM1293 93a6 6 0 1 0 12 0a6 6 0 1 0 -12 0ZM1300 89.5a7 7 0 1 0 14 0a7 7 0 1 0 -14 0ZM1308.5 94.5a5 5 0 1 0 10 0a5 5 0 1 0 -10 0ZM1299 95.5a6 6 0 1 0 12 0a6 6 0 1 0 -12 0ZM1350.4 106H1353.6V97H1350.4ZM1340 93a6 6 0 1 0 12 0a6 6 0 1 0 -12 0ZM1347 89.5a7 7 0 1 0 14 0a7 7 0 1 0 -14 0ZM1355.5 94.5a5 5 0 1 0 10 0a5 5 0 1 0 -10 0ZM1346 95.5a6 6 0 1 0 12 0a6 6 0 1 0 -12 0ZM1558.4 106H1561.6V97H1558.4ZM1548 93a6 6 0 1 0 12 0a6 6 0 1 0 -12 0ZM1555 89.5a7 7 0 1 0 14 0a7 7 0 1 0 -14 0ZM1563.5 94.5a5 5 0 1 0 10 0a5 5 0 1 0 -10 0ZM1554 95.5a6 6 0 1 0 12 0a6 6 0 1 0 -12 0ZM858.4 106H861.6V97H858.4ZM848 93a6 6 0 1 0 12 0a6 6 0 1 0 -12 0ZM855 89.5a7 7 0 1 0 14 0a7 7 0 1 0 -14 0ZM863.5 94.5a5 5 0 1 0 10 0a5 5 0 1 0 -10 0ZM854 95.5a6 6 0 1 0 12 0a6 6 0 1 0 -12 0Z"/></svg></div>
         <div class="road"></div>
         <div class="bike">
           <span class="speed s1"></span><span class="speed s2"></span><span class="speed s3"></span>
@@ -1977,6 +2023,7 @@
     void scene.offsetWidth;
     if (!reduced()) scene.classList.add('enter');
     current = step;
+    document.body.setAttribute('data-step', step);
     stepLock = performance.now() + 400;
     if (push !== false) { try { history.pushState({ step: step }, ''); } catch (e) { /* egal */ } }
     if (step === 'details') buildFav();

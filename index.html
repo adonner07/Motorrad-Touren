@@ -788,7 +788,7 @@
   }
 </style>
 </head>
-<body>
+<body data-step="start">
   <div class="headlight" aria-hidden="true"></div>
 
   <!-- 1 · Start -->
@@ -1725,6 +1725,7 @@
     void scene.offsetWidth;
     if (!reduced()) scene.classList.add('enter');
     current = step;
+    document.body.setAttribute('data-step', step);
     stepLock = performance.now() + 400;
     if (push !== false) { try { history.pushState({ step: step }, ''); } catch (e) { /* egal */ } }
     if (step === 'details') buildFav();
