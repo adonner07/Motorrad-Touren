@@ -953,7 +953,7 @@
       <p class="eyebrow">Roadbook · Motorrad-Umfrage</p>
       <h1 class="title" id="start-heading" tabindex="-1" data-heading>Touren 2027</h1>
       <ul class="start-facts">
-        <li id="fact-count">23 Touren</li>
+        <li id="fact-count">25 Touren</li>
         <li>ab Winnenden</li>
         <li>nur Landstraße</li>
       </ul>
@@ -1204,14 +1204,20 @@
     rothenburg: [49.3770, 10.1790], schrozberg: [49.3450, 9.9800], hemmingen: [48.8660, 9.0350], weissach: [48.8470, 8.9280],
     weilderstadt: [48.7510, 8.8710], calw: [48.7140, 8.7400], teinach: [48.6900, 8.6900], neuweiler: [48.6670, 8.5970],
     enzkloesterle: [48.6660, 8.4730], wildbad: [48.7510, 8.5500], calmbach: [48.7750, 8.5830], liebenzell: [48.7720, 8.7310],
-    hirsau: [48.7350, 8.7350]
+    hirsau: [48.7350, 8.7350],
+    muehlacker: [48.9470, 8.8400], birkenfeld: [48.8690, 8.6330], neuenbuerg: [48.8460, 8.5970], dobel: [48.7980, 8.4970],
+    herrenalb: [48.8010, 8.4400], loffenau: [48.7720, 8.3840], gernsbach: [48.7640, 8.3410], forbach: [48.6830, 8.3570],
+    raumuenzach: [48.6430, 8.3630], schoenmuenzach: [48.6150, 8.3740], besenfeld: [48.6040, 8.4440], simmersfeld: [48.6230, 8.5170],
+    altensteig: [48.5865, 8.6050], ebhausen: [48.5840, 8.6760], wildberg: [48.6230, 8.7470], gechingen: [48.6950, 8.8300],
+    obernau: [48.4590, 8.8800], bieringen: [48.4530, 8.7940], muehlen: [48.4480, 8.7250], horb: [48.4440, 8.6900],
+    dornstetten: [48.4700, 8.4980], freudenstadt: [48.4630, 8.4110], pfalzgrafenweiler: [48.5260, 8.5670], nagold: [48.5520, 8.7230]
   };
 
   var GROUPS = [
     { id: 'home', title: 'Rund um Winnenden', sub: 'Feierabendrunden und Halbtagestouren, 1 bis 3½ Stunden.' },
     { id: 'big', title: 'Große Tagestouren', sub: 'Mit 4 bis 5¼ Stunden Fahrzeit, auf die Alb, an Neckar und Tauber und in den Kraichgau.' },
     { id: 'by', title: 'Ab nach Bayern', sub: 'Tagestouren mit Pause in einer schönen Altstadt.' },
-    { id: 'sw', title: 'Ab in den Schwarzwald', sub: 'Eine Tagestour ins Nagold- und Enztal.' }
+    { id: 'sw', title: 'Ab in den Schwarzwald', sub: 'Drei Tagestouren mit 5 bis 5¾ Stunden Fahrzeit: Nagold- und Enztal, Murgtal und Freudenstadt.' }
   ];
 
   // Touren ab Winnenden, nur über Landstraßen. Kilometer und Fahrzeit sind ungefähre Werte ohne Pausen.
@@ -1445,6 +1451,26 @@
       stops: [['Bad Teinach-Zavelstein', 'teinach', 'Bad Teinach-Zavelstein'], ['Enzklösterle', 'enzkloesterle', 'Enzklösterle'], ['Bad Liebenzell', 'liebenzell', 'Bad Liebenzell']],
       path: ['winnenden', 'affalterbach', 'marbach', 'freiberg', 'asperg', 'markgroeningen', 'hemmingen', 'weissach', 'weilderstadt', 'calw', 'teinach', 'neuweiler', 'enzkloesterle', 'wildbad', 'calmbach', 'liebenzell', 'hirsau'],
       mark: [13, 'Bad Wildbad']
+    },
+    {
+      id: 'murgtal', group: 'sw', region: 'Nordschwarzwald', type: 'Tagestour', name: 'Dobel & Murgtal',
+      km: 270, time: '5¾', curves: 5,
+      text: 'Durchs Enztal nach Neuenbürg, in Kehren hoch nach Dobel und wieder runter nach Bad Herrenalb. Über Loffenau ins Murgtal nach Gernsbach, an der Murg entlang bis Forbach und hoch nach Besenfeld. Zurück über Altensteig und Wildberg.',
+      route: ['Winnenden', 'Vaihingen an der Enz', 'Mühlacker', 'Neuenbürg', 'Dobel', 'Bad Herrenalb', 'Loffenau', 'Gernsbach', 'Forbach', 'Schönmünzach', 'Besenfeld', 'Altensteig', 'Wildberg', 'Weil der Stadt', 'Winnenden'],
+      pause: 'Forbach an der Murg, mit der alten überdachten Holzbrücke von 1778',
+      stops: [['Dobel', 'dobel', 'Dobel'], ['Forbach', 'forbach', 'Forbach'], ['Besenfeld, Seewald', 'besenfeld', 'Besenfeld']],
+      path: ['winnenden', 'affalterbach', 'marbach', 'freiberg', 'asperg', 'markgroeningen', 'vaihingen', 'muehlacker', 'birkenfeld', 'neuenbuerg', 'dobel', 'herrenalb', 'loffenau', 'gernsbach', 'forbach', 'raumuenzach', 'schoenmuenzach', 'besenfeld', 'simmersfeld', 'altensteig', 'ebhausen', 'wildberg', 'gechingen', 'weilderstadt', 'weissach', 'hemmingen'],
+      mark: [14, 'Forbach']
+    },
+    {
+      id: 'freudenstadt', group: 'sw', region: 'Schwarzwald & Neckartal', type: 'Tagestour', name: 'Freudenstadt & Neckartal',
+      km: 270, time: '5½', curves: 3,
+      text: 'Über den Schurwald und an Tübingen vorbei ins enge Neckartal bis Horb. Durch Dornstetten nach Freudenstadt mit dem größten Marktplatz Deutschlands. Zurück durch den Wald über Pfalzgrafenweiler, Nagold und Wildberg.',
+      route: ['Winnenden', 'Schurwald', 'Nürtingen', 'Tübingen', 'Rottenburg', 'Neckartal', 'Horb am Neckar', 'Dornstetten', 'Freudenstadt', 'Pfalzgrafenweiler', 'Nagold', 'Wildberg', 'Weil der Stadt', 'Winnenden'],
+      pause: 'Freudenstadt, mit dem größten Marktplatz Deutschlands',
+      stops: [['Horb am Neckar', 'horb', 'Horb am Neckar'], ['Freudenstadt', 'freudenstadt', 'Freudenstadt'], ['Nagold', 'nagold', 'Nagold']],
+      path: ['winnenden', 'buoch', 'baltmannsweiler', 'plochingen', 'nuertingen', 'neckartenzlingen', 'walddorf', 'tuebingen', 'rottenburg', 'obernau', 'bieringen', 'muehlen', 'horb', 'dornstetten', 'freudenstadt', 'pfalzgrafenweiler', 'nagold', 'wildberg', 'gechingen', 'weilderstadt', 'weissach', 'hemmingen'],
+      mark: [14, 'Freudenstadt']
     }
   ];
 
