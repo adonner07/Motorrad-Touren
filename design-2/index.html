@@ -953,7 +953,7 @@
       <p class="eyebrow">Roadbook · Motorrad-Umfrage</p>
       <h1 class="title" id="start-heading" tabindex="-1" data-heading>Touren 2027</h1>
       <ul class="start-facts">
-        <li id="fact-count">25 Touren</li>
+        <li id="fact-count">30 Touren</li>
         <li>ab Winnenden</li>
         <li>nur Landstraße</li>
       </ul>
@@ -1210,7 +1210,16 @@
     raumuenzach: [48.6430, 8.3630], schoenmuenzach: [48.6150, 8.3740], besenfeld: [48.6040, 8.4440], simmersfeld: [48.6230, 8.5170],
     altensteig: [48.5865, 8.6050], ebhausen: [48.5840, 8.6760], wildberg: [48.6230, 8.7470], gechingen: [48.6950, 8.8300],
     obernau: [48.4590, 8.8800], bieringen: [48.4530, 8.7940], muehlen: [48.4480, 8.7250], horb: [48.4440, 8.6900],
-    dornstetten: [48.4700, 8.4980], freudenstadt: [48.4630, 8.4110], pfalzgrafenweiler: [48.5260, 8.5670], nagold: [48.5520, 8.7230]
+    dornstetten: [48.4700, 8.4980], freudenstadt: [48.4630, 8.4110], pfalzgrafenweiler: [48.5260, 8.5670], nagold: [48.5520, 8.7230],
+    hertmannsweiler: [48.8940, 9.4280], oppelsbohm: [48.8460, 9.4730], hoesslinswart: [48.8340, 9.4630], grunbach: [48.8140, 9.4450],
+    winterbach: [48.7990, 9.4780], haubersbronn: [48.8330, 9.5300], korb: [48.8430, 9.3610], kleinheppach: [48.8270, 9.3780],
+    grossheppach: [48.8120, 9.3650], beutelsbach: [48.8060, 9.3950], stetten: [48.7880, 9.3470], rommelshausen: [48.8010, 9.3260],
+    rotenberg: [48.7880, 9.2760], fellbach: [48.8090, 9.2770], waiblingen: [48.8310, 9.3170], oppenweiler: [48.9830, 9.4570],
+    kleinaspach: [49.0100, 9.3850], oberstenfeld: [49.0260, 9.3220], wunnenstein: [49.0200, 9.2830], steinheimalbuch: [48.6900, 10.0650],
+    herbrechtingen: [48.6230, 10.1730], altheimalb: [48.5800, 10.0250], badueberkingen: [48.6000, 9.7960], deggingen: [48.5960, 9.7180],
+    wiesensteig: [48.5660, 9.6270], gruibingen: [48.5960, 9.6460], mudau: [49.5340, 9.2040], amorbach: [49.6440, 9.2210],
+    miltenberg: [49.7040, 9.2640], wallduern: [49.5880, 9.3680], buchen: [49.5220, 9.3230], adelsheim: [49.4030, 9.3950],
+    asselfingen: [48.5280, 10.1920]
   };
 
   var GROUPS = [
@@ -1223,6 +1232,26 @@
   // Touren ab Winnenden, nur über Landstraßen. Kilometer und Fahrzeit sind ungefähre Werte ohne Pausen.
   var TOURS = [
     {
+      id: 'weinberge', group: 'home', region: 'Remstal', type: 'Feierabendrunde', name: 'Auf den Württemberg',
+      km: 45, time: '1', curves: 3,
+      text: 'Durch die Weinberge über Korb zum Kleinheppacher Kopf, runter ins Remstal nach Beutelsbach und an der Y-Burg vorbei hoch auf den Württemberg zur Grabkapelle. Zurück über Fellbach und Waiblingen.',
+      route: ['Winnenden', 'Korb', 'Kleinheppach', 'Beutelsbach', 'Stetten', 'Rotenberg', 'Fellbach', 'Waiblingen', 'Winnenden'],
+      pause: 'Grabkapelle auf dem Württemberg mit Blick übers Neckartal',
+      stops: [['Kleinheppach, Korb', 'kleinheppach', 'Kleinheppach'], ['Kernen-Stetten', 'stetten', 'Stetten'], ['Grabkapelle Württemberg, Stuttgart', 'rotenberg', 'Grabkapelle']],
+      path: ['winnenden', 'korb', 'kleinheppach', 'grossheppach', 'beutelsbach', 'stetten', 'rommelshausen', 'rotenberg', 'fellbach', 'waiblingen'],
+      mark: [7, 'Grabkapelle']
+    },
+    {
+      id: 'berglen', group: 'home', region: 'Berglen & Remstal', type: 'Feierabendrunde', name: 'Berglen & Buocher Höhe',
+      km: 55, time: '1¼', curves: 4,
+      text: 'Über die Berglen hoch nach Buoch mit Blick übers Remstal, die kurvige Steige runter nach Grunbach und durchs Remstal nach Schorndorf. Durchs Wieslauftal nach Rudersberg und über die Berglen zurück.',
+      route: ['Winnenden', 'Hertmannsweiler', 'Berglen', 'Buoch', 'Grunbach', 'Winterbach', 'Schorndorf', 'Rudersberg', 'Berglen', 'Winnenden'],
+      pause: 'Schorndorf, Altstadt mit dem Geburtshaus von Gottlieb Daimler',
+      stops: [['Buoch, Remshalden', 'buoch', 'Buoch'], ['Schorndorf', 'schorndorf', 'Schorndorf'], ['Rudersberg', 'rudersberg', 'Rudersberg']],
+      path: ['winnenden', 'hertmannsweiler', 'oppelsbohm', 'hoesslinswart', 'buoch', 'grunbach', 'winterbach', 'schorndorf', 'haubersbronn', 'rudersberg', 'berglen'],
+      mark: [7, 'Schorndorf']
+    },
+    {
       id: 'ebnisee', group: 'home', region: 'Schwäbischer Wald', type: 'Feierabendrunde', name: 'Ebnisee-Runde',
       km: 60, time: '1¼', curves: 4,
       text: 'Kurz, kurvig und gleich um die Ecke: über Althütte in den Schwäbischen Wald, Pause am Ebnisee und durchs Wieslauftal zurück. Perfekt für einen Sommerabend.',
@@ -1231,6 +1260,16 @@
       stops: [['Althütte', 'althuette', 'Althütte'], ['Ebnisee, Kaisersbach', 'ebnisee', 'Ebnisee'], ['Rudersberg', 'rudersberg', 'Rudersberg']],
       path: ['winnenden', 'allmersbach', 'unterweissach', 'althuette', 'ebnisee', 'kaisersbach', 'welzheim', 'rudersberg', 'berglen'],
       mark: [4, 'Ebnisee']
+    },
+    {
+      id: 'bottwartal', group: 'home', region: 'Murr- & Bottwartal', type: 'Feierabendrunde', name: 'Burgen im Bottwartal',
+      km: 65, time: '1½', curves: 3,
+      text: 'Durchs Murrtal nach Oppenweiler unter der Burg Reichenberg, über Aspach nach Oberstenfeld zur Burg Lichtenberg und weiter nach Beilstein. Am Wunnenstein vorbei durchs Bottwartal nach Großbottwar und über Marbach zurück.',
+      route: ['Winnenden', 'Backnang', 'Oppenweiler', 'Aspach', 'Oberstenfeld', 'Beilstein', 'Wunnenstein', 'Großbottwar', 'Steinheim an der Murr', 'Marbach', 'Winnenden'],
+      pause: 'Marbach am Neckar, Altstadt mit Schillers Geburtshaus',
+      stops: [['Oppenweiler', 'oppenweiler', 'Oppenweiler'], ['Burg Lichtenberg, Oberstenfeld', 'oberstenfeld', 'Burg Lichtenberg'], ['Großbottwar', 'grossbottwar', 'Großbottwar']],
+      path: ['winnenden', 'backnang', 'oppenweiler', 'kleinaspach', 'oberstenfeld', 'beilstein', 'wunnenstein', 'grossbottwar', 'steinheimmurr', 'marbach', 'affalterbach'],
+      mark: [9, 'Marbach']
     },
     {
       id: 'limes', group: 'home', region: 'Schwäbischer Wald', type: 'Halbtagestour', name: 'Am Limes entlang',
@@ -1373,6 +1412,16 @@
       mark: [8, 'Tübingen']
     },
     {
+      id: 'lonetal', group: 'big', region: 'Ostalb & Lonetal', type: 'Tagestour', name: 'Meteorkrater & Lonetal',
+      km: 230, time: '4¾', curves: 3,
+      text: 'Über Lorch und Heubach auf die Ostalb zum Meteorkrater bei Steinheim, nach Heidenheim unter Schloss Hellenstein und durchs Brenztal ins Lonetal mit seinen Eiszeithöhlen. Zurück über Geislingen durchs obere Filstal und an Bad Boll vorbei.',
+      route: ['Winnenden', 'Schorndorf', 'Lorch', 'Schwäbisch Gmünd', 'Heubach', 'Bartholomä', 'Steinheim am Albuch', 'Heidenheim', 'Herbrechtingen', 'Lonetal', 'Amstetten', 'Geislingen', 'Deggingen', 'Wiesensteig', 'Bad Boll', 'Kirchheim unter Teck', 'Winnenden'],
+      pause: 'Heidenheim, mit Schloss Hellenstein hoch über der Stadt',
+      stops: [['Steinheim am Albuch', 'steinheimalbuch', 'Steinheim am Albuch'], ['Asselfingen', 'asselfingen', 'Lonetal'], ['Wiesensteig', 'wiesensteig', 'Wiesensteig']],
+      path: ['winnenden', 'schorndorf', 'lorch', 'gmuend', 'heubach', 'bartholomae', 'steinheimalbuch', 'heidenheim', 'herbrechtingen', 'asselfingen', 'altheimalb', 'amstetten', 'geislingen', 'badueberkingen', 'deggingen', 'wiesensteig', 'gruibingen', 'badboll', 'aichelberg', 'weilheim', 'kirchheim', 'reichenbach', 'baltmannsweiler', 'buoch'],
+      mark: [7, 'Heidenheim']
+    },
+    {
       id: 'lautertal', group: 'big', region: 'Schwäbische Alb', type: 'Tagestour', name: 'Großes Lautertal',
       km: 235, time: '5', curves: 4,
       text: 'Durchs Lenninger Tal auf die Alb und dann das Große Lautertal hinunter, vorbei an Burgruinen und Wacholderheiden bis Lauterach an der Donau. Zurück über Zwiefalten, am Gestüt Marbach vorbei und über Bad Urach.',
@@ -1441,6 +1490,16 @@
       stops: [['Kirchberg an der Jagst', 'kirchberg', 'Kirchberg an der Jagst'], ['Rothenburg ob der Tauber', 'rothenburg', 'Rothenburg ob der Tauber'], ['Langenburg', 'langenburg', 'Langenburg']],
       path: ['winnenden', 'allmersbach', 'backnang', 'murrhardt', 'gaildorf', 'hall', 'ilshofen', 'kirchberg', 'rotamsee', 'rothenburg', 'schrozberg', 'langenburg', 'braunsbach', 'hall', 'mainhardt', 'sulzbach', 'backnang'],
       mark: [9, 'Rothenburg']
+    },
+    {
+      id: 'miltenberg', group: 'by', region: 'Odenwald & Main', type: 'Tagestour', name: 'Odenwald & Miltenberg',
+      km: 270, time: '5½', curves: 3,
+      text: 'Über Weinsberg und am Neckar entlang nach Mosbach, durch den Odenwald über Mudau nach Amorbach und runter an den Main nach Miltenberg. Zurück über Walldürn und Buchen ins Jagsttal und über Öhringen heim.',
+      route: ['Winnenden', 'Marbach', 'Beilstein', 'Weinsberg', 'Neckarsulm', 'Gundelsheim', 'Mosbach', 'Mudau', 'Amorbach', 'Miltenberg', 'Walldürn', 'Buchen', 'Adelsheim', 'Möckmühl', 'Jagsthausen', 'Öhringen', 'Mainhardt', 'Backnang', 'Winnenden'],
+      pause: 'Miltenberg am Main, Fachwerk-Altstadt mit dem Marktplatz Schnatterloch und der Mildenburg',
+      stops: [['Mosbach', 'mosbach', 'Mosbach'], ['Miltenberg', 'miltenberg', 'Miltenberg'], ['Buchen (Odenwald)', 'buchen', 'Buchen']],
+      path: ['winnenden', 'affalterbach', 'marbach', 'beilstein', 'weinsberg', 'neckarsulm', 'gundelsheim', 'mosbach', 'mudau', 'amorbach', 'miltenberg', 'wallduern', 'buchen', 'adelsheim', 'moeckmuehl', 'jagsthausen', 'oehringen', 'mainhardt', 'backnang'],
+      mark: [10, 'Miltenberg']
     },
     {
       id: 'nagoldtal', group: 'sw', region: 'Nordschwarzwald', type: 'Tagestour', name: 'Nagoldtal & Enztal',
