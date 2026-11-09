@@ -8,10 +8,10 @@
 <meta property="og:title" content="Tagestouren 2027">
 <meta property="og:description" content="Tagestouren ab Winnenden in den Schwarzwald und nach Bayern. Wo bist du dabei?">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#0e0b13">
+<meta name="theme-color" content="#0f0c24">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+Egyptian+Hieroglyphs&family=Noto+Sans+Runic&family=Shippori+Mincho+B1:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Germania+One&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+Egyptian+Hieroglyphs&family=Noto+Sans+Runic&family=Shippori+Mincho+B1:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #0e0f11;
@@ -787,403 +787,520 @@
     .headlight { transition: none; }
   }
 
-  /* ===== Tagestouren: Drei Welten, eine Sonne (Japan · Ägypten · Norden) ===== */
+  /* ===== Tagestouren: drei Mythologien, drei Schritte =====
+     Start: Japan · Touren: Ägypten · Fragen und Abschicken: der Norden */
   :root {
-    --bg: #0e0b13;
-    --panel: #1a1520;
-    --panel-deep: rgba(255, 240, 220, .05);
-    --map: #140f19;
-    --line: rgba(255, 240, 220, .09);
-    --line-strong: rgba(255, 240, 220, .2);
-    --text: #f6efe3;
-    --text-dim: #b8ac9d;
-    --gold: #e8b94a;
-    --vermilion: #e0402c;
-    --aurora: #5ce3c0;
-    --orange: #e8b94a;
-    --amber: #f3cd6b;
+    --font-body: "Manrope", "Noto Sans Egyptian Hieroglyphs", "Noto Sans Runic", "Shippori Mincho B1", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-jp: "Shippori Mincho B1", "Yu Mincho", Georgia, serif;
+    --font-eg: "Cinzel", Georgia, serif;
+    --font-no: "Germania One", "Manrope", sans-serif;
+    --font-head: var(--font-jp);
+    --bg: #100d24;
+    --text: #fbf3ea;
+    --text-dim: #c6b9c9;
+    --line: rgba(255, 240, 230, .1);
+    --line-strong: rgba(255, 240, 230, .22);
+    --panel: #1a1530;
+    --panel-deep: rgba(255, 240, 230, .05);
+    --map: #140f26;
+    --orange: #e0402c;
+    --amber: #f3c45a;
     --red: #e0402c;
     --green: #5ce3c0;
-    --ink: #1a1208;
-    --sun: linear-gradient(90deg, #f6d27a, #dc9a2c);
-    --font-head: "Shippori Mincho B1", "Yu Mincho", Georgia, serif;
-    --font-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
-    --font-glyph: "Noto Sans Egyptian Hieroglyphs", "Noto Sans Runic", "Shippori Mincho B1", serif;
   }
   html { background: var(--bg); }
   body { background: transparent; }
-  /* Tinte mit einem Hauch Nordlicht oben */
-  body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    background:
-      radial-gradient(70% 38% at 85% -6%, rgba(92, 227, 192, .13), rgba(92, 227, 192, 0) 70%),
-      radial-gradient(60% 34% at 12% -8%, rgba(155, 123, 255, .12), rgba(155, 123, 255, 0) 70%),
-      linear-gradient(180deg, #0e0b13 0%, #110d17 60%, #130f1a 100%);
-  }
-  body::before { opacity: .035; }
+  body::after { content: ""; position: fixed; inset: 0; z-index: -1; transition: background .6s ease; }
   .headlight { display: none; }
 
-  /* Schrift und Knöpfe */
-  .eyebrow { color: var(--gold); font: 700 .8rem/1.2 var(--font-body); letter-spacing: .26em; }
-  .glyphs { font-family: var(--font-glyph); letter-spacing: .1em; color: var(--vermilion); }
-  .title { font-weight: 800; text-transform: none; letter-spacing: -.01em; line-height: 1.08; }
-  .tour-name, .group-title, .q-label, .filter-label { text-transform: none; letter-spacing: 0; }
+  /* gemeinsame Formen */
   .btn { border-radius: 999px; text-transform: none; letter-spacing: .01em; font: 800 1.1rem/1 var(--font-body); }
-  .btn-primary { background: var(--sun); color: var(--ink); box-shadow: 0 14px 30px -14px rgba(232, 185, 74, .85), inset 0 -2px 0 rgba(0, 0, 0, .14); }
-  @media (hover: hover) {
-    .btn-primary:hover { background: linear-gradient(90deg, #f9dc8e, #e6a93c); }
+  .btn-text { font-family: var(--font-body); }
+  .title { font-weight: 700; text-transform: none; letter-spacing: 0; line-height: 1.08; }
+  .tour-name, .group-title, .q-label, .filter-label { text-transform: none; letter-spacing: 0; }
+  .glyphs { font-family: var(--font-body); letter-spacing: .1em; }
+  .fchip, .jump a, .chip-face, .maps, .join-face, .dock-count, .stat-v, .dur-k, .dur-v, .meta-k, .m-name, .leg-n, .nav-k, .tour-region, .sum-row dt, .preview-label, .done-stats b {
+    font-family: var(--font-body);
   }
-  .btn-ghost { background: var(--panel-deep); border-color: var(--line-strong); }
-  .btn:focus-visible, .btn-text:focus-visible, .maps:focus-visible, .fchip:focus-visible, .jump a:focus-visible { outline-color: var(--aurora); }
+  .fchip, .jump a { font-weight: 700; font-size: .95rem; text-transform: none; letter-spacing: .01em; border-radius: 999px; }
+  .chip-face { border-radius: 999px; }
+  .scene { padding-left: 20px; padding-right: 20px; }
+  .dock { margin-left: -20px; margin-right: -20px; padding-left: 20px; padding-right: 20px; }
 
-  /* ---------- Start: die Reise der Sonne ---------- */
-  #scene-start { padding: 0; }
+  /* =========================================================
+     1 · JAPAN – Start: durchs Torii in den Tag
+     ========================================================= */
+  body::after, body[data-step="start"]::after {
+    background:
+      radial-gradient(80% 50% at 50% 0%, rgba(120, 70, 160, .25), rgba(120, 70, 160, 0) 70%),
+      linear-gradient(180deg, #0f0c24 0%, #171236 55%, #120e28 100%);
+  }
+  body::before, body[data-step="start"]::before { opacity: .035; }
+  #scene-start { padding: 0; --font-head: var(--font-jp); }
   #scene-start::before, #scene-start::after {
     content: "";
     position: absolute;
     left: 0;
     right: 0;
     top: 0;
-    height: 46%;
+    height: 42%;
     z-index: -1;
     pointer-events: none;
-    transition: opacity .6s ease;
   }
   #scene-start::before {
     background:
       radial-gradient(circle at 9% 30px, rgba(255, 255, 255, .85) 0 1.2px, transparent 2px),
-      radial-gradient(circle at 22% 96px, rgba(255, 255, 255, .5) 0 1px, transparent 1.8px),
-      radial-gradient(circle at 31% 18px, rgba(255, 255, 255, .7) 0 1.2px, transparent 2px),
-      radial-gradient(circle at 48% 64px, rgba(255, 255, 255, .55) 0 1px, transparent 1.8px),
-      radial-gradient(circle at 63% 26px, rgba(255, 255, 255, .75) 0 1.2px, transparent 2px),
-      radial-gradient(circle at 79% 88px, rgba(255, 255, 255, .5) 0 1px, transparent 1.8px),
-      radial-gradient(circle at 91% 40px, rgba(255, 255, 255, .85) 0 1.3px, transparent 2.1px),
-      radial-gradient(circle at 5% 170px, rgba(255, 255, 255, .4) 0 1px, transparent 1.8px),
-      radial-gradient(circle at 95% 190px, rgba(255, 255, 255, .4) 0 1px, transparent 1.8px);
+      radial-gradient(circle at 24% 92px, rgba(255, 255, 255, .5) 0 1px, transparent 1.8px),
+      radial-gradient(circle at 33% 18px, rgba(255, 255, 255, .7) 0 1.2px, transparent 2px),
+      radial-gradient(circle at 50% 60px, rgba(255, 255, 255, .55) 0 1px, transparent 1.8px),
+      radial-gradient(circle at 66% 22px, rgba(255, 255, 255, .75) 0 1.2px, transparent 2px),
+      radial-gradient(circle at 80% 86px, rgba(255, 255, 255, .5) 0 1px, transparent 1.8px),
+      radial-gradient(circle at 6% 170px, rgba(255, 255, 255, .4) 0 1px, transparent 1.8px);
   }
   #scene-start::after {
     background:
       radial-gradient(circle at 15% 60px, rgba(255, 255, 255, .6) 0 1px, transparent 1.8px),
-      radial-gradient(circle at 40% 120px, rgba(255, 255, 255, .45) 0 1px, transparent 1.8px),
-      radial-gradient(circle at 56% 10px, rgba(255, 255, 255, .65) 0 1.1px, transparent 1.9px),
-      radial-gradient(circle at 72% 140px, rgba(255, 255, 255, .45) 0 1px, transparent 1.8px),
-      radial-gradient(circle at 86% 230px, rgba(255, 255, 255, .35) 0 1px, transparent 1.8px);
+      radial-gradient(circle at 42% 120px, rgba(255, 255, 255, .45) 0 1px, transparent 1.8px),
+      radial-gradient(circle at 57% 10px, rgba(255, 255, 255, .65) 0 1.1px, transparent 1.9px),
+      radial-gradient(circle at 74% 140px, rgba(255, 255, 255, .45) 0 1px, transparent 1.8px);
     animation: twinkle 3.2s ease-in-out infinite alternate;
   }
   @keyframes twinkle { from { opacity: .3; } to { opacity: 1; } }
-  .sun-start {
+  /* Der Start füllt genau den Bildschirm: das Bild gibt nach, Text und Knopf bleiben ganz */
+  .jp-start {
     position: relative;
     z-index: 1;
-    justify-content: center;
-    min-height: max(100vh, 600px);
-    min-height: max(100dvh, 600px);
+    justify-content: flex-start;
+    min-height: 0;
+    height: max(100vh, 560px);
+    height: max(100dvh, 560px);
     padding: max(34px, calc(env(safe-area-inset-top) + 20px)) 22px max(22px, calc(env(safe-area-inset-bottom) + 12px));
   }
+  .jp-banner {
+    position: absolute;
+    top: max(18px, calc(env(safe-area-inset-top) + 8px));
+    right: 12px;
+    z-index: 2;
+    padding: 10px 5px;
+    border-radius: 3px;
+    background: #d23a2a;
+    color: #fff6ee;
+    font: 800 .95rem/1.15 var(--font-jp);
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    letter-spacing: .12em;
+    box-shadow: 0 8px 18px -8px rgba(0, 0, 0, .7);
+  }
   .start-head { display: flex; flex-direction: column; align-items: center; }
-  .start-title { margin-top: 2px; font-size: clamp(2.35rem, 11.2vw, 3.6rem); }
-  .start-title span { display: block; margin-top: 6px; font: 700 1.05rem/1 var(--font-head); letter-spacing: .5em; padding-left: .5em; color: var(--gold); }
+  .jp-start > * { flex-shrink: 0; }
+  .jp-start > .start-head { margin-top: auto; }
+  .jp-start > #start-ride { margin-bottom: auto; }
+  #scene-start .eyebrow { color: #f3c45a; font: 700 .8rem/1.2 var(--font-body); letter-spacing: .26em; }
+  #scene-start .eyebrow .glyphs { font-family: var(--font-jp); color: #e0402c; font-size: 1rem; }
+  .start-title { margin-top: 2px; font: 800 clamp(2.35rem, 11.2vw, 3.6rem)/1.05 var(--font-jp); }
+  .start-title span { display: block; margin-top: 6px; font: 700 1.05rem/1 var(--font-jp); letter-spacing: .5em; padding-left: .5em; color: #e0402c; }
   #scene-start .start-facts { gap: 0; margin-top: 14px; }
   #scene-start .start-facts li { padding: 0; border: 0; border-radius: 0; background: none; font: 600 .86rem/1.6 var(--font-body); letter-spacing: .02em; text-transform: none; white-space: nowrap; color: var(--text-dim); }
-  #scene-start .start-facts li:first-child { color: var(--gold); }
-  #scene-start .start-facts li + li::before { content: "·"; margin: 0 .55em; color: var(--vermilion); }
+  #scene-start .start-facts li:first-child { color: #f6b7c9; }
+  #scene-start .start-facts li + li::before { content: "·"; margin: 0 .55em; color: #e0402c; }
   #scene-start .start-facts li:last-child { flex-basis: 100%; text-align: center; }
   #scene-start .start-facts li:last-child::before { content: none; }
-  #scene-start .lead { max-width: 24em; margin: 10px auto 0; font-size: .98rem; color: #d3c9bb; }
-  #scene-start .start .btn { width: 100%; max-width: 360px; margin-top: 22px; }
-  .pano-wrap {
+  #scene-start .lead { max-width: 24em; margin: 10px auto 0; font-size: .98rem; color: #ddd0d4; }
+  #scene-start .start .btn { width: 100%; max-width: 360px; margin-top: 20px; }
+  #scene-start .btn-primary { background: linear-gradient(90deg, #ef5a3c, #c92f22); color: #fff; box-shadow: 0 14px 30px -14px rgba(224, 64, 44, .9), inset 0 -2px 0 rgba(0, 0, 0, .18); }
+  .jp-wrap {
     position: relative;
     width: 100vw;
     max-width: none;
     height: auto;
-    aspect-ratio: 600 / 360;
-    margin: 18px calc(50% - 50vw) 0;
+    aspect-ratio: 400 / 330;
+    flex: 0 1 auto;
+    min-height: 210px;
+    margin: 16px calc(50% - 50vw) 0;
     overflow: hidden;
     cursor: pointer;
   }
-  .pano { position: absolute; inset: 0; width: 100%; height: 100%; }
-  .sky { position: absolute; left: 0; right: 0; top: 0; height: 80.6%; pointer-events: none; }
-  .sky-dawn { background: linear-gradient(180deg, rgba(14, 11, 19, 0) 0%, rgba(74, 44, 98, .7) 45%, #c4563f 86%, #f08a4f 100%); }
-  .sky-day { background: linear-gradient(180deg, rgba(14, 11, 19, 0) 0%, rgba(44, 92, 142, .75) 40%, #6fa6c9 80%, #f3d58a 100%); opacity: 0; }
-  .sky-dusk { background: linear-gradient(180deg, rgba(14, 11, 19, 0) 0%, rgba(70, 34, 92, .75) 45%, #b8455a 82%, #ff8a45 100%); opacity: 0; }
-  .sky-night { background: linear-gradient(180deg, rgba(14, 11, 19, 0) 0%, rgba(16, 26, 58, .8) 55%, #1c2c4e 100%); opacity: 0; }
-  .glyph-note { margin: 10px 0 0; font: 600 .78rem/1.4 var(--font-body); letter-spacing: .08em; color: var(--text-dim); }
-  .glyph-note b { font: 400 1rem/1 var(--font-glyph); color: var(--gold); margin-right: .25em; }
+  .jp { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .glyph-note { margin: 10px 0 0; font: 600 .8rem/1.4 var(--font-body); letter-spacing: .03em; color: var(--text-dim); }
+  .glyph-note b { font: 800 .95rem/1 var(--font-jp); color: #f6b7c9; margin-right: .3em; }
   /* Farben im Bild */
-  .sun { fill: #e2402c; }
-  .fuji { fill: #2b2550; }
-  .snow { fill: #eef1fb; opacity: .92; }
-  .pyr { fill: #3a2a22; }
-  .pyr-lit { fill: #5a4030; }
-  .pyr-cap { fill: #f3cd6b; }
-  .mtn { fill: #222a3e; }
-  .waves { fill: none; stroke: rgba(170, 190, 255, .28); stroke-width: 1; stroke-linecap: round; }
-  .shimmer { stroke: rgba(240, 120, 80, .5); stroke-width: 1.6; stroke-linecap: round; }
-  .torii-red { fill: #d63a28; }
-  .torii-black { fill: #1c1216; }
-  .palm, .obelisk { fill: #2a1d16; }
-  .ship-hull { fill: #2e2018; }
-  .ship-mast { stroke: #2e2018; stroke-width: 1.6; }
-  .sail-a { fill: #efe6d8; }
-  .sail-b { fill: #c7372a; }
-  .shield { fill: #e8b94a; }
-  .pines { fill: #151c26; }
-  .ground { fill: #120e16; }
-  .route-line { fill: none; stroke: #e8b94a; stroke-width: 2; stroke-linecap: round; stroke-dasharray: 1 6; opacity: .9; }
-  .route-dot { fill: #e8b94a; }
-  .aurora { opacity: 0; }
-  .ship { animation: bob 2.6s ease-in-out infinite alternate; }
-  @keyframes bob { from { transform: translateY(-.8px); } to { transform: translateY(.8px); } }
-  /* Antippen: die Sonne zieht von Japan über Ägypten in den Norden */
-  .ride-scene.go .sun-g { animation: sunpath 1.9s linear forwards; }
-  .ride-scene.go .sun { animation: suncolor 1.9s linear forwards; }
-  .ride-scene.go .sky-dawn { animation: skydawn 2.1s ease forwards; }
-  .ride-scene.go .sky-day { animation: skyday 2.1s ease forwards; }
-  .ride-scene.go .sky-dusk { animation: skydusk 2.1s ease forwards; }
-  .ride-scene.go .sky-night { animation: skynight 2.1s ease forwards; }
-  .ride-scene.go .aurora { animation: aurora 2.1s ease forwards; }
-  .ride-scene.go .shimmer { animation: shimmer 2.1s ease forwards; }
-  body.on #scene-start::before, body.on #scene-start::after { animation: starsday 2.1s ease forwards; }
-  @keyframes sunpath {
-    0% { transform: translate(0px, 0px); }
-    10% { transform: translate(41px, -59.6px); }
-    20% { transform: translate(82px, -105.4px); }
-    30% { transform: translate(123px, -137.4px); }
-    40% { transform: translate(164px, -155.6px); }
-    50% { transform: translate(205px, -160px); }
-    60% { transform: translate(246px, -150.6px); }
-    70% { transform: translate(287px, -127.4px); }
-    80% { transform: translate(328px, -90.4px); }
-    90% { transform: translate(369px, -39.6px); }
-    100% { transform: translate(410px, 25px); }
+  .j-hills { fill: #2b2149; }
+  .j-fuji { fill: #2a2350; }
+  .j-snow { fill: #f1f3fb; opacity: .93; }
+  .j-reflect { stroke: rgba(255, 140, 90, .55); stroke-width: 2; stroke-linecap: round; }
+  .j-waves { fill: none; stroke: rgba(200, 190, 255, .22); stroke-width: 1; stroke-linecap: round; }
+  .j-red { fill: #d63a28; }
+  .j-red-dark { fill: #a92a1f; }
+  .j-black { fill: #1c1216; }
+  .j-plaque { fill: #1c1216; stroke: #f3c45a; stroke-width: 1; }
+  .j-toriirefl { stroke: rgba(214, 58, 40, .45); stroke-width: 2.4; stroke-linecap: round; }
+  .j-twig { fill: none; stroke: #2a1a22; stroke-width: 3.2; stroke-linecap: round; }
+  .j-bloom { fill: #f6b7c9; }
+  .j-bloom2 { fill: #fde4ec; }
+  .petal {
+    position: absolute;
+    top: -10px;
+    width: 9px;
+    height: 7px;
+    border-radius: 80% 0 80% 0;
+    background: #f8c3d2;
+    opacity: .9;
+    animation: petal 7s linear infinite;
   }
-  @keyframes suncolor { 0% { fill: #e2402c; } 35% { fill: #ffd36b; } 65% { fill: #ffd36b; } 100% { fill: #ff7a3d; } }
-  @keyframes skydawn { 0% { opacity: 1; } 30% { opacity: 0; } 100% { opacity: 0; } }
-  @keyframes skyday { 0% { opacity: 0; } 25% { opacity: 1; } 55% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-  @keyframes skydusk { 0% { opacity: 0; } 55% { opacity: 0; } 75% { opacity: 1; } 92% { opacity: .6; } 100% { opacity: .4; } }
-  @keyframes skynight { 0% { opacity: 0; } 80% { opacity: 0; } 100% { opacity: 1; } }
-  @keyframes aurora { 0% { opacity: 0; } 82% { opacity: 0; } 100% { opacity: 1; } }
-  @keyframes shimmer { 0% { opacity: 1; } 30% { opacity: 0; } 100% { opacity: 0; } }
-  @keyframes starsday { 0% { opacity: 1; } 20% { opacity: 0; } 80% { opacity: 0; } 100% { opacity: 1; } }
+  .petal.p1 { left: 8%; animation-delay: -1s; }
+  .petal.p2 { left: 22%; animation-delay: -4.5s; animation-duration: 8s; }
+  .petal.p3 { left: 37%; animation-delay: -2.5s; }
+  .petal.p4 { left: 55%; animation-delay: -6s; animation-duration: 9s; }
+  .petal.p5 { left: 68%; animation-delay: -3s; }
+  .petal.p6 { left: 82%; animation-delay: -5.5s; animation-duration: 7.5s; }
+  .petal.p7 { left: 92%; animation-delay: -.5s; animation-duration: 8.5s; }
+  .petal.p8 { left: 46%; animation-delay: -7s; }
+  @keyframes petal {
+    0% { transform: translate(0, 0) rotate(0); }
+    50% { transform: translate(-26px, 140px) rotate(200deg); }
+    100% { transform: translate(14px, 300px) rotate(380deg); opacity: 0; }
+  }
+  /* Antippen: die Sonne steigt, man geht durchs Tor */
+  .j-sun, .j-torii, .j-fuji, .j-snow, .j-branch { transition: transform 1.5s cubic-bezier(.55, 0, .7, .3), opacity .5s ease; }
+  .j-torii { transform-origin: 200px 190px; }
+  .j-fuji, .j-snow { transform-origin: 200px 236px; }
+  .ride-scene.go .j-sun { transform: translateY(-44px); transition: transform 1.3s cubic-bezier(.2, .8, .2, 1); }
+  .ride-scene.go .j-torii { transform: scale(3.4); opacity: 0; transition: transform 1.5s cubic-bezier(.55, 0, .7, .3), opacity .45s ease 1.05s; }
+  .ride-scene.go .j-fuji, .ride-scene.go .j-snow { transform: scale(1.12); }
+  .ride-scene.go .j-branch { opacity: 0; }
+  .ride-scene.go .petal { animation-duration: 1.6s; }
+  body.on #scene-start .start-head, body.on #scene-start .glyph-note, body.on #start-ride, body.on .jp-banner { opacity: 0; transition: opacity .4s ease; }
   @media (min-width: 700px) {
-    .pano-wrap { width: min(760px, 100%); margin: 22px auto 0; border-radius: 28px; }
+    .jp-wrap { width: min(520px, 100%); margin: 18px auto 0; border-radius: 26px; }
+  }
+  @media (max-height: 700px) {
+    .jp-start { padding-top: 20px; padding-bottom: 12px; }
+    .start-title { font-size: 2.3rem; }
+    #scene-start .lead { font-size: .94rem; }
+    .jp-wrap { margin-top: 10px; }
+    #scene-start .start .btn { margin-top: 14px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    #scene-start::after, .ship { animation: none; }
+    #scene-start::after, .petal { animation: none; }
+    .petal { display: none; }
   }
 
-  /* ---------- Touren ---------- */
-  .tours-head .eyebrow .glyphs { margin-right: .4em; }
-  .group-head { padding-left: 46px; position: relative; }
+  /* =========================================================
+     2 · ÄGYPTEN – Touren: Sternendecke aus Lapislazuli, Karten aus Papyrus
+     ========================================================= */
+  body[data-step="tours"]::after {
+    background:
+      radial-gradient(70% 40% at 50% -5%, rgba(227, 180, 72, .16), rgba(227, 180, 72, 0) 70%),
+      linear-gradient(180deg, #0c1c52 0%, #0a1846 60%, #081339 100%);
+  }
+  body[data-step="tours"]::before {
+    opacity: .5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72'%3E%3Cg fill='%23e3b448'%3E%3Cpath d='M36 28l2.2 5.4 5.8.4-4.5 3.7 1.4 5.6-4.9-3.1-4.9 3.1 1.4-5.6-4.5-3.7 5.8-.4z' opacity='.55'/%3E%3Cpath d='M8 4l1.2 3 3.2.2-2.5 2 .8 3.1L8 10.6l-2.7 1.7.8-3.1-2.5-2 3.2-.2z' opacity='.35'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 72px 72px;
+  }
+  #scene-tours {
+    --font-head: var(--font-eg);
+    --text: #f4e8c9;
+    --text-dim: #cdbf9c;
+    --line: rgba(227, 180, 72, .2);
+    --line-strong: rgba(227, 180, 72, .4);
+    --panel-deep: rgba(244, 232, 201, .06);
+    --orange: #e3b448;
+    --amber: #f0cf7a;
+    --gold: #e3b448;
+    --lapis: #1d3f9e;
+    color: var(--text);
+  }
+  #scene-tours .eyebrow { color: #e3b448; font: 700 .8rem/1.2 var(--font-body); letter-spacing: .26em; }
+  #scene-tours .eyebrow .glyphs { font-size: 1.15rem; color: #f0cf7a; margin-right: .3em; }
+  #scene-tours .title { color: #f0cf7a; font: 700 clamp(2.2rem, 10vw, 3.2rem)/1.08 var(--font-eg); letter-spacing: .01em; }
+  #scene-tours .lead { color: #e2d6b6; }
+  #scene-tours .btn-primary { background: linear-gradient(90deg, #f3d27a, #d39a2a); color: #1b1305; box-shadow: 0 14px 30px -14px rgba(227, 180, 72, .85), inset 0 -2px 0 rgba(0, 0, 0, .14); }
+  #scene-tours .btn-text { color: #e2d6b6; }
+  .filter-label { font: 700 1.2rem/1.2 var(--font-eg); color: #f0cf7a; }
+  #scene-tours .fchip, #scene-tours .jump a { background: rgba(244, 232, 201, .06); border-color: rgba(227, 180, 72, .4); color: #f4e8c9; }
+  #scene-tours .fchip[aria-pressed="true"] { background: rgba(227, 180, 72, .2); border-color: #e3b448; }
+  #scene-tours .fchip[aria-pressed="true"] .fchip-n, #scene-tours .jump a span { color: #f0cf7a; }
+  #scene-tours .fchip-n { color: #cdbf9c; }
+  .fchip .kanji { margin-right: 3px; font-size: 1.15rem; line-height: 1; color: #f0cf7a; }
+  #scene-tours .filter-status, #scene-tours .tours-note { color: #cdbf9c; }
+  /* große Karte wie ein Papyrus */
+  #scene-tours .overview-box {
+    --map: #ead9ad;
+    border: 1px solid rgba(80, 50, 20, .35);
+    border-radius: 10px;
+    background-color: #ead9ad;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(120, 80, 30, .05) 0 2px, transparent 2px 6px),
+      repeating-linear-gradient(90deg, rgba(120, 80, 30, .04) 0 3px, transparent 3px 8px);
+    box-shadow: inset 0 0 0 4px rgba(227, 180, 72, .25), 0 18px 40px -24px rgba(0, 0, 0, .9);
+  }
+  #scene-tours .overview figcaption { color: #cdbf9c; }
+  .ov-line { stroke: rgba(122, 85, 50, .42); }
+  .ov-glow { stroke: #1d3f9e; }
+  .ov-tour.is-on .ov-line { stroke: #1d3f9e; }
+  .ov-tour.is-hover .ov-line { stroke: #2c1d10; }
+  .ov-region { font-family: var(--font-eg); font-weight: 700; fill: rgba(90, 60, 30, .5); stroke: #ead9ad; }
+  .ov-city { fill: rgba(60, 40, 20, .55); }
+  .ov-city-label { font-family: var(--font-body); fill: rgba(60, 40, 20, .6); stroke: #ead9ad; }
+  .ov-home { fill: #ead9ad; stroke: #2c1d10; }
+  .ov-pole { stroke: #2c1d10; }
+  .ov-home-label { font-family: var(--font-body); fill: #2c1d10; stroke: #ead9ad; }
+  #scene-tours .overview-box .m-ck-l { fill: #2c1d10; }
+  #scene-tours .overview-box .m-ck-d { fill: #ead9ad; }
+  /* Gruppen: Apophis für viele Kurven, Sonnenbarke für wenig Kurven */
+  .group-head { position: relative; padding-left: 48px; }
   .group-title::before { display: none; }
+  .group-title { font: 700 1.45rem/1.15 var(--font-eg); color: #f0cf7a; }
+  .group-sub { color: #d8cba8; }
   .group-head::before {
     content: "";
     position: absolute;
     left: 0;
-    top: 2px;
-    width: 36px;
-    height: 36px;
+    top: 0;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
-    border: 1px solid var(--line-strong);
-    background: var(--panel) center / 24px 24px no-repeat;
+    border: 1.5px solid rgba(227, 180, 72, .6);
+    background: rgba(244, 232, 201, .06) center / 26px 26px no-repeat;
   }
-  /* Midgardschlange für viele Kurven, Sonnenbarke für wenig Kurven */
-  #g-kurvig::before { border-color: rgba(92, 227, 192, .5); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235ce3c0' stroke-width='1.8' stroke-linecap='round'%3E%3Cpath d='M3 17c2.5 0 3.5-2 4.5-4.5S9.5 7 12 7s3.2 2.4 3.5 4.5S17 16 19.5 16c1.6 0 2.5-1.2 2.5-2.6'/%3E%3Cpath d='M3 17c-.6 0-1-.4-1-.9'/%3E%3Ccircle cx='21.6' cy='12.2' r='.6' fill='%235ce3c0'/%3E%3C/svg%3E"); }
-  #g-ruhig::before { border-color: rgba(232, 185, 74, .5); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e8b94a' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 15.5c3 2.6 16 2.6 19 0'/%3E%3Cpath d='M2.5 15.5c-.4-1.4.2-2.6 1.4-3.2M21.5 15.5c.4-1.4-.2-2.6-1.4-3.2'/%3E%3Cpath d='M9 15.6V12h6v3.6'/%3E%3Ccircle cx='12' cy='7.5' r='2.6' fill='%23e8b94a'/%3E%3C/svg%3E"); }
-  .tour { border: 1px solid var(--line); border-radius: 20px; background: var(--panel); box-shadow: 0 18px 40px -28px rgba(0, 0, 0, .9); }
-  .tour.is-on { border-color: var(--vermilion); box-shadow: 0 18px 44px -22px rgba(224, 64, 44, .55); }
-  /* Stempel wie ein Hanko, sobald man dabei ist */
-  .tour-map { background-color: var(--map); border-bottom-color: var(--line); }
-  .tour.is-on .tour-map::after {
-    content: "参";
+  #g-kurvig::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e3b448' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 18c2.6 0 3.4-2.4 4.4-4.8S9 8.5 11.4 8.5s3 2.3 3.4 4.4 1.5 4.4 3.9 4.4c1.7 0 2.6-1.2 2.6-2.8V8.2'/%3E%3Cpath d='M21.3 8.2c0-1.4-1-2.4-2.3-2.4l-1.4.9'/%3E%3Ccircle cx='19.6' cy='6.8' r='.5' fill='%23e3b448'/%3E%3C/svg%3E"); }
+  #g-ruhig::before { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23e3b448' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 15.5c3 2.6 16 2.6 19 0'/%3E%3Cpath d='M2.5 15.5c-.4-1.4.2-2.6 1.4-3.2M21.5 15.5c.4-1.4-.2-2.6-1.4-3.2'/%3E%3Cpath d='M9 15.6V12h6v3.6'/%3E%3Ccircle cx='12' cy='7.5' r='2.6' fill='%23e3b448'/%3E%3C/svg%3E"); }
+  /* Tourkarten aus Papyrus */
+  #scene-tours .tour {
+    --text: #2c1d10;
+    --text-dim: #6b5641;
+    --panel: #f1e4c2;
+    --panel-deep: rgba(80, 50, 20, .07);
+    --line: rgba(80, 50, 20, .16);
+    --line-strong: rgba(80, 50, 20, .32);
+    --map: #e7d4a6;
+    color: var(--text);
+    border: 1px solid rgba(80, 50, 20, .35);
+    border-radius: 8px;
+    background-color: #f1e4c2;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(120, 80, 30, .045) 0 2px, transparent 2px 5px),
+      repeating-linear-gradient(90deg, rgba(120, 80, 30, .035) 0 3px, transparent 3px 7px);
+    box-shadow: 0 18px 40px -24px rgba(0, 0, 0, .9);
+  }
+  #scene-tours .tour::before {
+    content: "";
     position: absolute;
-    top: 12px;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 2;
+    height: 7px;
+    background: repeating-linear-gradient(90deg, #1d3f9e 0 12px, #e3b448 12px 15px, #2a9d8f 15px 27px, #e3b448 27px 30px, #b5452b 30px 42px, #e3b448 42px 45px);
+  }
+  #scene-tours .tour.is-on { border-color: #1d3f9e; box-shadow: 0 0 0 2px #1d3f9e, 0 18px 44px -20px rgba(29, 63, 158, .9); }
+  #scene-tours .tour-map {
+    background-color: #e7d4a6;
+    background-image:
+      linear-gradient(rgba(80, 50, 20, .07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(80, 50, 20, .07) 1px, transparent 1px);
+    border-bottom-color: rgba(80, 50, 20, .2);
+  }
+  /* Siegel mit Anch, sobald man dabei ist */
+  #scene-tours .tour.is-on .tour-map::after {
+    content: "𓋹";
+    position: absolute;
+    top: 14px;
     right: 12px;
     display: grid;
     place-items: center;
     width: 42px;
     height: 42px;
-    border: 2.5px solid var(--vermilion);
+    border: 2px solid #8a6a3a;
     border-radius: 50%;
-    color: var(--vermilion);
-    font: 800 1.35rem/1 var(--font-head);
-    transform: rotate(-12deg);
-    opacity: .92;
+    background: radial-gradient(circle at 35% 30%, #f6dc8e, #d5a23a);
+    color: #1d3f9e;
+    font: 400 1.5rem/1 var(--font-body);
+    box-shadow: 0 6px 14px -6px rgba(0, 0, 0, .6);
   }
-  .m-road { stroke: #07050a; opacity: .7; }
-  .m-route { stroke: rgba(232, 185, 74, .62); }
-  .tour.is-on .m-route { stroke: var(--vermilion); }
-  .m-glow { stroke: var(--vermilion); }
-  .m-stop { fill: #f6efe3; opacity: .8; }
-  .m-mark { fill: var(--gold); stroke: var(--map); }
-  .m-label { fill: #f6efe3; stroke: var(--map); font: 800 10px var(--font-body); letter-spacing: .06em; }
-  .m-start { fill: var(--map); stroke: #f6efe3; }
-  .m-pole { stroke: #f6efe3; }
-  .m-ck-l { fill: #f6efe3; }
-  .m-ck-d { fill: var(--map); }
-  .m-rider { stroke: var(--vermilion); }
-  .tour-num { border: 1.5px solid rgba(224, 64, 44, .6); border-radius: 4px; color: var(--vermilion); font: 800 .95rem/1 var(--font-head); background: transparent; }
-  .tour.is-on .tour-num { background: var(--vermilion); border-color: var(--vermilion); color: #fff; }
-  .tour-region { color: var(--gold); font: 700 .78rem/1.2 var(--font-body); letter-spacing: .18em; }
-  .tour-name { font: 800 1.55rem/1.15 var(--font-head); }
-  .tour-stats li { border: 0; border-radius: 999px; background: rgba(255, 240, 220, .07); }
-  .stat-v { font-family: var(--font-body); font-weight: 800; }
-  .bars i { background: rgba(255, 240, 220, .16); border-radius: 3px; transform: none; }
-  .bars i.on { background: var(--aurora); }
-  .tour-text { color: #e2d9cc; }
-  .meta-k { font-family: var(--font-body); letter-spacing: .12em; color: var(--gold); }
-  .dur-k { font-family: var(--font-body); }
-  .dur-v { font-family: var(--font-body); font-weight: 800; }
-  .dur-bar { background: rgba(255, 240, 220, .1); }
-  .dur-bar i { background: var(--sun); }
-  .join-face { border-radius: 999px; background: var(--panel-deep); font: 800 1.05rem/1 var(--font-body); text-transform: none; letter-spacing: .01em; }
-  .join-box { border-radius: 50%; }
-  .join input:checked + .join-face { background: var(--vermilion); border-color: var(--vermilion); color: #fff; }
-  .join input:checked + .join-face .join-box {
-    border-color: #fff;
-    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.4 6.3l2.3 2.3 4.9-5.1' fill='none' stroke='%23e0402c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 12px no-repeat;
+  #scene-tours .m-road { stroke: #d9c391; opacity: .9; }
+  #scene-tours .m-route { stroke: #7a5532; }
+  #scene-tours .m-glow { stroke: #1d3f9e; }
+  #scene-tours .tour.is-on .m-route { stroke: #1d3f9e; }
+  #scene-tours .m-stop { fill: #5a3d22; opacity: .85; }
+  #scene-tours .m-mark { fill: #e3b448; stroke: #5a3d22; }
+  #scene-tours .m-label { fill: #2c1d10; stroke: #e7d4a6; font: 800 10px var(--font-body); letter-spacing: .06em; }
+  #scene-tours .m-start { fill: #e7d4a6; stroke: #2c1d10; }
+  #scene-tours .m-pole { stroke: #2c1d10; }
+  #scene-tours .tour .m-ck-l { fill: #2c1d10; }
+  #scene-tours .tour .m-ck-d { fill: #e7d4a6; }
+  #scene-tours .m-rider { fill: #f1e4c2; stroke: #1d3f9e; }
+  #scene-tours .tour-num { border: 1.5px solid #8a6a3a; border-radius: 999px; color: #8a6a3a; font: 700 .9rem/1 var(--font-eg); background: transparent; }
+  #scene-tours .tour.is-on .tour-num { background: #1d3f9e; border-color: #1d3f9e; color: #f0cf7a; }
+  #scene-tours .tour-region { color: #8a5a1f; font-weight: 800; font-size: .74rem; letter-spacing: .16em; }
+  /* Tourname in einer Kartusche */
+  #scene-tours .tour-name {
+    position: relative;
+    align-self: flex-start;
+    margin: 12px 10px 12px 0;
+    padding: 6px 18px 7px 16px;
+    border: 2px solid #8a6a3a;
+    border-radius: 999px;
+    color: #2c1d10;
+    font: 700 1.28rem/1.2 var(--font-eg);
   }
-  .maps { border-radius: 999px; font: 700 .98rem/1 var(--font-body); text-transform: none; letter-spacing: .01em; }
-  .maps svg { color: var(--gold); }
-  .maps[aria-expanded="true"] { border-color: var(--gold); }
-  .waze { border-radius: 16px; background: var(--map); }
-  .waze-legs a { border-radius: 12px; }
-  .leg-n { background: var(--sun); color: var(--ink); font-family: var(--font-body); }
-  .nav-k { color: var(--gold); font-family: var(--font-body); text-transform: none; letter-spacing: .04em; }
+  #scene-tours .tour-name::after { content: ""; position: absolute; right: -8px; top: 18%; bottom: 18%; width: 3px; border-radius: 2px; background: #8a6a3a; }
+  #scene-tours .tour-stats li { border: 0; border-radius: 999px; background: rgba(80, 50, 20, .08); color: #5a4630; }
+  #scene-tours .stat-v { color: #2c1d10; font-weight: 800; }
+  #scene-tours .bars i { background: rgba(80, 50, 20, .18); border-radius: 3px; transform: none; }
+  #scene-tours .bars i.on { background: #1d3f9e; }
+  #scene-tours .fchip .bars i.on { background: #f0cf7a; }
+  #scene-tours .tour-text { color: #3a2a18; }
+  #scene-tours .tour-meta { color: #5a4630; }
+  #scene-tours .meta-k, #scene-tours .dur-k { color: #8a5a1f; letter-spacing: .12em; }
+  #scene-tours .dur-v { color: #2c1d10; font-weight: 800; }
+  #scene-tours .dur-bar { background: rgba(80, 50, 20, .12); }
+  #scene-tours .dur-bar i { background: linear-gradient(90deg, #e3b448, #c98a2a); }
+  #scene-tours .dur-bar::after { background: repeating-linear-gradient(90deg, transparent 0 calc(100% / 6 - 2px), #f1e4c2 calc(100% / 6 - 2px) calc(100% / 6)); }
+  #scene-tours .join-face { border: 1.5px solid rgba(80, 50, 20, .35); border-radius: 999px; background: rgba(255, 255, 255, .35); color: #2c1d10; font-weight: 800; font-size: 1.05rem; text-transform: none; letter-spacing: .01em; }
+  #scene-tours .join-box { border-radius: 50%; border-color: rgba(80, 50, 20, .5); }
+  #scene-tours .join input:checked + .join-face { background: #1d3f9e; border-color: #1d3f9e; color: #f6e2a6; }
+  #scene-tours .join input:checked + .join-face .join-box {
+    border-color: #f6e2a6;
+    background: #f6e2a6 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.4 6.3l2.3 2.3 4.9-5.1' fill='none' stroke='%231d3f9e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 12px no-repeat;
+  }
+  #scene-tours .maps { border: 1.5px solid rgba(80, 50, 20, .3); border-radius: 999px; color: #2c1d10; font-weight: 700; font-size: .98rem; text-transform: none; letter-spacing: .01em; }
+  #scene-tours .maps svg { color: #a87a2a; }
+  #scene-tours .maps[aria-expanded="true"] { border-color: #1d3f9e; }
+  #scene-tours .waze { border-radius: 8px; border-color: rgba(80, 50, 20, .2); background: #e9d7aa; }
+  #scene-tours .waze-legs a { border-radius: 8px; border-color: rgba(80, 50, 20, .3); color: #2c1d10; }
+  #scene-tours .waze-legs a::after { color: #8a6a3a; }
+  #scene-tours .leg-n { background: #1d3f9e; color: #f6e2a6; }
+  #scene-tours .nav-k { color: #8a5a1f; text-transform: none; letter-spacing: .04em; }
+  #scene-tours .waze-hint { color: #6b5641; }
   @media (hover: hover) {
-    .waze-legs a:hover { border-color: var(--gold); }
+    #scene-tours .waze-legs a:hover { border-color: #1d3f9e; }
   }
-  .chip-face, .fchip, .jump a { border-radius: 999px; }
-  .fchip, .jump a { font: 700 .95rem/1 var(--font-body); text-transform: none; letter-spacing: .01em; }
-  .fchip .kanji, .jump a .kanji { margin-right: 2px; font: 800 1rem/1 var(--font-head); color: var(--vermilion); }
-  .jump a span { color: var(--gold); }
-  .fchip[aria-pressed="true"] { background: rgba(92, 227, 192, .12); border-color: var(--aurora); }
-  .fchip[aria-pressed="true"] .fchip-n { color: var(--aurora); }
-  .overview-box {
-    border-radius: 22px;
-    background-color: var(--map);
-    background-image:
-      radial-gradient(60% 60% at 45% 45%, rgba(232, 185, 74, .07), rgba(232, 185, 74, 0) 70%),
-      linear-gradient(rgba(255, 240, 220, .03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 240, 220, .03) 1px, transparent 1px);
-  }
-  .ov-line { stroke: rgba(232, 185, 74, .32); }
-  .ov-tour.is-on .ov-line { stroke: var(--vermilion); }
-  .ov-glow { stroke: var(--vermilion); }
-  .ov-tour.is-hover .ov-line { stroke: #fff; }
-  .ov-region { font-family: var(--font-body); font-weight: 700; fill: rgba(246, 239, 227, .42); stroke: var(--map); }
-  .ov-city { fill: rgba(246, 239, 227, .6); }
-  .ov-city-label { font-family: var(--font-body); fill: rgba(246, 239, 227, .6); stroke: var(--map); }
-  .ov-home { fill: var(--map); stroke: #f6efe3; }
-  .ov-pole { stroke: #f6efe3; }
-  .ov-home-label { font-family: var(--font-body); fill: #f6efe3; stroke: var(--map); }
-  .dock { background: rgba(14, 11, 19, .97); border-top-color: var(--line); }
-  .dock-count { font: 700 .95rem/1.2 var(--font-body); text-transform: none; letter-spacing: .01em; }
-  .dock-count.has { color: var(--gold); }
-  .scene { padding-left: 20px; padding-right: 20px; }
-  .dock { margin-left: -20px; margin-right: -20px; padding-left: 20px; padding-right: 20px; }
+  #scene-tours .dock { background: rgba(8, 19, 57, .97); border-top-color: rgba(227, 180, 72, .3); }
+  #scene-tours .dock-count { color: #cdbf9c; font-size: .95rem; text-transform: none; letter-spacing: .01em; }
+  #scene-tours .dock-count.has { color: #f0cf7a; }
+  #scene-tours .tour.flash { animation: flash-eg 1.3s ease; }
+  @keyframes flash-eg { 0%, 100% { box-shadow: 0 0 0 0 rgba(227, 180, 72, 0); } 25% { box-shadow: 0 0 0 4px rgba(227, 180, 72, .95); } }
 
-  /* ---------- Fragen ---------- */
-  .panel, .summary { border-radius: 22px; background: var(--panel); }
-  .q-label { font: 800 1.25rem/1.25 var(--font-head); }
-  .chip-face { font-family: var(--font-body); }
-  .chip input:checked + .chip-face, .month input:checked + .month-face, .option input:checked + .option-face {
-    background: rgba(232, 185, 74, .12);
-    border-color: var(--gold);
+  /* =========================================================
+     3 · DER NORDEN – Fragen und Abschicken: Nordlicht, Runen, Odins Raben
+     ========================================================= */
+  body[data-step="details"]::after, body[data-step="done"]::after {
+    background:
+      radial-gradient(60% 34% at 78% -4%, rgba(92, 227, 192, .22), rgba(92, 227, 192, 0) 70%),
+      radial-gradient(55% 30% at 22% -6%, rgba(155, 123, 255, .18), rgba(155, 123, 255, 0) 70%),
+      linear-gradient(180deg, #0b1118 0%, #0d141c 60%, #0f1720 100%);
   }
-  .chip input:checked + .chip-face::before {
-    border-color: var(--gold);
-    background: var(--gold) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.4 6.3l2.3 2.3 4.9-5.1' fill='none' stroke='%231a1208' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 11px no-repeat;
+  body[data-step="details"]::before, body[data-step="done"]::before { opacity: .045; }
+  #scene-details, #scene-done {
+    --font-head: var(--font-no);
+    --text: #e8eef4;
+    --text-dim: #9fb0bf;
+    --panel: #161e28;
+    --panel-deep: rgba(220, 235, 245, .05);
+    --line: rgba(220, 235, 245, .1);
+    --line-strong: rgba(220, 235, 245, .22);
+    --map: #111821;
+    --orange: #5ce3c0;
+    --amber: #5ce3c0;
+    color: var(--text);
   }
-  .chip-radio input:checked + .chip-face::before { background: radial-gradient(circle, var(--ink) 0 3px, var(--gold) 3.5px); }
-  .month-face, .option-face { border-radius: 16px; }
-  .m-name { font-family: var(--font-body); }
-  .m-bar { background: rgba(255, 240, 220, .22); opacity: 1; }
-  .month input:checked + .month-face .m-bar { background: var(--sun); box-shadow: 0 0 12px rgba(232, 185, 74, .7); }
-  .option input:checked + .option-face .option-ico { color: var(--gold); }
-  .option input:checked + .option-face::after { border-color: var(--gold); background: radial-gradient(circle, var(--ink) 0 3.5px, var(--gold) 4px); }
-  .idea { border-radius: 14px; }
-  .idea::placeholder { color: #8d8274; }
-
-  /* ---------- Ziel: drei Glücksbringer ---------- */
-  .amulets { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; width: 100%; max-width: 420px; margin: 4px auto 18px; padding: 0; list-style: none; }
+  #scene-details .eyebrow, #scene-done .eyebrow { color: #5ce3c0; font: 700 .8rem/1.2 var(--font-body); letter-spacing: .26em; }
+  #scene-details .eyebrow .glyphs, #scene-done .eyebrow .glyphs { margin-right: .35em; font-size: 1.05rem; letter-spacing: .12em; color: #9b7bff; }
+  #scene-details .title, #scene-done .title { font: 400 clamp(2.4rem, 11vw, 3.4rem)/1.05 var(--font-no); letter-spacing: .02em; color: #eef4f8; }
+  #scene-details .btn-primary, #scene-done .btn-primary { background: linear-gradient(90deg, #6ff0cc, #3fb8d8); color: #04211c; box-shadow: 0 14px 30px -14px rgba(92, 227, 192, .8), inset 0 -2px 0 rgba(0, 0, 0, .14); }
+  #scene-details .btn-text, #scene-done .btn-text { color: #9fb0bf; }
+  #scene-details .panel, #scene-done .summary {
+    border: 1px solid rgba(220, 235, 245, .12);
+    border-radius: 10px;
+    background-color: #161e28;
+    background-image: repeating-linear-gradient(135deg, rgba(255, 255, 255, .012) 0 2px, transparent 2px 7px);
+  }
+  #scene-details .q-label { font: 400 1.35rem/1.2 var(--font-no); letter-spacing: .02em; color: #eef4f8; }
+  #scene-details .chip input:checked + .chip-face, #scene-details .month input:checked + .month-face, #scene-details .option input:checked + .option-face {
+    background: rgba(92, 227, 192, .12);
+    border-color: #5ce3c0;
+  }
+  #scene-details .chip input:checked + .chip-face::before {
+    border-color: #5ce3c0;
+    background: #5ce3c0 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.4 6.3l2.3 2.3 4.9-5.1' fill='none' stroke='%2304211c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 11px no-repeat;
+  }
+  #scene-details .chip-radio input:checked + .chip-face::before { background: radial-gradient(circle, #04211c 0 3px, #5ce3c0 3.5px); }
+  #scene-details .month-face, #scene-details .option-face { border-radius: 10px; }
+  #scene-details .m-bar { background: rgba(220, 235, 245, .2); opacity: 1; }
+  #scene-details .month input:checked + .month-face .m-bar { background: linear-gradient(#5ce3c0, #9b7bff); box-shadow: 0 0 12px rgba(92, 227, 192, .7); }
+  #scene-details .option input:checked + .option-face .option-ico { color: #5ce3c0; }
+  #scene-details .option input:checked + .option-face::after { border-color: #5ce3c0; background: radial-gradient(circle, #04211c 0 3.5px, #5ce3c0 4px); }
+  #scene-details .idea { border-radius: 10px; }
+  #scene-details .idea::placeholder { color: #7d8b98; }
+  /* Ziel: Odins Raben und drei nordische Glücksbringer */
+  .ravens { display: block; width: 190px; height: auto; margin: 2px auto 4px; overflow: visible; }
+  .raven path { fill: #0a0e14; stroke: rgba(160, 200, 230, .35); stroke-width: .8; }
+  .raven-eye { fill: #5ce3c0; }
+  .raven { animation: glide 3.4s ease-in-out infinite alternate; }
+  .raven.r2 { animation-delay: -1.7s; }
+  @keyframes glide { from { transform: translateY(-2px); } to { transform: translateY(3px); } }
+  .done-head .flag-wrap { display: none; }
+  .amulets { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; width: 100%; max-width: 420px; margin: 6px auto 18px; padding: 0; list-style: none; }
   .amulet { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
   .amulet-art { position: relative; display: grid; place-items: center; width: 74px; height: 92px; }
-  .omamori {
-    width: 58px;
-    height: 84px;
-    border-radius: 26px 26px 8px 8px;
-    background:
-      repeating-linear-gradient(45deg, rgba(255, 255, 255, .06) 0 4px, transparent 4px 8px),
-      linear-gradient(180deg, #d84a34, #a8281c);
-    box-shadow: inset 0 0 0 2px rgba(243, 205, 107, .7), 0 10px 22px -10px rgba(0, 0, 0, .8);
-  }
-  .omamori::before { content: ""; position: absolute; top: -2px; left: 50%; width: 16px; height: 12px; margin-left: -8px; border: 2.5px solid var(--gold); border-radius: 50% 50% 40% 40%; }
-  .omamori span {
-    position: absolute;
-    left: 50%;
-    top: 22px;
-    margin-left: -11px;
-    width: 22px;
-    padding: 4px 0;
-    background: #f6efe3;
-    color: #1c1216;
-    font: 800 .82rem/1.05 var(--font-head);
-    writing-mode: vertical-rl;
-    text-orientation: upright;
-    border-radius: 2px;
-  }
-  .udjat {
-    width: 74px;
-    height: 74px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 35% 30%, #3b5cc4, #1c2f74 70%);
-    box-shadow: inset 0 0 0 2.5px var(--gold), 0 10px 22px -10px rgba(0, 0, 0, .8);
-    color: var(--gold);
-    font: 400 2.5rem/1 var(--font-glyph);
-  }
+  .mjolnir { width: 56px; height: auto; overflow: visible; }
+  .mjolnir path { fill: #b9c6d2; }
+  .mjolnir .ring { fill: none; stroke: #b9c6d2; stroke-width: 3; }
+  .mjolnir .engrave { fill: none; stroke: #5d6b78; stroke-width: 1.6; stroke-linecap: round; }
+  .mjolnir .engrave-dot { fill: #5ce3c0; }
   .rune-stone {
     width: 62px;
     height: 84px;
     border-radius: 30px 34px 22px 26px;
     background: linear-gradient(160deg, #5a6170, #2c313c);
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .12), 0 10px 22px -10px rgba(0, 0, 0, .8);
-    color: var(--aurora);
-    font: 400 2.6rem/1 var(--font-glyph);
+    color: #5ce3c0;
+    font: 400 2.6rem/1 var(--font-body);
     text-shadow: 0 0 12px rgba(92, 227, 192, .8);
   }
-  .amulet-name { font: 800 .9rem/1.2 var(--font-head); color: var(--text); }
-  .amulet-sub { margin-top: -4px; font: 600 .74rem/1.3 var(--font-body); color: var(--text-dim); }
-  .done-head .flag-wrap { display: none; }
-  .done-stats li { border: 0; border-radius: 999px; background: rgba(255, 240, 220, .07); }
-  .done-stats b { font-family: var(--font-body); }
-  .summary::before {
-    content: "旅 𓇳 ᚱ 旅 𓇳 ᚱ 旅 𓇳 ᚱ 旅 𓇳 ᚱ 旅 𓇳 ᚱ 旅 𓇳 ᚱ 旅 𓇳 ᚱ 旅 𓇳 ᚱ 旅 𓇳 ᚱ 旅 𓇳 ᚱ";
+  .amulet-name { font: 400 1.05rem/1.2 var(--font-no); letter-spacing: .03em; color: #eef4f8; }
+  .amulet-sub { margin-top: -4px; font: 600 .74rem/1.3 var(--font-body); color: #9fb0bf; }
+  #scene-done .overview-box {
+    border-radius: 10px;
+    background-color: #111821;
+    background-image:
+      radial-gradient(60% 60% at 45% 45%, rgba(92, 227, 192, .07), rgba(92, 227, 192, 0) 70%),
+      linear-gradient(rgba(220, 235, 245, .03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(220, 235, 245, .03) 1px, transparent 1px);
+  }
+  #scene-done .ov-line { stroke: rgba(200, 220, 235, .3); }
+  #scene-done .ov-tour.is-on .ov-line { stroke: #5ce3c0; }
+  #scene-done .ov-glow { stroke: #5ce3c0; }
+  #scene-done .ov-region { font-family: var(--font-body); fill: rgba(232, 238, 244, .4); stroke: #111821; }
+  #scene-done .ov-home { fill: #111821; stroke: #e8eef4; }
+  #scene-done .ov-pole { stroke: #e8eef4; }
+  #scene-done .ov-home-label { fill: #e8eef4; stroke: #111821; }
+  #scene-done .m-ck-l { fill: #e8eef4; }
+  #scene-done .m-ck-d { fill: #111821; }
+  #scene-done .done-stats li { border: 0; border-radius: 999px; background: rgba(220, 235, 245, .07); }
+  #scene-done .summary { padding-top: 34px; }
+  #scene-done .summary::before {
+    content: "ᚷᚢᛏᛖ ᚠᚨᚺᚱᛏ · ᚷᚢᛏᛖ ᚠᚨᚺᚱᛏ · ᚷᚢᛏᛖ ᚠᚨᚺᚱᛏ · ᚷᚢᛏᛖ ᚠᚨᚺᚱᛏ · ᚷᚢᛏᛖ ᚠᚨᚺᚱᛏ · ᚷᚢᛏᛖ ᚠᚨᚺᚱᛏ";
     height: 20px;
-    padding-top: 3px;
+    padding-top: 4px;
     overflow: hidden;
     white-space: nowrap;
     text-align: center;
-    font: 400 .82rem/1 var(--font-glyph);
-    letter-spacing: .7em;
-    color: rgba(232, 185, 74, .55);
+    font: 400 .9rem/1 var(--font-body);
+    letter-spacing: .32em;
+    color: rgba(92, 227, 192, .6);
     background: none;
     opacity: 1;
   }
-  .summary { padding-top: 34px; }
-  .sum-row dt { color: var(--gold); font-family: var(--font-body); }
-  .preview-label { font-family: var(--font-body); }
-  .preview { background: #221b29; color: #efe7da; border-color: var(--line); border-left-color: var(--vermilion); border-radius: 18px 18px 18px 6px; font-family: var(--font-body); }
-  .copy-status { color: var(--aurora); }
+  #scene-done .sum-row dt { color: #5ce3c0; }
+  #scene-done .preview { background: #1b2430; color: #e3eaf0; border-color: rgba(220, 235, 245, .12); border-left-color: #5ce3c0; border-radius: 12px 12px 12px 4px; font-family: var(--font-body); }
+  #scene-done .copy-status { color: #5ce3c0; }
+  .rune-note { margin: 8px 0 0; text-align: center; font: 600 .76rem/1.4 var(--font-body); color: #7d8b98; }
   .form-error { color: #ffb4a6; }
-  @media (max-height: 700px) {
-    .sun-start { padding-top: 20px; padding-bottom: 12px; }
-    .start-title { font-size: 2.3rem; }
-    #scene-start .lead { font-size: .94rem; }
-    .pano-wrap { margin-top: 12px; }
-    #scene-start .start .btn { margin-top: 14px; }
+  @media (prefers-reduced-motion: reduce) {
+    .raven { animation: none; }
   }
 </style>
 </head>
@@ -1192,9 +1309,10 @@
 
   <!-- 1 · Start -->
   <section class="scene" id="scene-start" aria-labelledby="start-heading">
-    <div class="wrap start sun-start">
+    <span class="jp-banner" aria-hidden="true">日帰り旅</span>
+    <div class="wrap start jp-start">
       <div class="start-head">
-        <p class="eyebrow"><span class="glyphs" aria-hidden="true">旅 𓇳 ᚱ</span> Motorrad-Umfrage</p>
+        <p class="eyebrow"><span class="glyphs" aria-hidden="true">旅</span> Motorrad-Umfrage</p>
         <h1 class="title start-title" id="start-heading" tabindex="-1" data-heading>Tagestouren <span>2027</span></h1>
         <ul class="start-facts">
           <li id="fact-count">15 Touren</li>
@@ -1203,13 +1321,13 @@
         </ul>
         <p class="lead">Von Sonnenaufgang bis Sonnenuntergang: Tagestouren ab Winnenden in den Schwarzwald und nach Bayern, alle nur über Landstraße und entspannt mit der 125er zu fahren. Sag mir, wo du dabei bist.</p>
       </div>
-      <div class="pano-wrap ride-scene" id="ride-scene" data-dur="2150" aria-hidden="true">
-        <div class="sky sky-dawn"></div><div class="sky sky-day"></div><div class="sky sky-dusk"></div><div class="sky sky-night"></div>
-        <svg class="pano" viewBox="0 -90 600 360" preserveAspectRatio="xMidYMax meet" aria-hidden="true" focusable="false"><defs><radialGradient id="sunglow"><stop offset="0" stop-color="#ffd9a0" stop-opacity=".7"/><stop offset=".5" stop-color="#ff9a6a" stop-opacity=".22"/><stop offset="1" stop-color="#ff9a6a" stop-opacity="0"/></radialGradient><linearGradient id="aur1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5ce3c0" stop-opacity="0"/><stop offset=".55" stop-color="#5ce3c0" stop-opacity=".55"/><stop offset="1" stop-color="#5ce3c0" stop-opacity="0"/></linearGradient><linearGradient id="aur2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9b7bff" stop-opacity="0"/><stop offset=".6" stop-color="#9b7bff" stop-opacity=".45"/><stop offset="1" stop-color="#9b7bff" stop-opacity="0"/></linearGradient><linearGradient id="water" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a3566"/><stop offset="1" stop-color="#141a33"/></linearGradient><linearGradient id="fjord" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#22304a"/><stop offset="1" stop-color="#121a2a"/></linearGradient><linearGradient id="sand" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a3428"/><stop offset="1" stop-color="#21170f"/></linearGradient></defs><g class="aurora"><path d="M352 110C396 40 430 70 466 22S540-6 600 30V104C556 70 516 92 484 82S410 104 352 136Z" fill="url(#aur1)"/><path d="M392 70C436 14 466 40 500 2S566-16 600 6V64C566 38 530 54 500 48S436 70 392 96Z" fill="url(#aur2)"/></g><g class="sun-g"><circle class="sun-glow" cx="95" cy="150" r="64" fill="url(#sunglow)"/><circle class="sun" cx="95" cy="150" r="22"/></g><path class="fuji" d="M8 200C40 186 70 162 86 150Q95 145 104 150C120 162 150 186 182 200Z"/><path class="snow" d="M86 150Q95 145 104 150L112 156 106 160 101 155 96 162 90 156 84 161 78 156Z"/><path class="pyr" d="M222 200L256 166 290 200Z"/><path class="pyr-lit" d="M256 166L222 200H246Z"/><path class="pyr" d="M330 200L356 174 384 200Z"/><path class="pyr-lit" d="M356 174L330 200H350Z"/><path class="pyr" d="M246 200L300 140 354 200Z"/><path class="pyr-lit" d="M300 140L246 200H284Z"/><path class="pyr-cap" d="M300 140L293.5 147.2H306.5Z"/><path class="mtn" d="M404 200L432 172 446 180 470 150 486 164 506 138 528 162 548 132 572 160 600 146V200Z"/><path class="snow" d="M470 150L478 158 474 162 469 157 464 162 460 160ZM506 138L515 149 510 152 505 147 500 152 497 148ZM548 132L557 143 552 146 547 141 541 147 538 144Z"/><path d="M0 200H210V232C150 236 70 234 0 238Z" fill="url(#water)"/><path d="M200 200H410V236C340 240 270 240 200 236Z" fill="url(#sand)"/><path d="M400 200H600V238C530 234 460 234 400 236Z" fill="url(#fjord)"/><path class="waves" d="M8 210q6-6 12 0M30 210q6-6 12 0M52 210q6-6 12 0M74 210q6-6 12 0M96 210q6-6 12 0M118 210q6-6 12 0M140 210q6-6 12 0M162 210q6-6 12 0M184 210q6-6 12 0M19 220q6-6 12 0M41 220q6-6 12 0M63 220q6-6 12 0M85 220q6-6 12 0M107 220q6-6 12 0M129 220q6-6 12 0M151 220q6-6 12 0M173 220q6-6 12 0M195 220q6-6 12 0M8 229q6-6 12 0M30 229q6-6 12 0M52 229q6-6 12 0M74 229q6-6 12 0M96 229q6-6 12 0M118 229q6-6 12 0M140 229q6-6 12 0M162 229q6-6 12 0M184 229q6-6 12 0"/><path class="shimmer" d="M140 206h20M136 212h28M142 218h16M90 206h12M86 212h20"/><g class="torii"><path class="torii-red" d="M139 168h5v46h-5zM164 168h5v46h-5zM133 176h42v4h-42z"/><path class="torii-red" d="M128 166h52v4h-52z"/><path class="torii-black" d="M124 160Q154 166 184 160L186 164Q154 169 122 164Z"/><path class="torii-red" d="M151 170h6v6h-6z"/></g><path class="palm" d="M214 222C216 210 216 200 213 190L215 189C219 199 219 210 217 222ZM214 190C206 186 198 188 193 194 200 189 207 189 213 191ZM214 190C220 184 229 184 235 189 228 186 221 187 215 191ZM214 189C211 182 205 179 198 180 205 181 210 184 213 190ZM214 189C219 181 226 178 232 180 226 182 220 185 215 190Z"/><path class="obelisk" d="M394 226V196L397 191 400 196V226Z"/><g class="ship"><path class="ship-hull" d="M446 214Q476 224 506 214L512 206Q508 202 504 208Q476 216 450 208Q444 202 440 206Z"/><path class="ship-hull" d="M440 206Q436 194 444 190Q441 197 446 204ZM512 206Q516 194 508 190Q511 197 506 204Z"/><path class="ship-mast" d="M475 210V172"/><path class="sail-a" d="M462 176H488V200H462Z"/><path class="sail-b" d="M466.4 176H470.8V200H466.4ZM475.2 176H479.6V200H475.2ZM484 176H488V200H484Z"/><circle class="shield" cx="458" cy="210" r="2"/><circle class="shield" cx="466" cy="212" r="2"/><circle class="shield" cx="484" cy="212" r="2"/><circle class="shield" cx="492" cy="210" r="2"/></g><path class="pines" d="M561 232L566 210L571 232ZM573 232L578 202L583 232ZM585 232L590 208L595 232ZM407 230L412 212L417 230ZM417 230L422 206L427 230Z"/><path class="ground" d="M0 236C120 232 230 240 300 236S470 232 600 236V270H0Z"/><path class="route-line" d="M300 272C276 262 334 252 306 243S288 222 300 210"/><circle class="route-dot" cx="300" cy="210" r="2.6"/></svg>
+      <div class="jp-wrap ride-scene" id="ride-scene" data-dur="1650" aria-hidden="true">
+        <svg class="jp" viewBox="0 0 400 330" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><defs><linearGradient id="jsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1640" stop-opacity="0"/><stop offset=".42" stop-color="#3b2460"/><stop offset=".78" stop-color="#b8475a"/><stop offset="1" stop-color="#f5935c"/></linearGradient><linearGradient id="jwater" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b2f63"/><stop offset=".35" stop-color="#231f4a"/><stop offset="1" stop-color="#110e26"/></linearGradient><radialGradient id="jsun"><stop offset="0" stop-color="#ffb489"/><stop offset=".55" stop-color="#ee4f35"/><stop offset="1" stop-color="#d5352a"/></radialGradient><radialGradient id="jglow"><stop offset="0" stop-color="#ff9a6a" stop-opacity=".6"/><stop offset=".5" stop-color="#ff7a5a" stop-opacity=".18"/><stop offset="1" stop-color="#ff7a5a" stop-opacity="0"/></radialGradient></defs><rect class="j-sky" width="400" height="236" fill="url(#jsky)"/><g class="j-sun"><circle cx="200" cy="150" r="118" fill="url(#jglow)"/><circle cx="200" cy="150" r="44" fill="url(#jsun)"/></g><path class="j-hills" d="M0 236 C40 222 80 226 120 230 S180 226 200 232 300 224 400 228V236H0Z"/><path class="j-fuji" d="M24 236 C70 214 120 186 160 162 C172 155 180 150 188 149 H212 C220 150 228 155 240 162 C280 186 330 214 376 236Z"/><path class="j-snow" d="M188 149H212C220 150 228 155 240 162L232 170 224 165 218 174 210 166 202 176 194 166 186 174 179 165 170 170 160 162C172 155 180 150 188 149Z"/><rect class="j-water" y="236" width="400" height="94" fill="url(#jwater)"/><path class="j-reflect" d="M166 240H234M168.6 246H231.4M171.2 252H228.8M173.8 258H226.2M176.4 264H223.6M179 270H221M181.6 276H218.4M184.2 282H215.8M186.8 288H213.2M189.4 294H210.6"/><path class="j-waves" d="M-11 254q5.5-6 11 0M11 254q5.5-6 11 0M33 254q5.5-6 11 0M55 254q5.5-6 11 0M77 254q5.5-6 11 0M99 254q5.5-6 11 0M121 254q5.5-6 11 0M143 254q5.5-6 11 0M165 254q5.5-6 11 0M187 254q5.5-6 11 0M209 254q5.5-6 11 0M231 254q5.5-6 11 0M253 254q5.5-6 11 0M275 254q5.5-6 11 0M297 254q5.5-6 11 0M319 254q5.5-6 11 0M341 254q5.5-6 11 0M363 254q5.5-6 11 0M385 254q5.5-6 11 0M407 254q5.5-6 11 0M0 267q5.5-6 11 0M22 267q5.5-6 11 0M44 267q5.5-6 11 0M66 267q5.5-6 11 0M88 267q5.5-6 11 0M110 267q5.5-6 11 0M132 267q5.5-6 11 0M154 267q5.5-6 11 0M176 267q5.5-6 11 0M198 267q5.5-6 11 0M220 267q5.5-6 11 0M242 267q5.5-6 11 0M264 267q5.5-6 11 0M286 267q5.5-6 11 0M308 267q5.5-6 11 0M330 267q5.5-6 11 0M352 267q5.5-6 11 0M374 267q5.5-6 11 0M396 267q5.5-6 11 0M-11 280q5.5-6 11 0M11 280q5.5-6 11 0M33 280q5.5-6 11 0M55 280q5.5-6 11 0M77 280q5.5-6 11 0M99 280q5.5-6 11 0M121 280q5.5-6 11 0M143 280q5.5-6 11 0M165 280q5.5-6 11 0M187 280q5.5-6 11 0M209 280q5.5-6 11 0M231 280q5.5-6 11 0M253 280q5.5-6 11 0M275 280q5.5-6 11 0M297 280q5.5-6 11 0M319 280q5.5-6 11 0M341 280q5.5-6 11 0M363 280q5.5-6 11 0M385 280q5.5-6 11 0M407 280q5.5-6 11 0M0 293q5.5-6 11 0M22 293q5.5-6 11 0M44 293q5.5-6 11 0M66 293q5.5-6 11 0M88 293q5.5-6 11 0M110 293q5.5-6 11 0M132 293q5.5-6 11 0M154 293q5.5-6 11 0M176 293q5.5-6 11 0M198 293q5.5-6 11 0M220 293q5.5-6 11 0M242 293q5.5-6 11 0M264 293q5.5-6 11 0M286 293q5.5-6 11 0M308 293q5.5-6 11 0M330 293q5.5-6 11 0M352 293q5.5-6 11 0M374 293q5.5-6 11 0M396 293q5.5-6 11 0M-11 306q5.5-6 11 0M11 306q5.5-6 11 0M33 306q5.5-6 11 0M55 306q5.5-6 11 0M77 306q5.5-6 11 0M99 306q5.5-6 11 0M121 306q5.5-6 11 0M143 306q5.5-6 11 0M165 306q5.5-6 11 0M187 306q5.5-6 11 0M209 306q5.5-6 11 0M231 306q5.5-6 11 0M253 306q5.5-6 11 0M275 306q5.5-6 11 0M297 306q5.5-6 11 0M319 306q5.5-6 11 0M341 306q5.5-6 11 0M363 306q5.5-6 11 0M385 306q5.5-6 11 0M407 306q5.5-6 11 0M0 319q5.5-6 11 0M22 319q5.5-6 11 0M44 319q5.5-6 11 0M66 319q5.5-6 11 0M88 319q5.5-6 11 0M110 319q5.5-6 11 0M132 319q5.5-6 11 0M154 319q5.5-6 11 0M176 319q5.5-6 11 0M198 319q5.5-6 11 0M220 319q5.5-6 11 0M242 319q5.5-6 11 0M264 319q5.5-6 11 0M286 319q5.5-6 11 0M308 319q5.5-6 11 0M330 319q5.5-6 11 0M352 319q5.5-6 11 0M374 319q5.5-6 11 0M396 319q5.5-6 11 0"/><g class="j-torii"><path class="j-red" d="M126 92h16v196h-16zM258 92h16v196h-16z"/><path class="j-red-dark" d="M126 92h5v196h-5zM258 92h5v196h-5z"/><path class="j-black" d="M122 262h24v14h-24zM254 262h24v14h-24z"/><path class="j-red" d="M96 113h208v12h-208z"/><path class="j-red" d="M193 90h14v24h-14z"/><path class="j-red" d="M74 78Q200 90 326 78L326 89Q200 101 74 89Z"/><path class="j-black" d="M56 60Q200 78 344 60L348 70Q200 88 52 70Z"/><path class="j-plaque" d="M188 92h24v20h-24z"/></g><path class="j-toriirefl" d="M128 292h12M126 298h16M130 304h8M260 292h12M258 298h16M262 304h8M110 296h180"/><g class="j-branch"><path class="j-twig" d="M-6 34C30 30 60 40 92 30S140 14 168 18M58 38C66 52 80 60 96 62M118 22C126 12 138 6 152 6"/><circle class="j-bloom" cx="28.6" cy="30.9" r="5"/><circle class="j-bloom2" cx="30.2" cy="28.9" r="3.5"/><circle class="j-bloom" cx="46" cy="33.2" r="4.3"/><circle class="j-bloom2" cx="43.4" cy="32.7" r="3"/><circle class="j-bloom" cx="63.3" cy="31.7" r="5.2"/><circle class="j-bloom2" cx="62.8" cy="37.6" r="3.7"/><circle class="j-bloom" cx="77.6" cy="35.9" r="5.6"/><circle class="j-bloom2" cx="80.2" cy="31.3" r="3.9"/><circle class="j-bloom" cx="94.5" cy="26.9" r="4.5"/><circle class="j-bloom" cx="112.3" cy="22.8" r="4.6"/><circle class="j-bloom2" cx="112.3" cy="18.5" r="3.2"/><circle class="j-bloom" cx="126.8" cy="19.1" r="4.3"/><circle class="j-bloom2" cx="126.9" cy="18.7" r="3"/><circle class="j-bloom" cx="145.2" cy="17.8" r="5.3"/><circle class="j-bloom" cx="160.3" cy="18.2" r="4.8"/><circle class="j-bloom" cx="87.2" cy="60.9" r="6"/><circle class="j-bloom2" cx="87.5" cy="60.1" r="4.2"/><circle class="j-bloom" cx="100" cy="59.2" r="4.6"/><circle class="j-bloom" cx="72.3" cy="52.3" r="6"/><circle class="j-bloom2" cx="73.2" cy="50.8" r="4.2"/><circle class="j-bloom" cx="139.8" cy="10" r="5.6"/><circle class="j-bloom" cx="154.7" cy="3.4" r="5.3"/><circle class="j-bloom" cx="22" cy="39.9" r="5.8"/><circle class="j-bloom2" cx="19.3" cy="39.3" r="4"/><circle class="j-bloom" cx="119.8" cy="28" r="4.3"/><circle class="j-bloom2" cx="117.4" cy="32.1" r="3"/></g><g class="j-branch" transform="matrix(-1 0 0 1 400 0)"><path class="j-twig" d="M-6 34C30 30 60 40 92 30S140 14 168 18M58 38C66 52 80 60 96 62M118 22C126 12 138 6 152 6"/><circle class="j-bloom" cx="29" cy="29.3" r="4.5"/><circle class="j-bloom" cx="45.8" cy="36.3" r="4.4"/><circle class="j-bloom" cx="63.5" cy="32.7" r="6.2"/><circle class="j-bloom2" cx="61.2" cy="37.1" r="4.3"/><circle class="j-bloom" cx="76.6" cy="31.1" r="6.5"/><circle class="j-bloom2" cx="76.4" cy="32.9" r="4.5"/><circle class="j-bloom" cx="95.1" cy="25" r="5.6"/><circle class="j-bloom2" cx="95.2" cy="28.5" r="3.9"/><circle class="j-bloom" cx="112.8" cy="22.1" r="6.5"/><circle class="j-bloom" cx="126.2" cy="20.4" r="5.8"/><circle class="j-bloom" cx="147.2" cy="15.4" r="6.3"/><circle class="j-bloom2" cx="143.6" cy="17.1" r="4.4"/><circle class="j-bloom" cx="158.3" cy="16.3" r="4.3"/><circle class="j-bloom2" cx="159" cy="14.4" r="3"/><circle class="j-bloom" cx="86.6" cy="55.6" r="4.2"/><circle class="j-bloom2" cx="85.2" cy="61" r="2.9"/><circle class="j-bloom" cx="98.6" cy="60.5" r="5.7"/><circle class="j-bloom2" cx="99.2" cy="59" r="4"/><circle class="j-bloom" cx="74" cy="49.8" r="6.2"/><circle class="j-bloom2" cx="69.5" cy="46.8" r="4.4"/><circle class="j-bloom" cx="139.1" cy="10" r="5"/><circle class="j-bloom2" cx="137.1" cy="11.6" r="3.5"/><circle class="j-bloom" cx="152.6" cy="6.3" r="5.5"/><circle class="j-bloom2" cx="154.2" cy="9.8" r="3.8"/><circle class="j-bloom" cx="20.8" cy="36.6" r="6.3"/><circle class="j-bloom2" cx="18" cy="40.2" r="4.4"/><circle class="j-bloom" cx="121.1" cy="29" r="5.5"/><circle class="j-bloom2" cx="121.9" cy="33.9" r="3.8"/></g></svg>
+        <i class="petal p1"></i><i class="petal p2"></i><i class="petal p3"></i><i class="petal p4"></i><i class="petal p5"></i><i class="petal p6"></i><i class="petal p7"></i><i class="petal p8"></i>
       </div>
-      <p class="glyph-note" aria-hidden="true"><b>旅</b>Reise · <b>𓇳</b>Sonne · <b>ᚱ</b>Ritt</p>
+      <p class="glyph-note" aria-hidden="true"><b>日帰り旅</b> heißt auf Japanisch „Tagesausflug“</p>
       <button type="button" class="btn btn-primary" id="start-ride">
-        Los geht’s
+        Durchs Tor
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
       </button>
     </div>
@@ -1219,12 +1337,12 @@
   <section class="scene" id="scene-tours" aria-labelledby="tours-heading" hidden>
     <div class="wrap wrap-wide">
       <div class="tours-head">
-        <p class="eyebrow"><span class="glyphs" aria-hidden="true">日 𓇳 ᛋ</span>Saison 2027</p>
+        <p class="eyebrow"><span class="glyphs" aria-hidden="true">𓇳𓊛</span>Saison 2027</p>
         <h1 class="title" id="tours-heading" tabindex="-1" data-heading>Wo bist du dabei?</h1>
         <p class="lead">Alle Touren starten und enden in Winnenden, gehen nur über Landstraßen und sind mit der 125er entspannt zu fahren. Die Zeiten sind reine Fahrzeit, Pausen kommen dazu. Gern auch mehrere.</p>
         <figure class="overview">
           <div class="overview-box" id="overview"></div>
-          <figcaption>Alle Touren auf einen Blick. Was du auswählst, leuchtet rot. Tipp auf eine Linie, dann springst du zur Tour.</figcaption>
+          <figcaption>Alle Touren auf einen Blick. Was du auswählst, leuchtet blau. Tipp auf eine Linie, dann springst du zur Tour.</figcaption>
         </figure>
         <div class="filter" role="group" aria-labelledby="filter-label">
           <p class="filter-label" id="filter-label">Wohin soll’s gehen?</p>
@@ -1254,7 +1372,7 @@
   <!-- 3 · Details -->
   <section class="scene" id="scene-details" aria-labelledby="details-heading" hidden>
     <div class="wrap">
-      <p class="eyebrow">Fast geschafft</p>
+      <p class="eyebrow"><span class="glyphs" aria-hidden="true">ᚠᚢᚦᚨᚱᚲ</span> Fast geschafft</p>
       <h1 class="title" id="details-heading" tabindex="-1" data-heading>Noch kurz ein paar Fragen</h1>
 
       <div class="panel">
@@ -1324,13 +1442,17 @@
   <section class="scene" id="scene-done" aria-labelledby="done-heading" hidden>
     <div class="wrap">
       <div class="done-head">
-        <p class="eyebrow">Am Ziel</p>
+        <svg class="ravens" viewBox="0 0 220 90" aria-hidden="true" focusable="false">
+          <g class="raven r1"><path d="M8 52C22 40 38 36 52 42 60 30 74 20 92 18 82 28 76 38 74 46L86 50C76 54 66 56 58 54 50 62 36 66 24 64 30 60 34 56 36 52 26 56 16 56 8 52Z"/><circle cx="84" cy="47" r="1.3" class="raven-eye"/></g>
+          <g class="raven r2"><path d="M120 40C132 30 146 26 158 31 165 21 177 13 192 11 184 19 179 27 177 34L188 37C179 41 171 42 164 41 157 48 145 51 135 50 140 46 143 43 145 40 136 43 127 43 120 40Z"/><circle cx="186" cy="34.5" r="1.1" class="raven-eye"/></g>
+        </svg>
+        <p class="eyebrow"><span class="glyphs" aria-hidden="true">ᚱ</span> Am Ziel</p>
         <h1 class="title" id="done-heading" tabindex="-1" data-heading>Danke dir!</h1>
-        <p class="lead">Schick mir deine Antwort, dann plane ich die erste Ausfahrt. Für unterwegs gibt’s drei Glücksbringer aus drei Welten:</p>
+        <p class="lead">Schick mir deine Antwort, Odins Raben Hugin und Munin bringen sie zu mir. Für unterwegs gibt’s drei nordische Glücksbringer:</p>
         <ul class="amulets">
-          <li class="amulet"><span class="amulet-art" aria-hidden="true"><span class="omamori"><span>交通安全</span></span></span><span class="amulet-name">Omamori</span><span class="amulet-sub">für sicheres Fahren</span></li>
-          <li class="amulet"><span class="amulet-art" aria-hidden="true"><span class="udjat">𓂀</span></span><span class="amulet-name">Horusauge</span><span class="amulet-sub">zum Schutz</span></li>
-          <li class="amulet"><span class="amulet-art" aria-hidden="true"><span class="rune-stone">ᛉ</span></span><span class="amulet-name">Rune Algiz</span><span class="amulet-sub">gegen Unheil</span></li>
+          <li class="amulet"><span class="amulet-art" aria-hidden="true"><svg class="mjolnir" viewBox="0 0 60 84" focusable="false"><circle class="ring" cx="30" cy="9" r="5"/><path d="M25 14h10v22h-10z"/><path d="M14 36h32l10 24c-9 8-43 8-52 0z"/><path class="engrave" d="M14 45c8 4 24 4 32 0M10 53c10 5 30 5 40 0"/><circle class="engrave-dot" cx="30" cy="62" r="2.2"/></svg></span><span class="amulet-name">Mjölnir</span><span class="amulet-sub">Thors Hammer, zum Schutz</span></li>
+          <li class="amulet"><span class="amulet-art" aria-hidden="true"><span class="rune-stone">ᚱ</span></span><span class="amulet-name">Raidō</span><span class="amulet-sub">die Rune der Reise</span></li>
+          <li class="amulet"><span class="amulet-art" aria-hidden="true"><span class="rune-stone">ᛉ</span></span><span class="amulet-name">Algiz</span><span class="amulet-sub">gegen Unheil</span></li>
         </ul>
       </div>
 
@@ -1338,6 +1460,7 @@
       <ul class="done-stats" id="done-stats"></ul>
 
       <dl class="summary" id="summary"></dl>
+      <p class="rune-note"><span aria-hidden="true">ᚷᚢᛏᛖ ᚠᚨᚺᚱᛏ</span> ist „Gute Fahrt“ in Runen geschrieben</p>
 
       <p class="preview-label">So kommt’s bei mir an</p>
       <p class="preview" id="preview"></p>
@@ -1405,14 +1528,14 @@
   };
 
   var GROUPS = [
-    { id: 'kurvig', title: 'Viele Kurven', sub: 'Kurvig wie die Midgardschlange aus der nordischen Sage: Steigen, Täler und Waldstrecken.' },
+    { id: 'kurvig', title: 'Viele Kurven', sub: 'Kurvig wie Apophis, die Riesenschlange aus der ägyptischen Sage: Steigen, Täler und Waldstrecken.' },
     { id: 'ruhig', title: 'Wenig Kurven', sub: 'Ruhig wie die Sonnenbarke des Ra: entspannt rollen, schauen und genießen.' }
   ];
 
   // Tagestouren ab Winnenden, nur über Landstraßen. Kilometer und Fahrzeit sind ungefähre Werte ohne Pausen.
   var TOURS = [
     {
-      id: 'wildbad', group: 'kurvig', land: 'Schwarzwald', region: 'Schwarzwald · Enztal', type: '森 Schwarzwald', name: 'Baumwipfelpfad Bad Wildbad',
+      id: 'wildbad', group: 'kurvig', land: 'Schwarzwald', region: 'Schwarzwald · Enztal', type: '𓆭 Schwarzwald', name: 'Baumwipfelpfad Bad Wildbad',
       km: 240, time: '5¼', curves: 4,
       text: 'Über Weil der Stadt ins Nagoldtal nach Bad Liebenzell, hoch nach Schömberg und runter nach Bad Wildbad. Das Enztal hinauf bis Enzklösterle, über Besenfeld und Altensteig zurück ins Nagoldtal.',
       route: ['Winnenden', 'Weil der Stadt', 'Bad Liebenzell', 'Schömberg', 'Bad Wildbad', 'Enzklösterle', 'Besenfeld', 'Altensteig', 'Nagold', 'Wildberg', 'Weil der Stadt', 'Winnenden'],
@@ -1422,7 +1545,7 @@
       mark: [11, 'Bad Wildbad']
     },
     {
-      id: 'kaltenbronn', group: 'kurvig', land: 'Schwarzwald', region: 'Schwarzwald · Murgtal & Enztal', type: '森 Schwarzwald', name: 'Kaltenbronn & Hochmoor',
+      id: 'kaltenbronn', group: 'kurvig', land: 'Schwarzwald', region: 'Schwarzwald · Murgtal & Enztal', type: '𓆭 Schwarzwald', name: 'Kaltenbronn & Hochmoor',
       km: 235, time: '5¼', curves: 5,
       text: 'Durchs Enztal nach Neuenbürg, in Kehren hoch nach Dobel und runter nach Bad Herrenalb. Über Loffenau nach Gernsbach und die lange Steige hinauf zum Kaltenbronn. Zurück über Bad Wildbad und Bad Liebenzell.',
       route: ['Winnenden', 'Vaihingen an der Enz', 'Mühlacker', 'Neuenbürg', 'Dobel', 'Bad Herrenalb', 'Loffenau', 'Gernsbach', 'Kaltenbronn', 'Bad Wildbad', 'Bad Liebenzell', 'Weil der Stadt', 'Winnenden'],
@@ -1432,7 +1555,7 @@
       mark: [16, 'Kaltenbronn']
     },
     {
-      id: 'talsperre', group: 'kurvig', land: 'Schwarzwald', region: 'Schwarzwald · Murgtal', type: '森 Schwarzwald', name: 'Schwarzenbach-Talsperre',
+      id: 'talsperre', group: 'kurvig', land: 'Schwarzwald', region: 'Schwarzwald · Murgtal', type: '𓆭 Schwarzwald', name: 'Schwarzenbach-Talsperre',
       km: 265, time: '5¾', curves: 5,
       text: 'Über Calw und Bad Teinach ins Enztal, hoch nach Besenfeld und runter ins Murgtal. Ein Abstecher hoch zur Schwarzenbach-Talsperre, dann an der Murg entlang nach Forbach und über Bad Herrenalb und Dobel zurück.',
       route: ['Winnenden', 'Weil der Stadt', 'Calw', 'Bad Teinach', 'Enzklösterle', 'Besenfeld', 'Schönmünzach', 'Schwarzenbach-Talsperre', 'Forbach', 'Gernsbach', 'Bad Herrenalb', 'Dobel', 'Neuenbürg', 'Mühlacker', 'Winnenden'],
@@ -1442,7 +1565,7 @@
       mark: [15, 'Talsperre']
     },
     {
-      id: 'baiersbronn', group: 'kurvig', land: 'Schwarzwald', region: 'Schwarzwald · Murgtal', type: '森 Schwarzwald', name: 'Baiersbronn & Klosterreichenbach',
+      id: 'baiersbronn', group: 'kurvig', land: 'Schwarzwald', region: 'Schwarzwald · Murgtal', type: '𓆭 Schwarzwald', name: 'Baiersbronn & Klosterreichenbach',
       km: 270, time: '5¾', curves: 4,
       text: 'Über Wildberg und Altensteig hoch nach Besenfeld und runter ins obere Murgtal. An der Murg entlang über Klosterreichenbach nach Baiersbronn und weiter nach Freudenstadt. Zurück über Pfalzgrafenweiler und Nagold.',
       route: ['Winnenden', 'Weil der Stadt', 'Wildberg', 'Altensteig', 'Besenfeld', 'Schönmünzach', 'Klosterreichenbach', 'Baiersbronn', 'Freudenstadt', 'Pfalzgrafenweiler', 'Nagold', 'Weil der Stadt', 'Winnenden'],
@@ -1452,7 +1575,7 @@
       mark: [15, 'Klosterreichenbach']
     },
     {
-      id: 'rothenburg', group: 'kurvig', land: 'Bayern', region: 'Bayern · Romantische Straße', type: '城 Bayern', name: 'Rothenburg ob der Tauber',
+      id: 'rothenburg', group: 'kurvig', land: 'Bayern', region: 'Bayern · Romantische Straße', type: '𓊖 Bayern', name: 'Rothenburg ob der Tauber',
       km: 225, time: '5', curves: 4,
       text: 'Über den Mainhardter Wald nach Schwäbisch Hall, runter ins Kochertal nach Braunsbach und hoch nach Langenburg über der Jagst. Über die Hohenloher Ebene nach Rothenburg und zurück über Rot am See, Kirchberg und Vellberg.',
       route: ['Winnenden', 'Backnang', 'Mainhardt', 'Schwäbisch Hall', 'Braunsbach', 'Langenburg', 'Schrozberg', 'Rothenburg ob der Tauber', 'Rot am See', 'Kirchberg an der Jagst', 'Vellberg', 'Gaildorf', 'Murrhardt', 'Winnenden'],
@@ -1462,7 +1585,7 @@
       mark: [8, 'Rothenburg']
     },
     {
-      id: 'dinkelsbuehl', group: 'kurvig', land: 'Bayern', region: 'Bayern · Romantische Straße', type: '城 Bayern', name: 'Dinkelsbühl & Feuchtwangen',
+      id: 'dinkelsbuehl', group: 'kurvig', land: 'Bayern', region: 'Bayern · Romantische Straße', type: '𓊖 Bayern', name: 'Dinkelsbühl & Feuchtwangen',
       km: 220, time: '4¾', curves: 4,
       text: 'Kurvig durch den Welzheimer Wald nach Gschwend und Abtsgmünd, weiter nach Ellwangen und rüber nach Dinkelsbühl. Über Schopfloch nach Feuchtwangen und zurück über Crailsheim, Vellberg und Gaildorf.',
       route: ['Winnenden', 'Rudersberg', 'Welzheim', 'Gschwend', 'Abtsgmünd', 'Ellwangen', 'Dinkelsbühl', 'Schopfloch', 'Feuchtwangen', 'Crailsheim', 'Vellberg', 'Gaildorf', 'Murrhardt', 'Winnenden'],
@@ -1472,7 +1595,7 @@
       mark: [6, 'Dinkelsbühl']
     },
     {
-      id: 'miltenberg', group: 'kurvig', land: 'Bayern', region: 'Bayern · Odenwald & Main', type: '城 Bayern', name: 'Odenwald & Miltenberg',
+      id: 'miltenberg', group: 'kurvig', land: 'Bayern', region: 'Bayern · Odenwald & Main', type: '𓊖 Bayern', name: 'Odenwald & Miltenberg',
       km: 270, time: '5¾', curves: 4,
       text: 'Über Weinsberg und am Neckar entlang nach Mosbach, durch den Odenwald über Mudau nach Amorbach und runter an den Main nach Miltenberg. Zurück über Walldürn und Buchen ins Jagsttal und über Öhringen heim.',
       route: ['Winnenden', 'Marbach', 'Weinsberg', 'Gundelsheim', 'Mosbach', 'Mudau', 'Amorbach', 'Miltenberg', 'Walldürn', 'Buchen', 'Möckmühl', 'Jagsthausen', 'Öhringen', 'Mainhardt', 'Winnenden'],
@@ -1482,7 +1605,7 @@
       mark: [10, 'Miltenberg']
     },
     {
-      id: 'calw', group: 'ruhig', land: 'Schwarzwald', region: 'Schwarzwald · Nagoldtal', type: '森 Schwarzwald', name: 'Calw, Hirsau & Zavelstein',
+      id: 'calw', group: 'ruhig', land: 'Schwarzwald', region: 'Schwarzwald · Nagoldtal', type: '𓆭 Schwarzwald', name: 'Calw, Hirsau & Zavelstein',
       km: 175, time: '3¾', curves: 3,
       text: 'Über Weil der Stadt nach Bad Liebenzell und durchs Nagoldtal an der Klosterruine Hirsau vorbei nach Calw. Weiter nach Bad Teinach, hoch zur Burgruine Zavelstein und über Neubulach und Gechingen zurück.',
       route: ['Winnenden', 'Weil der Stadt', 'Bad Liebenzell', 'Hirsau', 'Calw', 'Bad Teinach', 'Zavelstein', 'Neubulach', 'Gechingen', 'Weil der Stadt', 'Winnenden'],
@@ -1492,7 +1615,7 @@
       mark: [11, 'Calw']
     },
     {
-      id: 'altensteig', group: 'ruhig', land: 'Schwarzwald', region: 'Schwarzwald · Nagoldtal', type: '森 Schwarzwald', name: 'Altensteig & Nagoldtal',
+      id: 'altensteig', group: 'ruhig', land: 'Schwarzwald', region: 'Schwarzwald · Nagoldtal', type: '𓆭 Schwarzwald', name: 'Altensteig & Nagoldtal',
       km: 210, time: '4¼', curves: 2,
       text: 'Über Weil der Stadt und Gechingen ins Nagoldtal nach Wildberg und an der Nagold entlang bis Altensteig mit seiner Altstadt am Hang. Zurück über Nagold und Herrenberg mit der Stiftskirche über der Stadt.',
       route: ['Winnenden', 'Weil der Stadt', 'Gechingen', 'Wildberg', 'Ebhausen', 'Altensteig', 'Rohrdorf', 'Nagold', 'Herrenberg', 'Renningen', 'Winnenden'],
@@ -1502,7 +1625,7 @@
       mark: [13, 'Altensteig']
     },
     {
-      id: 'freudenstadt', group: 'ruhig', land: 'Schwarzwald', region: 'Schwarzwald · Neckartal', type: '森 Schwarzwald', name: 'Freudenstadt & Neckartal',
+      id: 'freudenstadt', group: 'ruhig', land: 'Schwarzwald', region: 'Schwarzwald · Neckartal', type: '𓆭 Schwarzwald', name: 'Freudenstadt & Neckartal',
       km: 260, time: '5½', curves: 3,
       text: 'Über den Schurwald und an Tübingen vorbei ins enge Neckartal bis Horb. Durch Dornstetten nach Freudenstadt mit dem größten Marktplatz Deutschlands. Zurück durch den Wald über Pfalzgrafenweiler, Nagold und Wildberg.',
       route: ['Winnenden', 'Schurwald', 'Nürtingen', 'Tübingen', 'Rottenburg', 'Neckartal', 'Horb am Neckar', 'Dornstetten', 'Freudenstadt', 'Pfalzgrafenweiler', 'Nagold', 'Wildberg', 'Weil der Stadt', 'Winnenden'],
@@ -1512,7 +1635,7 @@
       mark: [14, 'Freudenstadt']
     },
     {
-      id: 'roettingen', group: 'ruhig', land: 'Bayern', region: 'Bayern · Taubertal', type: '城 Bayern', name: 'Taubertal & Röttingen',
+      id: 'roettingen', group: 'ruhig', land: 'Bayern', region: 'Bayern · Taubertal', type: '𓊖 Bayern', name: 'Taubertal & Röttingen',
       km: 245, time: '5¼', curves: 3,
       text: 'Über Öhringen ins Kochertal nach Künzelsau und rüber ins Jagsttal nach Dörzbach. Über Bad Mergentheim und Weikersheim die Tauber hinauf nach Röttingen und über Creglingen und Langenburg zurück.',
       route: ['Winnenden', 'Backnang', 'Mainhardt', 'Öhringen', 'Künzelsau', 'Dörzbach', 'Bad Mergentheim', 'Weikersheim', 'Röttingen', 'Creglingen', 'Blaufelden', 'Langenburg', 'Schwäbisch Hall', 'Winnenden'],
@@ -1522,7 +1645,7 @@
       mark: [8, 'Röttingen']
     },
     {
-      id: 'hesselberg', group: 'ruhig', land: 'Bayern', region: 'Bayern · Franken & Ries', type: '城 Bayern', name: 'Hesselberg & Ries',
+      id: 'hesselberg', group: 'ruhig', land: 'Bayern', region: 'Bayern · Franken & Ries', type: '𓊖 Bayern', name: 'Hesselberg & Ries',
       km: 275, time: '5¾', curves: 3,
       text: 'Über Murrhardt und Gaildorf nach Abtsgmünd und Ellwangen, weiter zum Hesselberg, dem höchsten Berg Mittelfrankens. Über Wassertrüdingen und Oettingen ins Ries nach Wallerstein und über Bopfingen und Aalen zurück.',
       route: ['Winnenden', 'Backnang', 'Murrhardt', 'Gaildorf', 'Abtsgmünd', 'Ellwangen', 'Hesselberg', 'Wassertrüdingen', 'Oettingen', 'Wallerstein', 'Bopfingen', 'Aalen', 'Schwäbisch Gmünd', 'Winnenden'],
@@ -1532,7 +1655,7 @@
       mark: [7, 'Hesselberg']
     },
     {
-      id: 'harburg', group: 'ruhig', land: 'Bayern', region: 'Bayern · Ries', type: '城 Bayern', name: 'Nördlingen & Burg Harburg',
+      id: 'harburg', group: 'ruhig', land: 'Bayern', region: 'Bayern · Ries', type: '𓊖 Bayern', name: 'Nördlingen & Burg Harburg',
       km: 280, time: '5¾', curves: 3,
       text: 'Über Schwäbisch Gmünd und Aalen nach Bopfingen und ins Ries nach Nördlingen. Weiter zur Burg Harburg hoch über der Wörnitz und über Neresheim und den Albuch zurück.',
       route: ['Winnenden', 'Schorndorf', 'Schwäbisch Gmünd', 'Aalen', 'Bopfingen', 'Nördlingen', 'Harburg', 'Neresheim', 'Bartholomä', 'Heubach', 'Schwäbisch Gmünd', 'Winnenden'],
@@ -1542,7 +1665,7 @@
       mark: [7, 'Nördlingen']
     },
     {
-      id: 'dillingen', group: 'ruhig', land: 'Bayern', region: 'Bayern · Donau', type: '城 Bayern', name: 'Dillingen & Höchstädt',
+      id: 'dillingen', group: 'ruhig', land: 'Bayern', region: 'Bayern · Donau', type: '𓊖 Bayern', name: 'Dillingen & Höchstädt',
       km: 270, time: '5½', curves: 2,
       text: 'Über Schwäbisch Gmünd und den Albuch nach Heidenheim und Giengen, runter an die Donau nach Lauingen und Dillingen. Weiter nach Höchstädt mit seinem Schloss und über Neresheim, Aalen und den Welzheimer Wald zurück.',
       route: ['Winnenden', 'Schorndorf', 'Schwäbisch Gmünd', 'Heubach', 'Heidenheim', 'Giengen', 'Lauingen', 'Dillingen', 'Höchstädt', 'Neresheim', 'Aalen', 'Gschwend', 'Welzheim', 'Winnenden'],
@@ -1552,7 +1675,7 @@
       mark: [8, 'Dillingen']
     },
     {
-      id: 'neuulm', group: 'ruhig', land: 'Bayern', region: 'Bayern · Donau', type: '城 Bayern', name: 'Neu-Ulm & Kloster Elchingen',
+      id: 'neuulm', group: 'ruhig', land: 'Bayern', region: 'Bayern · Donau', type: '𓊖 Bayern', name: 'Neu-Ulm & Kloster Elchingen',
       km: 240, time: '4¾', curves: 2,
       text: 'Über Donzdorf ins Filstal und die Geislinger Steige hoch auf die Alb, runter nach Ulm und über die Donau nach Neu-Ulm. Weiter zum Kloster Oberelchingen hoch über dem Donautal und über Langenau, Giengen und Heidenheim zurück.',
       route: ['Winnenden', 'Schorndorf', 'Donzdorf', 'Geislingen', 'Amstetten', 'Ulm', 'Neu-Ulm', 'Oberelchingen', 'Langenau', 'Giengen', 'Heidenheim', 'Heubach', 'Schwäbisch Gmünd', 'Winnenden'],
@@ -1721,7 +1844,7 @@
     REGIONS.forEach(function (r) {
       var p = xy([r[1], r[2]]);
       if (!inside(p, -60, -40)) return;
-      var half = r[0].length * 7.8;
+      var half = r[0].length * 9.6;
       var tx = svgEl('text', {
         x: Math.min(Math.max(p[0], half + 10), W - half - 10).toFixed(1),
         y: Math.min(Math.max(p[1], 28), H - 14).toFixed(1),
@@ -1884,7 +2007,7 @@
   var jumpLinks = {};
 
   /* ---------- Filter nach Gegend ---------- */
-  var LANDS = [{ id: 'Schwarzwald', kanji: '森' }, { id: 'Bayern', kanji: '城' }];
+  var LANDS = [{ id: 'Schwarzwald', kanji: '𓆭' }, { id: 'Bayern', kanji: '𓊖' }];
   var landFilter = []; // leer heißt: alle Touren zeigen
   function matches(t) { return !landFilter.length || landFilter.indexOf(t.land) !== -1; }
   function visibleTours() { return TOURS.filter(matches); }
