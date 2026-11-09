@@ -1906,7 +1906,8 @@
       document.body.classList.add('on');
       $('ride-scene').classList.add('go');
     }, wait);
-    setTimeout(function () { go('tours'); }, wait + 1300);
+    var dur = parseInt($('ride-scene').getAttribute('data-dur'), 10) || 1300;
+    setTimeout(function () { go('tours'); }, wait + dur);
   }
   function resetRide() {
     riding = false;

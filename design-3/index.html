@@ -868,72 +868,99 @@
   }
   @keyframes twinkle { from { opacity: .25; } to { opacity: 1; } }
   body.on #scene-start::before, body.on #scene-start::after { opacity: 0; animation: none; }
-  /* Start als großes Bild: Sonnenaufgang hinter der Akropolis, Titel oben, Knopf unten */
-  #scene-start { --land-h: clamp(180px, 30vh, 250px); --land-b: 140px; padding: 0; }
-  #scene-start .ride-scene {
-    position: absolute;
-    inset: 0;
-    width: auto;
-    height: auto;
-    margin: 0;
-    z-index: 0;
-    pointer-events: none;
-    background: linear-gradient(0deg, #0b1430 0, #0b1430 104px, rgba(11, 20, 48, 0) 104px);
-  }
-  #scene-start .start {
+  /* Start: Tempeltor. Antippen öffnet die Türen, dahinter die Straße in den Sonnenaufgang */
+  #scene-start { padding: 0; }
+  .temple-start {
     position: relative;
     z-index: 1;
     justify-content: flex-start;
-    min-height: max(100vh, 600px);
-    min-height: max(100dvh, 600px);
-    padding: max(46px, calc(env(safe-area-inset-top) + 26px)) 22px max(22px, calc(env(safe-area-inset-bottom) + 12px));
+    min-height: max(100vh, 620px);
+    min-height: max(100dvh, 620px);
+    padding: max(30px, calc(env(safe-area-inset-top) + 18px)) 22px max(22px, calc(env(safe-area-inset-bottom) + 12px));
   }
-  .poster-title { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 6px; font-size: 1rem; line-height: 1; }
-  .pt-main {
-    font: 700 clamp(3rem, 15vw, 4.6rem)/.95 var(--font-myth);
+  .temple { display: flex; flex-direction: column; flex: 1 1 auto; width: min(100%, 440px); margin: 0 auto; transform-origin: 50% 68%; }
+  .pediment { display: block; width: 100%; height: auto; overflow: visible; }
+  .ped-face { fill: #13244a; stroke: rgba(255, 207, 95, .75); stroke-width: 2; stroke-linejoin: round; }
+  .ped-inner { fill: none; stroke: rgba(255, 207, 95, .3); }
+  .ped-sun path { stroke: #ffcf5f; stroke-width: 2; stroke-linecap: round; }
+  .entablature {
+    position: relative;
+    margin-top: -1px;
+    padding: 10px 8px 24px;
+    border-top: 2px solid rgba(255, 207, 95, .75);
+    border-bottom: 2px solid rgba(255, 207, 95, .55);
+    background: #13244a;
+    text-align: center;
+  }
+  .entablature::after { content: ""; position: absolute; left: 8px; right: 8px; bottom: 6px; height: 12px; background: var(--meander) repeat-x center / 16px 12px; opacity: .7; }
+  .entablature .eyebrow { margin: 0 0 6px; font-size: .74rem; }
+  .temple-title {
+    font: 700 clamp(1.75rem, 8.6vw, 2.7rem)/1.05 var(--font-myth);
     letter-spacing: .05em;
     text-transform: uppercase;
     color: #fff;
-    background: linear-gradient(180deg, #ffffff 30%, #ffe0a0 100%);
+    background: linear-gradient(180deg, #ffffff 35%, #ffe0a0 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
-  .pt-year { display: flex; align-items: center; gap: 14px; padding-left: .55em; font: 600 1rem/1 var(--font-myth); letter-spacing: .55em; color: var(--amber); }
-  .pt-year::before, .pt-year::after { content: ""; width: 38px; height: 1px; background: linear-gradient(90deg, rgba(255, 207, 95, 0), var(--amber)); }
-  .pt-year::after { transform: scaleX(-1); }
-  #scene-start .start-facts { gap: 0; margin-top: 18px; }
+  .portico { display: grid; grid-template-columns: 1fr 1fr 3.3fr 1fr 1fr; column-gap: 3.2%; flex: 1 1 auto; min-height: 200px; max-height: 400px; padding: 14px 3% 10px; }
+  .pillar {
+    position: relative;
+    margin: 12px 0 10px;
+    border-left: 1px solid rgba(255, 207, 95, .35);
+    border-right: 1px solid rgba(255, 207, 95, .35);
+    background:
+      repeating-linear-gradient(90deg, rgba(5, 10, 30, .3) 0 1px, transparent 1px 5px),
+      linear-gradient(90deg, #1d2b56, #34477c 28%, #465b96 50%, #33457a 72%, #1b2851);
+  }
+  .pillar::before, .pillar::after { content: ""; position: absolute; left: -5px; right: -5px; border: 1px solid rgba(255, 207, 95, .6); background: linear-gradient(#41558f, #24345f); }
+  .pillar::before { top: -12px; height: 12px; border-radius: 2px 2px 7px 7px; }
+  .pillar::after { bottom: -10px; height: 10px; border-radius: 4px 4px 1px 1px; }
+  .door-cell { position: relative; display: flex; flex-direction: column; padding-top: 34px; }
+  .door-cell::before { content: ""; position: absolute; left: -6px; right: -6px; top: 20px; height: 9px; border: 1px solid rgba(255, 207, 95, .6); border-radius: 2px; background: #1b2b55; }
+  .doorway { position: relative; flex: 1 1 auto; overflow: hidden; cursor: pointer; border: 2px solid rgba(255, 207, 95, .7); border-bottom: 0; background: #2b2350; perspective: 700px; }
+  .door-view { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .door {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: calc(50% - 1px);
+    background:
+      radial-gradient(circle at var(--ring) 58%, transparent 0 5px, #ffcf5f 5.5px 7px, transparent 7.5px),
+      linear-gradient(90deg, #4a2b10, #7c5222 30%, #a8732f 52%, #7a4f20 78%, #4a2b10);
+    backface-visibility: hidden;
+  }
+  .door::before, .door::after { content: ""; position: absolute; left: 15%; right: 15%; border: 1.5px solid rgba(255, 207, 95, .7); border-radius: 2px; box-shadow: inset 0 0 0 4px rgba(0, 0, 0, .16), inset 0 0 0 5px rgba(255, 207, 95, .28); }
+  .door::before { top: 7%; height: 44%; }
+  .door::after { top: 64%; height: 26%; }
+  .door-l { left: 0; transform-origin: 0 50%; --ring: 84%; }
+  .door-r { right: 0; transform-origin: 100% 50%; --ring: 16%; }
+  .leak { position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: linear-gradient(#ffd98f, #fff4d6 45%, #fff8e6 70%, #ffe3a0); box-shadow: 0 0 14px 4px rgba(255, 214, 140, .45); }
+  /* warmer Lichtschein auf den Stufen, wird beim Öffnen heller */
+  .door-cell::after { content: ""; position: absolute; left: -20%; right: -20%; bottom: -26px; height: 40px; background: radial-gradient(50% 50% at 50% 40%, rgba(255, 214, 140, .4), rgba(255, 214, 140, 0) 70%); pointer-events: none; }
+  .steps { display: grid; justify-items: center; }
+  .steps i { display: block; height: 9px; border: 1px solid rgba(255, 207, 95, .55); border-bottom: 0; background: #13244a; }
+  .steps i:nth-child(1) { width: 92%; }
+  .steps i:nth-child(2) { width: 96%; }
+  .steps i:nth-child(3) { width: 100%; border-bottom: 1px solid rgba(255, 207, 95, .55); }
+  #scene-start .start-facts { gap: 0; margin-top: 16px; }
   #scene-start .start-facts li { padding: 0; border: 0; border-radius: 0; background: none; font: 600 .88rem/1.6 var(--font-body); letter-spacing: .03em; text-transform: none; white-space: nowrap; color: var(--text-dim); }
   #scene-start .start-facts li:first-child { color: var(--amber); }
   #scene-start .start-facts li + li::before { content: "·"; margin: 0 .55em; color: var(--amber); }
-  #scene-start .lead { max-width: 23em; margin: 14px auto 0; font-size: 1rem; color: #c9d2e6; }
-  #scene-start .start .btn { width: 100%; max-width: 360px; margin-top: auto; }
-  #scene-start .sky { position: absolute; inset: 0; overflow: hidden; }
-  #scene-start .sky::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(85% calc(var(--land-h) * 1.5) at 50% calc(100% - var(--land-b) - var(--land-h) * .47), rgba(255, 216, 150, .85) 0%, rgba(255, 140, 140, .42) 26%, rgba(160, 96, 190, .2) 54%, rgba(10, 21, 48, 0) 78%);
-    opacity: .9;
-    transform-origin: 50% 80%;
-    transition: opacity 1.3s ease, transform 1.3s ease;
-  }
-  #scene-start .ride-scene.go .sky::before { opacity: 1; transform: scale(1.1); }
-  .land { position: absolute; left: 0; bottom: var(--land-b); width: 100%; height: var(--land-h); overflow: visible; }
-  .land path { transition: fill 1.3s ease; }
-  .land .h1 { fill: #352f62; }
-  .land .h2 { fill: #232856; }
-  .land .h3 { fill: #151c43; }
-  .ride-scene.go .land .h1 { fill: #463d6e; }
-  .ride-scene.go .land .h2 { fill: #2b2e5e; }
-  .sun-g { transition: transform 1.3s cubic-bezier(.2, .8, .2, 1); }
-  .ride-scene.go .sun-g { transform: translateY(-110px); }
-  #scene-start .road { bottom: 104px; background: #0e1636; border-top-color: rgba(255, 255, 255, .1); border-bottom-color: rgba(255, 255, 255, .06); }
-  .road::before { background: repeating-linear-gradient(90deg, rgba(255, 255, 255, .7) 0 26px, transparent 26px 52px); }
-  #scene-start .bike { bottom: 112px; left: max(26px, calc(50% - 190px)); width: 196px; }
-  .puff { background: rgba(255, 255, 255, .3); }
+  #scene-start .lead { max-width: 24em; margin: 8px auto 0; font-size: .98rem; color: #c9d2e6; }
+  #scene-start .start .btn { width: 100%; max-width: 360px; margin-top: 18px; }
+  /* Antippen: Türen gehen auf, Licht fällt raus, dann geht's hinein */
+  body.on .door { transition: transform 1s cubic-bezier(.55, .05, .3, 1); }
+  body.on .door-l { transform: rotateY(-100deg); }
+  body.on .door-r { transform: rotateY(100deg); }
+  body.on .leak { opacity: 0; transition: opacity .3s ease; }
+  body.on .doorway { box-shadow: 0 0 60px 12px rgba(255, 196, 120, .35); transition: box-shadow .8s ease; }
+  body.on .door-cell::after { transform: scale(1.6, 1.4); opacity: 1; background: radial-gradient(50% 50% at 50% 40%, rgba(255, 214, 140, .75), rgba(255, 214, 140, 0) 70%); transition: transform .8s ease; }
+  body.on .temple { transform: scale(3.2); transition: transform .85s cubic-bezier(.55, 0, .8, .2) .7s; }
+  body.on #scene-start .start-facts, body.on #scene-start .lead, body.on #start-ride { opacity: 0; transition: opacity .3s ease; }
+  body.on .temple-start { opacity: 0; transition: opacity .3s ease 1.3s; }
   @media (prefers-reduced-motion: reduce) {
-    #scene-start .sky::before, .land path, .sun-g { transition: none; }
     #scene-start::after { animation: none; opacity: .7; }
   }
 
@@ -1048,18 +1075,11 @@
   .eyebrow { font: 700 .84rem/1 var(--font-myth); letter-spacing: .2em; }
   .tour-region { font-family: var(--font-myth); letter-spacing: .12em; }
   .sum-row dt { font-family: var(--font-myth); letter-spacing: .12em; }
-  .ride-scene::after { content: ""; position: absolute; left: 0; right: 0; bottom: 86px; height: 12px; background: var(--meander) repeat-x 0 0 / 16px 12px; opacity: .45; }
-  .wing { stroke: #d9952f; stroke-width: .8; stroke-linejoin: round; transform-box: fill-box; transform-origin: 100% 75%; animation: flap 1.5s ease-in-out infinite alternate; }
-  .ride-scene.go .wing { animation-duration: .16s; }
-  @keyframes flap { from { transform: rotate(-4deg); } to { transform: rotate(10deg); } }
   .flag-wrap { width: 180px; height: 130px; margin: 0 auto 8px; }
   .wreath { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
   .flag-pole { left: 60px; top: 24px; width: 4px; height: 66px; }
   .flag { left: 64px; top: 27px; width: 62px; height: 40px; background-size: 20px 20px; }
   .summary::before { height: 12px; background: var(--meander) repeat-x 0 0 / 16px 12px; opacity: .85; }
-  @media (prefers-reduced-motion: reduce) {
-    .wing { animation: none; }
-  }
 
   /* Griechischer Hintergrund: Akropolis im Sonnenaufgang, Sternbild Pegasus, Säulen und Fries */
   :root {
@@ -1067,16 +1087,9 @@
     --capital: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='12'%3E%3Cg fill='none' stroke='%23ffcf5f' stroke-opacity='.65'%3E%3Cpath d='M.5 .5H13.5V3.5H.5Z'/%3E%3Cpath d='M1 3.5C1.5 6 2.6 7.6 3 8H11C11.4 7.6 12.5 6 13 3.5'/%3E%3Cpath d='M3 10.5H11'/%3E%3C/g%3E%3C/svg%3E");
     --column-base: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='8'%3E%3Cg fill='none' stroke='%23ffcf5f' stroke-opacity='.65'%3E%3Cpath d='M3 .5C2 1.5 1.5 2.5 1.5 3.5H12.5C12.5 2.5 12 1.5 11 .5'/%3E%3Cpath d='M.5 4.5H13.5V7.5H.5Z'/%3E%3C/g%3E%3C/svg%3E");
   }
-  .pegasus { position: absolute; left: max(18px, calc(50% - 185px)); bottom: calc(var(--land-b) + var(--land-h) * .8 + 10px); width: 112px; height: auto; overflow: visible; transition: opacity 1s ease; }
-  @media (max-height: 779px) {
-    .pegasus { display: none; }
-  }
-  .pg-l { fill: none; stroke: rgba(255, 207, 95, .42); stroke-width: .9; stroke-linecap: round; }
-  .pg-s circle { fill: #fff; }
-  .pg-t { font: 600 7.5px var(--font-myth); letter-spacing: 2.6px; fill: rgba(255, 207, 95, .8); }
-  body.on .pegasus { opacity: 0; }
   .temple-frame { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .7; }
-  body[data-step="start"] .temple-frame { z-index: 2; }
+  .temple-frame { transition: opacity .8s ease; }
+  body[data-step="start"] .temple-frame { opacity: 0; }
   .temple-frame::before {
     content: "";
     position: absolute;
@@ -1116,55 +1129,53 @@
 
   <!-- 1 · Start -->
   <section class="scene" id="scene-start" aria-labelledby="start-heading">
-    <div class="ride-scene" id="ride-scene" aria-hidden="true">
-        <div class="sky"><svg class="pegasus" viewBox="0 0 140 96" focusable="false"><path class="pg-l" d="M18 34L66 28M66 28L72 72M72 72L22 76M22 76L18 34M72 72L94 66M94 66L108 72M108 72L132 64M66 28L92 20M92 20L116 9M66 28L90 38M90 38L114 33"/><g class="pg-s"><circle cx="18" cy="34" r="2.1"/><circle cx="66" cy="28" r="2.2"/><circle cx="72" cy="72" r="2.2"/><circle cx="22" cy="76" r="1.9"/><circle cx="94" cy="66" r="1.5"/><circle cx="108" cy="72" r="1.4"/><circle cx="132" cy="64" r="2.1"/><circle cx="92" cy="20" r="1.7"/><circle cx="116" cy="9" r="1.4"/><circle cx="90" cy="38" r="1.5"/><circle cx="114" cy="33" r="1.4"/></g><text class="pg-t" x="45" y="92" text-anchor="middle">PEGASUS</text></svg><svg class="land" viewBox="0 0 1600 240" preserveAspectRatio="xMidYMax slice" focusable="false"><defs><radialGradient id="sunglow"><stop offset="0" stop-color="#ffd98f" stop-opacity=".75"/><stop offset=".45" stop-color="#ff9f6e" stop-opacity=".28"/><stop offset="1" stop-color="#ff9f6e" stop-opacity="0"/></radialGradient><radialGradient id="sundisc"><stop offset="0" stop-color="#fff8e0"/><stop offset=".45" stop-color="#ffe39a"/><stop offset=".8" stop-color="#ffc35f"/><stop offset="1" stop-color="#ffa04f"/></radialGradient></defs><g class="sun-g"><circle cx="800" cy="128" r="230" fill="url(#sunglow)"/><circle cx="800" cy="128" r="88" fill="url(#sundisc)"/></g><path class="h1" d="M0 182C20 180.7 78.3 174.3 120 174C161.7 173.7 206.7 180.7 250 180C293.3 179.3 338.3 170.3 380 170C421.7 169.7 463.3 176.3 500 178C536.7 179.7 576.7 179.3 600 180C623.3 180.7 633.3 181.7 640 182L652 171L661 163L669 156L680 150H920L931 156L939 163L948 171L960 182C966.7 181.7 976.7 180.7 1000 180C1023.3 179.3 1063.3 179.7 1100 178C1136.7 176.3 1178.3 169.7 1220 170C1261.7 170.3 1306.7 179.3 1350 180C1393.3 180.7 1438.3 173.7 1480 174C1521.7 174.3 1580 180.7 1600 182V240H0ZM690 150H910V146H690ZM696 146H904V142H696ZM702 142H898V138H702ZM710 138H722V92H710ZM707.5 92H724.5V88H707.5ZM734 138H746V92H734ZM731.5 92H748.5V88H731.5ZM758 138H770V92H758ZM755.5 92H772.5V88H755.5ZM782 138H794V92H782ZM779.5 92H796.5V88H779.5ZM806 138H818V92H806ZM803.5 92H820.5V88H803.5ZM830 138H842V92H830ZM827.5 92H844.5V88H827.5ZM854 138H866V92H854ZM851.5 92H868.5V88H851.5ZM878 138H890V92H878ZM875.5 92H892.5V88H875.5ZM704 88H896V74H704ZM698 74H902V70H698ZM696 70L800 52L904 70Z"/><path class="h2" d="M0 204C30 202.7 120 196 180 196C240 196 300 203.7 360 204C420 204.3 483.3 197.7 540 198C596.7 198.3 656.7 205.3 700 206C743.3 206.7 766.7 202 800 202C833.3 202 856.7 206.7 900 206C943.3 205.3 1003.3 198.3 1060 198C1116.7 197.7 1180 204.3 1240 204C1300 203.7 1360 196.3 1420 196C1480 195.7 1570 201 1600 202V240H0ZM607.5 210C607.5 190.2 610.6 172.6 612 166C613.4 172.6 616.5 190.2 616.5 210ZM621.5 210C621.5 184.8 624.6 162.4 626 154C627.4 162.4 630.5 184.8 630.5 210ZM636.5 210C636.5 192 639.6 176 641 170C642.4 176 645.5 192 645.5 210ZM963.5 210C963.5 187.5 966.6 167.5 968 160C969.4 167.5 972.5 187.5 972.5 210ZM977.5 210C977.5 192 980.6 176 982 170C983.4 176 986.5 192 986.5 210ZM991.5 210C991.5 183.9 994.6 160.7 996 152C997.4 160.7 1000.5 183.9 1000.5 210ZM1006.5 210C1006.5 191.1 1009.6 174.3 1011 168C1012.4 174.3 1015.5 191.1 1015.5 210ZM325.5 210C325.5 190.2 328.6 172.6 330 166C331.4 172.6 334.5 190.2 334.5 210ZM340.5 210C340.5 193.8 343.6 179.4 345 174C346.4 179.4 349.5 193.8 349.5 210ZM1295.5 210C1295.5 189.3 1298.7 170.9 1300 164C1301.3 170.9 1304.5 189.3 1304.5 210ZM1310.5 210C1310.5 192.9 1313.7 177.7 1315 172C1316.3 177.7 1319.5 192.9 1319.5 210Z"/><path class="h3" d="M0 226C33.3 224.7 133.3 218 200 218C266.7 218 333.3 225.7 400 226C466.7 226.3 533.3 220 600 220C666.7 220 733.3 226 800 226C866.7 226 933.3 220 1000 220C1066.7 220 1133.3 226.3 1200 226C1266.7 225.7 1333.3 218.3 1400 218C1466.7 217.7 1566.7 223 1600 224V240H0ZM910 230H914V218H910ZM896 213a8 8 0 1 0 16 0a8 8 0 1 0 -16 0ZM905.5 208a9.5 9.5 0 1 0 19 0a9.5 9.5 0 1 0 -19 0ZM916.5 215a6.5 6.5 0 1 0 13 0a6.5 6.5 0 1 0 -13 0ZM904 216a8 8 0 1 0 16 0a8 8 0 1 0 -16 0ZM956.4 230H959.6V220.4H956.4ZM945.2 216.4a6.4 6.4 0 1 0 12.8 0a6.4 6.4 0 1 0 -12.8 0ZM952.8 212.4a7.6 7.6 0 1 0 15.2 0a7.6 7.6 0 1 0 -15.2 0ZM961.6 218a5.2 5.2 0 1 0 10.4 0a5.2 5.2 0 1 0 -10.4 0ZM951.6 218.8a6.4 6.4 0 1 0 12.8 0a6.4 6.4 0 1 0 -12.8 0ZM1148 230H1152V218H1148ZM1134 213a8 8 0 1 0 16 0a8 8 0 1 0 -16 0ZM1143.5 208a9.5 9.5 0 1 0 19 0a9.5 9.5 0 1 0 -19 0ZM1154.5 215a6.5 6.5 0 1 0 13 0a6.5 6.5 0 1 0 -13 0ZM1142 216a8 8 0 1 0 16 0a8 8 0 1 0 -16 0ZM468.2 230H471.8V219.2H468.2ZM455.6 214.7a7.2 7.2 0 1 0 14.4 0a7.2 7.2 0 1 0 -14.4 0ZM464.1 210.2a8.6 8.6 0 1 0 17.1 0a8.6 8.6 0 1 0 -17.1 0ZM474 216.5a5.9 5.9 0 1 0 11.7 0a5.9 5.9 0 1 0 -11.7 0ZM462.8 217.4a7.2 7.2 0 1 0 14.4 0a7.2 7.2 0 1 0 -14.4 0Z"/></svg></div>
-        <div class="road"></div>
-        <div class="bike">
-          <span class="speed s1"></span><span class="speed s2"></span><span class="speed s3"></span>
-          <span class="puff p1"></span><span class="puff p2"></span><span class="puff p3"></span>
-          <svg viewBox="0 0 240 140" focusable="false">
-            <defs>
-              <linearGradient id="beam" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0" stop-color="#ffe2a8" stop-opacity=".9"/>
-                <stop offset="1" stop-color="#ffe2a8" stop-opacity="0"/>
-              </linearGradient>
-            </defs>
-            <ellipse cx="122" cy="131" rx="98" ry="5" fill="rgba(0,0,0,.5)"/>
-            <path class="bike-beam" d="M182 52 L330 26 L330 92 Z" fill="url(#beam)"/>
-            <g transform="translate(54 104)"><g class="wheel"><circle r="26" fill="#0b0c0d"/><circle r="26" fill="none" stroke="#3a3e44" stroke-width="1.5"/><circle r="17" fill="none" stroke="#9aa0a6" stroke-width="2.5"/><path d="M0 -17V17M-17 0H17M-12 -12L12 12M-12 12L12 -12" stroke="#6b7178" stroke-width="1.8"/><circle r="10" fill="none" stroke="#5b6168" stroke-width="2"/><circle r="4" fill="#c9cdd2"/></g></g>
-            <g transform="translate(190 104)"><g class="wheel"><circle r="26" fill="#0b0c0d"/><circle r="26" fill="none" stroke="#3a3e44" stroke-width="1.5"/><circle r="17" fill="none" stroke="#9aa0a6" stroke-width="2.5"/><path d="M0 -17V17M-17 0H17M-12 -12L12 12M-12 12L12 -12" stroke="#6b7178" stroke-width="1.8"/><circle r="10" fill="none" stroke="#5b6168" stroke-width="2"/><circle r="4" fill="#c9cdd2"/></g></g>
-            <g class="bike-body">
-              <path d="M54 104 L106 96" stroke="#4a4f56" stroke-width="7" stroke-linecap="round"/>
-              <path d="M118 112 C100 118 78 118 54 110" stroke="#8b9097" stroke-width="5" fill="none" stroke-linecap="round"/>
-              <path d="M60 106 L30 98" stroke="#b8bec5" stroke-width="9" stroke-linecap="round"/>
-              <path d="M100 80 h38 l8 10 v14 l-9 9 h-30 l-9 -11 z" fill="#3a3e44"/>
-              <path d="M106 87h30M106 93h32M106 99h31" stroke="#25282c" stroke-width="2"/>
-              <path d="M164 54 L136 82 L106 96" stroke="#5b6168" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M106 70 L66 60" stroke="#5b6168" stroke-width="5" stroke-linecap="round"/>
-              <path d="M70 58 C88 52 106 52 118 57 L116 66 C100 66 84 66 72 66 Z" fill="#15171a" stroke="#2b2f34"/>
-              <path d="M40 50 L74 57 L72 66 L50 63 Z" fill="#ff9447"/>
-              <rect x="36" y="50" width="6" height="5" rx="1.5" fill="#ff3b30"/>
-              <path d="M114 58 C122 45 150 41 164 50 L160 64 C142 69 126 69 114 67 Z" fill="#ff9447"/>
-              <path d="M124 52 C134 47 148 46 156 49" stroke="#ffc58f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-              <path d="M166 52 L190 104" stroke="#c9cdd2" stroke-width="5" stroke-linecap="round"/>
-              <path d="M170 86 Q190 72 210 88" stroke="#3a3e44" stroke-width="5" fill="none" stroke-linecap="round"/>
-              <circle cx="178" cy="56" r="8" fill="#2b2f34"/>
-              <circle cx="180" cy="56" r="5.5" fill="#ffe2a8"/>
-              <path d="M152 40 L170 44" stroke="#2b2f34" stroke-width="4" stroke-linecap="round"/>
-              <path d="M96 60 L124 70 L114 94" stroke="#2a2e33" stroke-width="11" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M107 95 h13" stroke="#111214" stroke-width="7" stroke-linecap="round"/>
-              <path d="M94 58 L120 32" stroke="#2a2e33" stroke-width="15" stroke-linecap="round"/>
-              <path d="M104 46 L118 33" stroke="#ffcf5f" stroke-width="3" stroke-linecap="round"/>
-              <path d="M120 34 L140 44 L156 41" stroke="#2a2e33" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-              <circle cx="130" cy="20" r="12" fill="#ffffff"/><path class="wing" d="M126 14C118 6 110 0 101 -2C104 1 106 3 108 5C104 5 101 5 99 6C102 8 106 9 109 10C106 11 103 12 101 13C104 14 108 15 111 15C109 17 107 18 105 19C112 20 119 21 125 20Z" fill="#ffcf5f"/>
-              <rect x="131" y="15" width="11" height="8" rx="3" fill="#1b1d21"/>
-            </g>
-          </svg>
+    <div class="wrap start temple-start">
+      <div class="temple">
+        <svg class="pediment" viewBox="0 0 360 84" aria-hidden="true" focusable="false">
+          <defs>
+            <linearGradient id="ped-gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe39a"/><stop offset="1" stop-color="#ff9f4a"/></linearGradient>
+          </defs>
+          <polygon class="ped-face" points="4,82 180,5 356,82"/>
+          <polygon class="ped-inner" points="34,75 180,17 326,75"/>
+          <g class="ped-sun" transform="translate(180 53)">
+            <circle r="11" fill="url(#ped-gold)"/>
+            <path d="M0-16V-22M8-13.9L11-19.1M13.9-8L19.1-11M16 0H22M13.9 8L19.1 11M8 13.9L11 19.1M-8 13.9L-11 19.1M-13.9 8L-19.1 11M-16 0H-22M-13.9-8L-19.1-11M-8-13.9L-11-19.1"/>
+          </g>
+        </svg>
+        <div class="entablature">
+          <p class="eyebrow">Motorrad-Umfrage</p>
+          <h1 class="title temple-title" id="start-heading" tabindex="-1" data-heading>Touren 2027</h1>
         </div>
+        <div class="portico">
+          <i class="pillar" aria-hidden="true"></i>
+          <i class="pillar" aria-hidden="true"></i>
+          <div class="door-cell">
+            <div class="doorway" id="ride-scene" data-dur="1650" aria-hidden="true">
+              <svg class="door-view" viewBox="0 0 160 320" preserveAspectRatio="xMidYMax slice" focusable="false">
+                <defs>
+                  <linearGradient id="dv-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b2a5c"/><stop offset=".55" stop-color="#5a4486"/><stop offset=".82" stop-color="#ff9a62"/><stop offset=".97" stop-color="#ffd98f"/></linearGradient>
+                  <radialGradient id="dv-sun"><stop offset="0" stop-color="#fffbea"/><stop offset=".6" stop-color="#ffe7a3"/><stop offset="1" stop-color="#ffc65f"/></radialGradient>
+                </defs>
+                <rect width="160" height="212" fill="url(#dv-sky)"/>
+                <circle cx="80" cy="200" r="64" fill="#ffe3a0" opacity=".3"/>
+                <circle cx="80" cy="203" r="30" fill="url(#dv-sun)"/>
+                <path d="M0 204C20 196 40 198 60 202S90 205 100 202 140 196 160 202V320H0Z" fill="#2c2550"/>
+                <path d="M58 206C56 198 57 190 59.5 184 62 190 63 198 61 206ZM100 206C98 197 99 189 101.5 182 104 189 105 197 103 206ZM108 206C106.5 200 107 194 109 189 111 194 111.6 200 110 206Z" fill="#231f45"/>
+                <path d="M0 214C40 208 120 208 160 214V320H0Z" fill="#191a3a"/>
+                <path d="M76 208H84L150 320H10Z" fill="#2b2c48"/>
+                <path d="M76 208 10 320M84 208 150 320" stroke="#fff" stroke-opacity=".28"/>
+                <path d="M79.6 214h.8v4h-.8zM79.3 226h1.4v7h-1.4zM78.9 244h2.2v11h-2.2zM78.3 270h3.4v16h-3.4zM77.6 302h4.8v18h-4.8z" fill="#ffe9b0"/>
+              </svg>
+              <span class="door door-l"></span>
+              <span class="door door-r"></span>
+              <span class="leak"></span>
+            </div>
+          </div>
+          <i class="pillar" aria-hidden="true"></i>
+          <i class="pillar" aria-hidden="true"></i>
+        </div>
+        <div class="steps" aria-hidden="true"><i></i><i></i><i></i></div>
       </div>
-    <div class="wrap start">
-      <p class="eyebrow">Motorrad-Umfrage</p>
-      <h1 class="title poster-title" id="start-heading" tabindex="-1" data-heading><span class="pt-main">Touren</span> <span class="pt-year">2027</span></h1>
       <ul class="start-facts">
         <li id="fact-count">23 Touren</li>
         <li>ab Winnenden</li>
@@ -1172,7 +1183,7 @@
       </ul>
       <p class="lead">Nächstes Jahr wird gefahren! Ich hab ein paar Touren ab Winnenden rausgesucht, alle nur über Landstraßen, also auch gut mit 125er. Sag mir, wo du dabei bist.</p>
       <button type="button" class="btn btn-primary" id="start-ride">
-        Los geht’s
+        Eintreten
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
       </button>
     </div>
@@ -2079,7 +2090,8 @@
       document.body.classList.add('on');
       $('ride-scene').classList.add('go');
     }, wait);
-    setTimeout(function () { go('tours'); }, wait + 1300);
+    var dur = parseInt($('ride-scene').getAttribute('data-dur'), 10) || 1300;
+    setTimeout(function () { go('tours'); }, wait + dur);
   }
   function resetRide() {
     riding = false;
