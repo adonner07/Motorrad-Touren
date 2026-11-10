@@ -1186,10 +1186,19 @@
   /* =========================================================
      3 · DER NORDEN – Fragen und Abschicken: Nordlicht, Runen, Odins Raben
      ========================================================= */
+  :root {
+    --acc: #5ce3c0;
+    --acc-rgb: 92, 227, 192;
+    --acc2: #9b7bff;
+    --acc2-rgb: 155, 123, 255;
+    --acc-ink: #04211c;
+    --btn-a: #6ff0cc;
+    --btn-b: #3fb8d8;
+  }
   body[data-step="details"]::after, body[data-step="done"]::after {
     background:
-      radial-gradient(60% 34% at 78% -4%, rgba(92, 227, 192, .22), rgba(92, 227, 192, 0) 70%),
-      radial-gradient(55% 30% at 22% -6%, rgba(155, 123, 255, .18), rgba(155, 123, 255, 0) 70%),
+      radial-gradient(60% 34% at 78% -4%, rgba(var(--acc-rgb), .22), rgba(var(--acc-rgb), 0) 70%),
+      radial-gradient(55% 30% at 22% -6%, rgba(var(--acc2-rgb), .18), rgba(var(--acc2-rgb), 0) 70%),
       linear-gradient(180deg, #0b1118 0%, #0d141c 60%, #0f1720 100%);
   }
   body[data-step="details"]::before, body[data-step="done"]::before { opacity: .045; }
@@ -1202,42 +1211,43 @@
     --line: rgba(220, 235, 245, .1);
     --line-strong: rgba(220, 235, 245, .22);
     --map: #111821;
-    --orange: #5ce3c0;
-    --amber: #5ce3c0;
+    --preview-bg: #1b2430;
+    --orange: var(--acc);
+    --amber: var(--acc);
     color: var(--text);
   }
-  #scene-details .eyebrow, #scene-done .eyebrow { color: #5ce3c0; font: 700 .8rem/1.2 var(--font-body); letter-spacing: .26em; }
-  #scene-details .eyebrow .glyphs, #scene-done .eyebrow .glyphs { margin-right: .35em; font-size: 1.05rem; letter-spacing: .12em; color: #9b7bff; }
+  #scene-details .eyebrow, #scene-done .eyebrow { color: var(--acc); font: 700 .8rem/1.2 var(--font-body); letter-spacing: .26em; }
+  #scene-details .eyebrow .glyphs, #scene-done .eyebrow .glyphs { margin-right: .35em; font-size: 1.05rem; letter-spacing: .12em; color: var(--acc2); }
   #scene-details .title, #scene-done .title { font: 400 clamp(2.4rem, 11vw, 3.4rem)/1.05 var(--font-no); letter-spacing: .02em; color: #eef4f8; }
-  #scene-details .btn-primary, #scene-done .btn-primary { background: linear-gradient(90deg, #6ff0cc, #3fb8d8); color: #04211c; box-shadow: 0 14px 30px -14px rgba(92, 227, 192, .8), inset 0 -2px 0 rgba(0, 0, 0, .14); }
+  #scene-details .btn-primary, #scene-done .btn-primary { background: linear-gradient(90deg, var(--btn-a), var(--btn-b)); color: var(--acc-ink); box-shadow: 0 14px 30px -14px rgba(var(--acc-rgb), .8), inset 0 -2px 0 rgba(0, 0, 0, .14); }
   #scene-details .btn-text, #scene-done .btn-text { color: #9fb0bf; }
   #scene-details .panel, #scene-done .summary {
     border: 1px solid rgba(220, 235, 245, .12);
     border-radius: 10px;
-    background-color: #161e28;
+    background-color: var(--panel);
     background-image: repeating-linear-gradient(135deg, rgba(255, 255, 255, .012) 0 2px, transparent 2px 7px);
   }
   #scene-details .q-label { font: 400 1.35rem/1.2 var(--font-no); letter-spacing: .02em; color: #eef4f8; }
   #scene-details .chip input:checked + .chip-face, #scene-details .month input:checked + .month-face, #scene-details .option input:checked + .option-face {
-    background: rgba(92, 227, 192, .12);
-    border-color: #5ce3c0;
+    background: rgba(var(--acc-rgb), .12);
+    border-color: var(--acc);
   }
   #scene-details .chip input:checked + .chip-face::before {
-    border-color: #5ce3c0;
-    background: #5ce3c0 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.4 6.3l2.3 2.3 4.9-5.1' fill='none' stroke='%2304211c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 11px no-repeat;
+    border-color: var(--acc);
+    background: var(--acc) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.4 6.3l2.3 2.3 4.9-5.1' fill='none' stroke='%2304211c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 11px no-repeat;
   }
-  #scene-details .chip-radio input:checked + .chip-face::before { background: radial-gradient(circle, #04211c 0 3px, #5ce3c0 3.5px); }
+  #scene-details .chip-radio input:checked + .chip-face::before { background: radial-gradient(circle, var(--acc-ink) 0 3px, var(--acc) 3.5px); }
   #scene-details .month-face, #scene-details .option-face { border-radius: 10px; }
   #scene-details .m-bar { background: rgba(220, 235, 245, .2); opacity: 1; }
-  #scene-details .month input:checked + .month-face .m-bar { background: linear-gradient(#5ce3c0, #9b7bff); box-shadow: 0 0 12px rgba(92, 227, 192, .7); }
-  #scene-details .option input:checked + .option-face .option-ico { color: #5ce3c0; }
-  #scene-details .option input:checked + .option-face::after { border-color: #5ce3c0; background: radial-gradient(circle, #04211c 0 3.5px, #5ce3c0 4px); }
+  #scene-details .month input:checked + .month-face .m-bar { background: linear-gradient(var(--acc), var(--acc2)); box-shadow: 0 0 12px rgba(var(--acc-rgb), .7); }
+  #scene-details .option input:checked + .option-face .option-ico { color: var(--acc); }
+  #scene-details .option input:checked + .option-face::after { border-color: var(--acc); background: radial-gradient(circle, var(--acc-ink) 0 3.5px, var(--acc) 4px); }
   #scene-details .idea { border-radius: 10px; }
   #scene-details .idea::placeholder { color: #7d8b98; }
   /* Ziel: Odins Raben und drei nordische Glücksbringer */
   .ravens { display: block; width: 190px; height: auto; margin: 2px auto 4px; overflow: visible; }
   .raven path { fill: #0a0e14; stroke: rgba(160, 200, 230, .35); stroke-width: .8; }
-  .raven-eye { fill: #5ce3c0; }
+  .raven-eye { fill: var(--acc); }
   .raven { animation: glide 3.4s ease-in-out infinite alternate; }
   .raven.r2 { animation-delay: -1.7s; }
   @keyframes glide { from { transform: translateY(-2px); } to { transform: translateY(3px); } }
@@ -1249,36 +1259,36 @@
   .mjolnir path { fill: #b9c6d2; }
   .mjolnir .ring { fill: none; stroke: #b9c6d2; stroke-width: 3; }
   .mjolnir .engrave { fill: none; stroke: #5d6b78; stroke-width: 1.6; stroke-linecap: round; }
-  .mjolnir .engrave-dot { fill: #5ce3c0; }
+  .mjolnir .engrave-dot { fill: var(--acc); }
   .rune-stone {
     width: 62px;
     height: 84px;
     border-radius: 30px 34px 22px 26px;
     background: linear-gradient(160deg, #5a6170, #2c313c);
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .12), 0 10px 22px -10px rgba(0, 0, 0, .8);
-    color: #5ce3c0;
+    color: var(--acc);
     font: 400 2.6rem/1 var(--font-body);
-    text-shadow: 0 0 12px rgba(92, 227, 192, .8);
+    text-shadow: 0 0 12px rgba(var(--acc-rgb), .8);
   }
   .amulet-name { font: 400 1.05rem/1.2 var(--font-no); letter-spacing: .03em; color: #eef4f8; }
   .amulet-sub { margin-top: -4px; font: 600 .74rem/1.3 var(--font-body); color: #9fb0bf; }
   #scene-done .overview-box {
     border-radius: 10px;
-    background-color: #111821;
+    background-color: var(--map);
     background-image:
-      radial-gradient(60% 60% at 45% 45%, rgba(92, 227, 192, .07), rgba(92, 227, 192, 0) 70%),
+      radial-gradient(60% 60% at 45% 45%, rgba(var(--acc-rgb), .07), rgba(var(--acc-rgb), 0) 70%),
       linear-gradient(rgba(220, 235, 245, .03) 1px, transparent 1px),
       linear-gradient(90deg, rgba(220, 235, 245, .03) 1px, transparent 1px);
   }
   #scene-done .ov-line { stroke: rgba(200, 220, 235, .3); }
-  #scene-done .ov-tour.is-on .ov-line { stroke: #5ce3c0; }
-  #scene-done .ov-glow { stroke: #5ce3c0; }
-  #scene-done .ov-region { font-family: var(--font-body); fill: rgba(232, 238, 244, .4); stroke: #111821; }
-  #scene-done .ov-home { fill: #111821; stroke: #e8eef4; }
+  #scene-done .ov-tour.is-on .ov-line { stroke: var(--acc); }
+  #scene-done .ov-glow { stroke: var(--acc); }
+  #scene-done .ov-region { font-family: var(--font-body); fill: rgba(232, 238, 244, .4); stroke: var(--map); }
+  #scene-done .ov-home { fill: var(--map); stroke: #e8eef4; }
   #scene-done .ov-pole { stroke: #e8eef4; }
-  #scene-done .ov-home-label { fill: #e8eef4; stroke: #111821; }
+  #scene-done .ov-home-label { fill: #e8eef4; stroke: var(--map); }
   #scene-done .m-ck-l { fill: #e8eef4; }
-  #scene-done .m-ck-d { fill: #111821; }
+  #scene-done .m-ck-d { fill: var(--map); }
   #scene-done .done-stats li { border: 0; border-radius: 999px; background: rgba(220, 235, 245, .07); }
   #scene-done .summary { padding-top: 34px; }
   #scene-done .summary::before {
@@ -1290,13 +1300,13 @@
     text-align: center;
     font: 400 .9rem/1 var(--font-body);
     letter-spacing: .32em;
-    color: rgba(92, 227, 192, .6);
+    color: rgba(var(--acc-rgb), .6);
     background: none;
     opacity: 1;
   }
-  #scene-done .sum-row dt { color: #5ce3c0; }
-  #scene-done .preview { background: #1b2430; color: #e3eaf0; border-color: rgba(220, 235, 245, .12); border-left-color: #5ce3c0; border-radius: 12px 12px 12px 4px; font-family: var(--font-body); }
-  #scene-done .copy-status { color: #5ce3c0; }
+  #scene-done .sum-row dt { color: var(--acc); }
+  #scene-done .preview { background: var(--preview-bg); color: #e3eaf0; border-color: rgba(220, 235, 245, .12); border-left-color: var(--acc); border-radius: 12px 12px 12px 4px; font-family: var(--font-body); }
+  #scene-done .copy-status { color: var(--acc); }
   .rune-note { margin: 8px 0 0; text-align: center; font: 600 .76rem/1.4 var(--font-body); color: #7d8b98; }
   .form-error { color: #ffb4a6; }
   @media (prefers-reduced-motion: reduce) {
