@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Auswertung Touren 2027</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0a1530">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a1530;
+    --panel: #13244a;
+    --panel-2: #0f1d3d;
+    --line: rgba(255, 255, 255, .1);
+    --line-strong: rgba(255, 255, 255, .22);
+    --text: #f6f7fb;
+    --dim: #aebad2;
+    --gold: #ffcf5f;
+    --orange: #ff9447;
+    --red: #ff8f80;
+    --sun: linear-gradient(90deg, #ffd56b, #ff9447);
+    --ink: #14213f;
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--bg); }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    padding: max(22px, env(safe-area-inset-top)) 16px max(40px, env(safe-area-inset-bottom));
+    background: linear-gradient(180deg, #0a1530, #10203f) fixed;
+    color: var(--text);
+    font: 500 1rem/1.5 "Outfit", system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-text-size-adjust: 100%;
+  }
+  main { max-width: 760px; margin: 0 auto; }
+  h1 { margin: 4px 0 6px; font: 700 clamp(1.8rem, 7vw, 2.4rem)/1.1 "Cinzel", Georgia, serif; letter-spacing: .03em; }
+  h2 { margin: 0 0 12px; font: 700 1.25rem/1.2 "Outfit", sans-serif; }
+  .eyebrow { margin: 0; font: 700 .78rem/1 "Cinzel", Georgia, serif; letter-spacing: .22em; color: var(--gold); }
+  .intro { margin: 0 0 18px; color: var(--dim); }
+  .card { margin-top: 16px; padding: 18px 16px; border: 1px solid var(--line); border-radius: 20px; background: var(--panel); }
+  label { display: block; margin: 0 0 6px; font-weight: 700; }
+  .hint { margin: 2px 0 10px; font-size: .9rem; color: var(--dim); }
+  input[type="text"], textarea {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--line-strong);
+    border-radius: 14px;
+    background: var(--panel-2);
+    color: var(--text);
+    font: inherit;
+  }
+  textarea { min-height: 150px; resize: vertical; }
+  input:focus, textarea:focus { outline: 3px solid var(--gold); outline-offset: 1px; }
+  .row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+  button {
+    -webkit-appearance: none;
+    appearance: none;
+    min-height: 48px;
+    padding: 12px 18px;
+    border: 1.5px solid var(--line-strong);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--text);
+    font: 700 1rem/1 "Outfit", sans-serif;
+    cursor: pointer;
+  }
+  button.primary { flex: 1 1 200px; border: 0; background: var(--sun); color: var(--ink); }
+  button:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+  .status { min-height: 1.5em; margin: 10px 0 0; font-weight: 600; color: var(--gold); }
+  .status.err { color: var(--red); }
+  .tabs { display: flex; gap: 8px; margin-top: 22px; }
+  .tabs button { flex: 1; min-height: 44px; padding: 10px 12px; font-size: .95rem; }
+  .tabs button[aria-selected="true"] { border-color: var(--gold); background: rgba(255, 207, 95, .14); color: var(--gold); }
+  .tabs .n { margin-left: 6px; color: var(--dim); }
+  .empty { margin: 0; color: var(--dim); }
+  .people { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  .people li { display: flex; align-items: center; gap: 6px; padding: 6px 6px 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--panel-2); font-weight: 600; }
+  .people button { min-height: 30px; width: 30px; padding: 0; border: 0; color: var(--dim); font-size: 1.1rem; }
+  .rank { margin: 0; padding: 0; list-style: none; }
+  .rank li { padding: 10px 0; border-top: 1px solid var(--line); }
+  .rank li:first-child { border-top: 0; padding-top: 0; }
+  .rank-top { display: flex; align-items: baseline; gap: 10px; }
+  .rank-name { flex: 1; min-width: 0; font-weight: 700; overflow-wrap: anywhere; }
+  .rank-n { font: 800 1.15rem/1 "Outfit", sans-serif; color: var(--gold); white-space: nowrap; }
+  .bar { height: 8px; margin: 7px 0 5px; border-radius: 4px; background: rgba(255, 255, 255, .08); overflow: hidden; }
+  .bar i { display: block; height: 100%; border-radius: 4px; background: var(--sun); }
+  .who { font-size: .9rem; color: var(--dim); }
+  .fav { color: var(--gold); font-weight: 700; }
+  .grid { display: grid; gap: 16px; }
+  @media (min-width: 640px) { .grid { grid-template-columns: 1fr 1fr; } }
+  .ideas { margin: 0; padding-left: 1.1em; }
+  .ideas li { margin: 6px 0; }
+  .ideas b { color: var(--gold); }
+  .foot { margin-top: 22px; font-size: .88rem; color: var(--dim); }
+</style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">Nur für dich</p>
+  <h1>Auswertung</h1>
+  <p class="intro">Hier sammelst du die Antworten aus beiden Umfragen (Touren und Tagestouren). Alles bleibt nur auf diesem Gerät gespeichert.</p>
+
+  <section class="card" aria-labelledby="add-h">
+    <h2 id="add-h">Antwort einfügen</h2>
+    <label for="name">Von wem?</label>
+    <p class="hint" id="name-hint">Nur nötig, wenn du eine einzelne Nachricht kopierst. Bei mehreren Nachrichten auf einmal erkenne ich die Namen selbst.</p>
+    <input type="text" id="name" autocomplete="off" aria-describedby="name-hint">
+    <label for="paste" style="margin-top:14px">Nachricht aus WhatsApp</label>
+    <p class="hint" id="paste-hint">In WhatsApp die Antwort lange drücken, „Kopieren“ und hier einfügen.</p>
+    <textarea id="paste" aria-describedby="paste-hint" placeholder="Motorrad-Touren 2027 🏍️&#10;Ich bin dabei bei:&#10;• …"></textarea>
+    <div class="row">
+      <button type="button" class="primary" id="add">Hinzufügen</button>
+    </div>
+    <p class="status" id="status" role="status" aria-live="polite"></p>
+  </section>
+
+  <div class="tabs" role="tablist" aria-label="Umfrage">
+    <button type="button" role="tab" id="tab-touren" aria-controls="out" aria-selected="true" data-s="touren">Touren<span class="n" id="n-touren"></span></button>
+    <button type="button" role="tab" id="tab-tages" aria-controls="out" aria-selected="false" data-s="tages">Tagestouren<span class="n" id="n-tages"></span></button>
+  </div>
+  <div id="out" role="tabpanel" aria-labelledby="tab-touren"></div>
+
+  <div class="row">
+    <button type="button" id="copy">Ergebnis kopieren</button>
+    <button type="button" id="clear">Alles löschen</button>
+  </div>
+  <p class="foot">Schickt jemand später eine neue Antwort, füg sie einfach wieder ein. Die alte Antwort von derselben Person wird dann ersetzt.</p>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  var KEY = 'auswertung-2027-v1';
+  var MONTHS = ['januar', 'februar', 'märz', 'april', 'mai', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'dezember'];
+  var DAYS = ['montag', 'dienstag', 'mittwoch', 'donnerstag', 'freitag', 'samstag', 'sonntag'];
+  var HEAD = /Motorrad-(Tages)?touren 2027/i;
+  var PREFIX = /^\s*(?:\[[^\]]*\]\s*|\d{1,2}[.\/]\d{1,2}[.\/]\d{2,4},?\s+\d{1,2}:\d{2}(?::\d{2})?\s*[-–]\s*)([^:]{1,60}):\s*/;
+  var $ = function (id) { return document.getElementById(id); };
+  var data = load();
+  var current = 'touren';
+
+  function load() {
+    try { return JSON.parse(localStorage.getItem(KEY) || '[]') || []; } catch (e) { return []; }
+  }
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) { /* privater Modus */ }
+  }
+  function clean(s) { return String(s || '').replace(/[‎‏‪-‮﻿]/g, '').trim(); }
+  function list(s) { return clean(s).split(/\s*,\s*/).filter(Boolean); }
+
+  // Text in einzelne Antworten zerlegen: jede beginnt mit der Kopfzeile der Umfrage
+  function parse(text, fallbackName) {
+    var lines = clean(text).split(/\r?\n/).map(clean);
+    var out = [], cur = null;
+    lines.forEach(function (raw) {
+      if (!raw) return;
+      var name = '', line = raw, m = raw.match(PREFIX);
+      if (m) { name = clean(m[1]); line = clean(raw.slice(m[0].length)); }
+      var h = line.match(HEAD);
+      if (h) {
+        cur = { survey: h[1] ? 'tages' : 'touren', name: name, tours: [], fav: '', months: [], days: [], role: '', style: '', idea: '' };
+        out.push(cur);
+        return;
+      }
+      if (m) { cur = null; return; }          // andere Nachricht im Chat
+      if (!cur) return;
+      var t;
+      if ((t = line.match(/^[•·\-*]\s*(.+?)(?:\s*\(ca\.[^)]*\))?\s*$/))) cur.tours.push(clean(t[1]));
+      else if ((t = line.match(/^Meine Nummer 1:\s*(.+)$/i))) cur.fav = clean(t[1]);
+      else if ((t = line.match(/^Monate:\s*(.+)$/i))) cur.months = list(t[1]);
+      else if ((t = line.match(/^Tage:\s*(.+)$/i))) cur.days = list(t[1]);
+      else if ((t = line.match(/^Fahrstil:\s*(.+)$/i))) cur.style = clean(t[1]);
+      else if ((t = line.match(/^Meine Idee:\s*(.+)$/i))) cur.idea = clean(t[1]);
+      else if (/^Ich fahr selbst/i.test(line)) cur.role = 'Fährt selbst';
+      else if (/^Ich fahr hinten mit/i.test(line)) cur.role = 'Fährt hinten mit';
+      else if (/weiß ich noch nicht/i.test(line)) cur.role = 'Weiß noch nicht';
+    });
+    var unnamed = 0;
+    return out.filter(function (a) { return a.tours.length; }).map(function (a) {
+      if (!a.name) a.name = clean(fallbackName) || ('Unbekannt ' + (++unnamed));
+      return a;
+    });
+  }
+
+  function add() {
+    var found = parse($('paste').value, $('name').value);
+    var st = $('status');
+    st.classList.remove('err');
+    if (!found.length) {
+      st.textContent = 'Da war keine Antwort aus der Umfrage drin. Kopier die ganze Nachricht, die mit „Motorrad-Touren 2027“ anfängt.';
+      st.classList.add('err');
+      return;
+    }
+    var replaced = 0;
+    found.forEach(function (a) {
+      var i = -1;
+      data.forEach(function (d, k) { if (d.survey === a.survey && d.name.toLowerCase() === a.name.toLowerCase()) i = k; });
+      a.added = Date.now();
+      if (i >= 0) { a.name = data[i].name; data[i] = a; replaced++; } else data.push(a);
+    });
+    save();
+    st.textContent = found.length === 1
+      ? (replaced ? 'Antwort von ' + found[0].name + ' aktualisiert.' : 'Antwort von ' + found[0].name + ' hinzugefügt.')
+      : found.length + ' Antworten übernommen' + (replaced ? ' (' + replaced + ' aktualisiert)' : '') + '.';
+    $('paste').value = '';
+    $('name').value = '';
+    select(found[found.length - 1].survey);
+  }
+
+  function count(items) {
+    var map = {};
+    items.forEach(function (it) {
+      var k = it.key.toLowerCase();
+      if (!map[k]) map[k] = { label: it.key, n: 0, who: [] };
+      map[k].n++;
+      map[k].who.push(it.who);
+    });
+    return Object.keys(map).map(function (k) { return map[k]; });
+  }
+  function order(arr, names) {
+    return arr.sort(function (a, b) {
+      var ia = names ? names.indexOf(a.label.toLowerCase()) : -1, ib = names ? names.indexOf(b.label.toLowerCase()) : -1;
+      if (ia >= 0 && ib >= 0) return ia - ib;
+      return b.n - a.n || a.label.localeCompare(b.label, 'de');
+    });
+  }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function rankList(rows, total, favs) {
+    if (!rows.length) return '<p class="empty">Noch nichts.</p>';
+    return '<ol class="rank">' + rows.map(function (r) {
+      var f = favs && favs[r.label.toLowerCase()];
+      return '<li><div class="rank-top"><span class="rank-name">' + esc(r.label) + '</span><span class="rank-n">' + r.n + '</span></div>' +
+        '<div class="bar" aria-hidden="true"><i style="width:' + Math.round(r.n / Math.max(1, total) * 100) + '%"></i></div>' +
+        '<div class="who">' + esc(r.who.join(', ')) + (f ? ' · <span class="fav">★ Nummer 1 für ' + esc(f.join(', ')) + '</span>' : '') + '</div></li>';
+    }).join('') + '</ol>';
+  }
+
+  function render() {
+    ['touren', 'tages'].forEach(function (s) {
+      var n = data.filter(function (d) { return d.survey === s; }).length;
+      $('n-' + s).textContent = n ? '(' + n + ')' : '';
+    });
+    var rows = data.filter(function (d) { return d.survey === current; });
+    var out = $('out');
+    if (!rows.length) {
+      out.innerHTML = '<section class="card"><p class="empty">Für diese Umfrage ist noch keine Antwort eingefügt.</p></section>';
+      return;
+    }
+    var total = rows.length;
+    var tours = order(count([].concat.apply([], rows.map(function (d) { return d.tours.map(function (t) { return { key: t, who: d.name }; }); }))));
+    var favs = {};
+    rows.forEach(function (d) { if (d.fav) (favs[d.fav.toLowerCase()] = favs[d.fav.toLowerCase()] || []).push(d.name); });
+    var months = order(count([].concat.apply([], rows.map(function (d) { return d.months.map(function (t) { return { key: t, who: d.name }; }); }))), MONTHS);
+    var days = order(count([].concat.apply([], rows.map(function (d) { return d.days.map(function (t) { return { key: t, who: d.name }; }); }))), DAYS);
+    var roles = order(count(rows.filter(function (d) { return d.role; }).map(function (d) { return { key: d.role, who: d.name }; })));
+    var styles = order(count(rows.filter(function (d) { return d.style; }).map(function (d) { return { key: d.style, who: d.name }; })));
+    var ideas = rows.filter(function (d) { return d.idea; });
+    out.innerHTML =
+      '<section class="card"><h2>' + total + (total === 1 ? ' Antwort' : ' Antworten') + '</h2><ul class="people">' +
+        rows.map(function (d, i) { return '<li>' + esc(d.name) + '<button type="button" data-del="' + data.indexOf(d) + '" aria-label="Antwort von ' + esc(d.name) + ' löschen">×</button></li>'; }).join('') +
+      '</ul></section>' +
+      '<section class="card"><h2>Beliebteste Touren</h2>' + rankList(tours, total, favs) + '</section>' +
+      '<div class="grid">' +
+        '<section class="card"><h2>Monate</h2>' + rankList(months, total) + '</section>' +
+        '<section class="card"><h2>Tage</h2>' + rankList(days, total) + '</section>' +
+        '<section class="card"><h2>Wer fährt?</h2>' + rankList(roles, total) + '</section>' +
+        '<section class="card"><h2>Fahrstil</h2>' + rankList(styles, total) + '</section>' +
+      '</div>' +
+      (ideas.length ? '<section class="card"><h2>Ideen</h2><ul class="ideas">' + ideas.map(function (d) { return '<li><b>' + esc(d.name) + ':</b> ' + esc(d.idea) + '</li>'; }).join('') + '</ul></section>' : '');
+  }
+
+  function select(s) {
+    current = s;
+    ['touren', 'tages'].forEach(function (k) {
+      var tab = $('tab-' + k);
+      tab.setAttribute('aria-selected', String(k === s));
+    });
+    $('out').setAttribute('aria-labelledby', 'tab-' + s);
+    render();
+  }
+
+  function summary() {
+    var rows = data.filter(function (d) { return d.survey === current; });
+    if (!rows.length) return '';
+    var tours = order(count([].concat.apply([], rows.map(function (d) { return d.tours.map(function (t) { return { key: t, who: d.name }; }); }))));
+    var months = order(count([].concat.apply([], rows.map(function (d) { return d.months.map(function (t) { return { key: t, who: d.name }; }); }))), MONTHS);
+    var lines = [(current === 'tages' ? 'Tagestouren' : 'Touren') + ' 2027: ' + rows.length + (rows.length === 1 ? ' Antwort' : ' Antworten'), '', 'Beliebteste Touren:'];
+    tours.slice(0, 8).forEach(function (t, i) { lines.push((i + 1) + '. ' + t.label + ' (' + t.n + ': ' + t.who.join(', ') + ')'); });
+    if (months.length) { lines.push(''); lines.push('Monate: ' + months.map(function (m) { return m.label + ' ' + m.n; }).join(', ')); }
+    return lines.join('\n');
+  }
+
+  $('add').addEventListener('click', add);
+  document.querySelector('.tabs').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-s]');
+    if (b) select(b.getAttribute('data-s'));
+  });
+  $('out').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-del]');
+    if (!b) return;
+    var d = data[+b.getAttribute('data-del')];
+    if (d && window.confirm('Antwort von ' + d.name + ' löschen?')) { data.splice(+b.getAttribute('data-del'), 1); save(); render(); }
+  });
+  $('clear').addEventListener('click', function () {
+    if (data.length && window.confirm('Wirklich alle Antworten löschen?')) { data = []; save(); render(); $('status').textContent = 'Alles gelöscht.'; }
+  });
+  $('copy').addEventListener('click', function () {
+    var text = summary(), st = $('status');
+    if (!text) { st.textContent = 'Noch nichts zum Kopieren.'; return; }
+    var done = function () { st.classList.remove('err'); st.textContent = 'Ergebnis kopiert. Du kannst es jetzt in WhatsApp einfügen.'; };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, function () { window.prompt('Zum Kopieren:', text); });
+    else window.prompt('Zum Kopieren:', text);
+  });
+  render();
+})();
+</script>
+</body>
+</html>
