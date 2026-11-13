@@ -8,6 +8,12 @@
 <meta property="og:title" content="Touren 2027">
 <meta property="og:description" content="Ein paar Motorrad-Touren ab Winnenden. Wo bist du dabei?">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://adonner07.github.io/Motorrad-Touren/">
+<meta property="og:image" content="https://adonner07.github.io/Motorrad-Touren/vorschau.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Tempeltor mit zwei kleinen Wachen unter dem Schriftzug Touren 2027">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0a1530">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -106,6 +112,7 @@
 
   /* Knöpfe */
   .btn {
+    -webkit-appearance: none;
     appearance: none;
     display: inline-flex;
     align-items: center;
@@ -132,6 +139,7 @@
   .btn-primary:active { transform: translateY(1px); }
   .btn-ghost { background: transparent; color: var(--text); border: 1.5px solid var(--line-strong); }
   .btn-text {
+    -webkit-appearance: none;
     appearance: none;
     padding: 10px 12px;
     border: 0;
@@ -480,6 +488,7 @@
   .filter-label { margin: 0 0 8px; font: 800 1.1rem/1.2 var(--font-head); letter-spacing: .04em; text-transform: uppercase; }
   .filter-chips { display: flex; flex-wrap: wrap; gap: 8px; }
   .fchip {
+    -webkit-appearance: none;
     appearance: none;
     display: inline-flex;
     align-items: center;
@@ -929,6 +938,7 @@
     background:
       radial-gradient(circle at var(--ring) 58%, transparent 0 5px, #ffcf5f 5.5px 7px, transparent 7.5px),
       linear-gradient(90deg, #4a2b10, #7c5222 30%, #a8732f 52%, #7a4f20 78%, #4a2b10);
+    -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
   }
   .door::before, .door::after { content: ""; position: absolute; left: 15%; right: 15%; border: 1.5px solid rgba(255, 207, 95, .7); border-radius: 2px; box-shadow: inset 0 0 0 4px rgba(0, 0, 0, .16), inset 0 0 0 5px rgba(255, 207, 95, .28); }
@@ -962,6 +972,12 @@
   body.on .temple { transform: scale(3.2); transition: transform .85s cubic-bezier(.55, 0, .8, .2) 1.8s; }
   body.on #scene-start .start-facts, body.on #scene-start .lead, body.on #start-ride { opacity: 0; transition: opacity .3s ease; }
   body.on .temple-start { opacity: 0; transition: opacity .3s ease 2.4s; }
+  /* beim zweiten Besuch alles doppelt so schnell (wachen.js setzt tor-schnell) */
+  body.tor-schnell.on .leak { transition-delay: .27s; }
+  body.tor-schnell.on .doorway { transition: box-shadow .4s ease .27s; }
+  body.tor-schnell.on .door-cell::after { transition: transform .4s ease .27s; }
+  body.tor-schnell.on .temple { transition: transform .6s cubic-bezier(.55, 0, .8, .2) .9s; }
+  body.tor-schnell.on .temple-start { transition: opacity .25s ease 1.2s; }
   @media (prefers-reduced-motion: reduce) {
     #scene-start::after { animation: none; opacity: .7; }
   }
@@ -1295,6 +1311,15 @@
   var TILT = 20, REACH = -70, LEAN = -10, OPEN = 90, STEP = 18, LEG = 22;
   var T_UP = 300, T_REACH = 540, T_PULL = 1660, T_END = 1900;
   var raf = 0, t0 = 0, active = false, m = null;
+  // Wer schon einmal durchs Tor gegangen ist, bekommt es doppelt so schnell
+  var SEEN = 'tor-gesehen', speed = 1, ride = document.getElementById('ride-scene');
+  function seen() { try { return localStorage.getItem(SEEN) === '1'; } catch (e) { return false; } }
+  function quick() {
+    speed = 2;
+    document.body.classList.add('tor-schnell');
+    if (ride) ride.setAttribute('data-dur', '1500');
+  }
+  if (seen()) quick();
 
   function clamp(p) { return p < 0 ? 0 : p > 1 ? 1 : p; }
   function ease(p) { p = clamp(p); return p < .5 ? 2 * p * p : 1 - 2 * (1 - p) * (1 - p); }
@@ -1338,7 +1363,7 @@
   }
 
   function frame(now) {
-    var t = Math.max(0, now - t0);
+    var t = Math.max(0, now - t0) * speed;
     // Türflügel drehen erst, wenn die Hände dran sind; die Kanten danach frisch messen
     var open = t < T_REACH ? 0 : t < T_PULL ? OPEN * ease((t - T_REACH) / (T_PULL - T_REACH)) : OPEN + 10 * ease((t - T_PULL) / (T_END - T_PULL));
     setDoors(open);
@@ -1372,6 +1397,7 @@
 
   function start() {
     active = true;
+    try { localStorage.setItem(SEEN, '1'); } catch (e) { /* privater Modus */ }
     idle();
     var c = box(cell).left;
     setDoors(0);
@@ -1388,6 +1414,7 @@
     if (raf) cancelAnimationFrame(raf);
     raf = 0;
     idle();
+    if (seen()) quick();
   }
 
   new MutationObserver(function () {
