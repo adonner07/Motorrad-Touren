@@ -939,6 +939,11 @@
   .leak { position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: linear-gradient(#ffd98f, #fff4d6 45%, #fff8e6 70%, #ffe3a0); box-shadow: 0 0 14px 4px rgba(255, 214, 140, .45); }
   /* warmer Lichtschein auf den Stufen, wird beim Öffnen heller */
   .door-cell::after { content: ""; position: absolute; left: -20%; right: -20%; bottom: -26px; height: 40px; background: radial-gradient(50% 50% at 50% 40%, rgba(255, 214, 140, .4), rgba(255, 214, 140, 0) 70%); pointer-events: none; }
+  /* zwei kleine Wachen stehen vor dem Tor und kreuzen die Speere */
+  .guards { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; pointer-events: none; }
+  .guard { position: absolute; bottom: 0; width: 30%; height: auto; overflow: visible; }
+  .guard-l { left: 24.1%; }
+  .guard-r { right: 24.1%; }
   .steps { display: grid; justify-items: center; }
   .steps i { display: block; height: 9px; border: 1px solid rgba(255, 207, 95, .55); border-bottom: 0; background: #13244a; }
   .steps i:nth-child(1) { width: 92%; }
@@ -950,16 +955,13 @@
   #scene-start .start-facts li + li::before { content: "·"; margin: 0 .55em; color: var(--amber); }
   #scene-start .lead { max-width: 24em; margin: 8px auto 0; font-size: .98rem; color: #c9d2e6; }
   #scene-start .start .btn { width: 100%; max-width: 360px; margin-top: 18px; }
-  /* Antippen: Türen gehen auf, Licht fällt raus, dann geht's hinein */
-  body.on .door { transition: transform 1s cubic-bezier(.55, .05, .3, 1); }
-  body.on .door-l { transform: rotateY(-100deg); }
-  body.on .door-r { transform: rotateY(100deg); }
-  body.on .leak { opacity: 0; transition: opacity .3s ease; }
-  body.on .doorway { box-shadow: 0 0 60px 12px rgba(255, 196, 120, .35); transition: box-shadow .8s ease; }
-  body.on .door-cell::after { transform: scale(1.6, 1.4); opacity: 1; background: radial-gradient(50% 50% at 50% 40%, rgba(255, 214, 140, .75), rgba(255, 214, 140, 0) 70%); transition: transform .8s ease; }
-  body.on .temple { transform: scale(3.2); transition: transform .85s cubic-bezier(.55, 0, .8, .2) .7s; }
+  /* Antippen: die Wachen nehmen die Speere hoch und ziehen die Türflügel auf (wachen.js), Licht fällt raus, dann geht's hinein */
+  body.on .leak { opacity: 0; transition: opacity .3s ease .54s; }
+  body.on .doorway { box-shadow: 0 0 60px 12px rgba(255, 196, 120, .35); transition: box-shadow .8s ease .54s; }
+  body.on .door-cell::after { transform: scale(1.6, 1.4); opacity: 1; background: radial-gradient(50% 50% at 50% 40%, rgba(255, 214, 140, .75), rgba(255, 214, 140, 0) 70%); transition: transform .8s ease .54s; }
+  body.on .temple { transform: scale(3.2); transition: transform .85s cubic-bezier(.55, 0, .8, .2) 1.8s; }
   body.on #scene-start .start-facts, body.on #scene-start .lead, body.on #start-ride { opacity: 0; transition: opacity .3s ease; }
-  body.on .temple-start { opacity: 0; transition: opacity .3s ease 1.3s; }
+  body.on .temple-start { opacity: 0; transition: opacity .3s ease 2.4s; }
   @media (prefers-reduced-motion: reduce) {
     #scene-start::after { animation: none; opacity: .7; }
   }
@@ -1150,7 +1152,7 @@
           <i class="pillar" aria-hidden="true"></i>
           <i class="pillar" aria-hidden="true"></i>
           <div class="door-cell">
-            <div class="doorway" id="ride-scene" data-dur="1650" aria-hidden="true">
+            <div class="doorway" id="ride-scene" data-dur="2750" aria-hidden="true">
               <svg class="door-view" viewBox="0 0 160 320" preserveAspectRatio="xMidYMax slice" focusable="false">
                 <defs>
                   <linearGradient id="dv-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b2a5c"/><stop offset=".55" stop-color="#5a4486"/><stop offset=".82" stop-color="#ff9a62"/><stop offset=".97" stop-color="#ffd98f"/></linearGradient>
@@ -1170,6 +1172,7 @@
               <span class="door door-r"></span>
               <span class="leak"></span>
             </div>
+            <div class="guards" aria-hidden="true"><svg class="guard guard-l" viewBox="0 0 44 64" aria-hidden="true" focusable="false"><defs><linearGradient id="gd-l-brz" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe7a6"/><stop offset=".45" stop-color="#f2bf5c"/><stop offset="1" stop-color="#b9782a"/></linearGradient><linearGradient id="gd-l-brz2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d9a24a"/><stop offset="1" stop-color="#9c6424"/></linearGradient></defs><g><ellipse cx="19.5" cy="63.7" rx="9.5" ry="1.4" fill="#000" fill-opacity=".35"/><g class="g-all"><g class="g-arm"><g class="g-spear" transform="rotate(20 27 35)"><path d="M27 -13V61.6" stroke="#d6a252" stroke-width="1.5"/><path d="M27.45 -13V61.6" stroke="#7a4a1e" stroke-width=".55"/><path d="M27 -22C28.7 -18.6 29.1 -15.6 27.9 -12.8H26.1C24.9 -15.6 25.3 -18.6 27 -22Z" fill="#ffd77a" stroke="#8a5a1c" stroke-width=".5"/><path d="M26.2 60.2H27.8L27 64Z" fill="#ffd77a"/></g><path d="M24 23.2L25.3 29.4 26.9 34.4" fill="none" stroke="#b97d55" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="27" cy="35" r="2" fill="#b97d55"/></g><g class="g-leg g-leg-far"><g transform="translate(-1.3 0)"><rect x="17.2" y="41" width="4.4" height="11.5" rx="2.1" fill="#b97d55"/><path d="M16.9 51.2H22L21.5 60.8H17.4Z" fill="url(#gd-l-brz2)"/><path d="M16.6 60.3H22.2C24.7 60.3 26.4 61.6 26.7 64H16.6Z" fill="#4a2a12"/></g></g><g class="g-leg g-leg-near"><g transform="translate(0 0)"><rect x="17.2" y="41" width="4.4" height="11.5" rx="2.1" fill="#e2a87e"/><path d="M16.9 51.2H22L21.5 60.8H17.4Z" fill="url(#gd-l-brz)"/><path d="M16.6 60.3H22.2C24.7 60.3 26.4 61.6 26.7 64H16.6Z" fill="#4a2a12"/></g></g><path d="M11.6 34.4H27L29.4 44.3C22.8 45.7 15.8 45.7 9.2 44.3Z" fill="#c63f2d"/><path d="M14.3 37V44.8M17.4 37V45.3M20.5 37V45.4M23.6 37V45.2M26.6 37V44.8" stroke="#8f2a1d" stroke-width=".7"/><path d="M9.2 44.3C15.8 45.7 22.8 45.7 29.4 44.3" fill="none" stroke="#ffcf5f" stroke-width=".9"/><path d="M12.6 21.6C16.6 19.4 22.2 19.2 26.3 21.3L27.8 35H12.2Z" fill="url(#gd-l-brz)" stroke="#8a5a1c" stroke-width=".5"/><rect x="19.5" y="18.8" width="3.4" height="3.4" fill="#e2a87e"/><path d="M26.4 7.4C26 2.2 21.4 -.9 15.6 .1C11.2 .9 8.2 4.4 8 9.6C7.9 12.4 8.8 14.7 9.9 16.3C10.8 12.2 12.8 8.9 16.3 7C19.5 5.4 23.5 5.9 26.4 7.4Z" fill="#d9442f"/><path d="M24.2 4.6C20.2 2.4 14.8 3.2 11.6 7.2M22.6 2C18 .9 13.4 2.4 10.6 6" fill="none" stroke="#a12d1d" stroke-width=".6"/><path d="M14.2 13.2C13.9 8.2 16.9 5.2 21.4 5.2C25.4 5.2 28 8 28 11.4L27.6 13.8L28.6 17L26.8 17.4L27 20.2C25.4 21 23.6 21.2 22 20.8L21.6 16.8C20.6 16.4 19.6 16.6 18.9 17.2L18.6 20.6C16.8 20.8 15.2 20.2 14.4 19Z" fill="url(#gd-l-brz)" stroke="#7a4c16" stroke-width=".6" stroke-linejoin="round"/><path d="M23.4 11.8C24.8 11.4 26.6 11.4 27.5 11.8L27.3 13.3C26 13.1 24.6 13.1 23.6 13.4Z" fill="#22150a"/><path d="M16.8 8.6C19.4 6.6 23.6 6.4 26.2 8.6" fill="none" stroke="#fff3cf" stroke-opacity=".7" stroke-width=".7" stroke-linecap="round"/><circle cx="16" cy="31" r="10.6" fill="#14254b" stroke="#ffcf5f" stroke-width="1.7"/><circle cx="16" cy="31" r="8.3" fill="none" stroke="#ffcf5f" stroke-opacity=".45" stroke-width=".7"/><circle cx="16" cy="31" r="2.3" fill="#ffcf5f"/><path d="M19.50 31.00L21.40 31.00M18.47 33.47L19.82 34.82M16.00 34.50L16.00 36.40M13.53 33.47L12.18 34.82M12.50 31.00L10.60 31.00M13.53 28.53L12.18 27.18M16.00 27.50L16.00 25.60M18.47 28.53L19.82 27.18" stroke="#ffcf5f" stroke-width="1" stroke-linecap="round"/></g></g></svg><svg class="guard guard-r" viewBox="0 0 44 64" aria-hidden="true" focusable="false"><defs><linearGradient id="gd-r-brz" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe7a6"/><stop offset=".45" stop-color="#f2bf5c"/><stop offset="1" stop-color="#b9782a"/></linearGradient><linearGradient id="gd-r-brz2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d9a24a"/><stop offset="1" stop-color="#9c6424"/></linearGradient></defs><g transform="matrix(-1 0 0 1 44 0)"><ellipse cx="19.5" cy="63.7" rx="9.5" ry="1.4" fill="#000" fill-opacity=".35"/><g class="g-all"><g class="g-arm"><g class="g-spear" transform="rotate(20 27 35)"><path d="M27 -13V61.6" stroke="#d6a252" stroke-width="1.5"/><path d="M27.45 -13V61.6" stroke="#7a4a1e" stroke-width=".55"/><path d="M27 -22C28.7 -18.6 29.1 -15.6 27.9 -12.8H26.1C24.9 -15.6 25.3 -18.6 27 -22Z" fill="#ffd77a" stroke="#8a5a1c" stroke-width=".5"/><path d="M26.2 60.2H27.8L27 64Z" fill="#ffd77a"/></g><path d="M24 23.2L25.3 29.4 26.9 34.4" fill="none" stroke="#b97d55" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="27" cy="35" r="2" fill="#b97d55"/></g><g class="g-leg g-leg-far"><g transform="translate(-1.3 0)"><rect x="17.2" y="41" width="4.4" height="11.5" rx="2.1" fill="#b97d55"/><path d="M16.9 51.2H22L21.5 60.8H17.4Z" fill="url(#gd-r-brz2)"/><path d="M16.6 60.3H22.2C24.7 60.3 26.4 61.6 26.7 64H16.6Z" fill="#4a2a12"/></g></g><g class="g-leg g-leg-near"><g transform="translate(0 0)"><rect x="17.2" y="41" width="4.4" height="11.5" rx="2.1" fill="#e2a87e"/><path d="M16.9 51.2H22L21.5 60.8H17.4Z" fill="url(#gd-r-brz)"/><path d="M16.6 60.3H22.2C24.7 60.3 26.4 61.6 26.7 64H16.6Z" fill="#4a2a12"/></g></g><path d="M11.6 34.4H27L29.4 44.3C22.8 45.7 15.8 45.7 9.2 44.3Z" fill="#c63f2d"/><path d="M14.3 37V44.8M17.4 37V45.3M20.5 37V45.4M23.6 37V45.2M26.6 37V44.8" stroke="#8f2a1d" stroke-width=".7"/><path d="M9.2 44.3C15.8 45.7 22.8 45.7 29.4 44.3" fill="none" stroke="#ffcf5f" stroke-width=".9"/><path d="M12.6 21.6C16.6 19.4 22.2 19.2 26.3 21.3L27.8 35H12.2Z" fill="url(#gd-r-brz)" stroke="#8a5a1c" stroke-width=".5"/><rect x="19.5" y="18.8" width="3.4" height="3.4" fill="#e2a87e"/><path d="M26.4 7.4C26 2.2 21.4 -.9 15.6 .1C11.2 .9 8.2 4.4 8 9.6C7.9 12.4 8.8 14.7 9.9 16.3C10.8 12.2 12.8 8.9 16.3 7C19.5 5.4 23.5 5.9 26.4 7.4Z" fill="#d9442f"/><path d="M24.2 4.6C20.2 2.4 14.8 3.2 11.6 7.2M22.6 2C18 .9 13.4 2.4 10.6 6" fill="none" stroke="#a12d1d" stroke-width=".6"/><path d="M14.2 13.2C13.9 8.2 16.9 5.2 21.4 5.2C25.4 5.2 28 8 28 11.4L27.6 13.8L28.6 17L26.8 17.4L27 20.2C25.4 21 23.6 21.2 22 20.8L21.6 16.8C20.6 16.4 19.6 16.6 18.9 17.2L18.6 20.6C16.8 20.8 15.2 20.2 14.4 19Z" fill="url(#gd-r-brz)" stroke="#7a4c16" stroke-width=".6" stroke-linejoin="round"/><path d="M23.4 11.8C24.8 11.4 26.6 11.4 27.5 11.8L27.3 13.3C26 13.1 24.6 13.1 23.6 13.4Z" fill="#22150a"/><path d="M16.8 8.6C19.4 6.6 23.6 6.4 26.2 8.6" fill="none" stroke="#fff3cf" stroke-opacity=".7" stroke-width=".7" stroke-linecap="round"/><circle cx="16" cy="31" r="10.6" fill="#14254b" stroke="#ffcf5f" stroke-width="1.7"/><circle cx="16" cy="31" r="8.3" fill="none" stroke="#ffcf5f" stroke-opacity=".45" stroke-width=".7"/><circle cx="16" cy="31" r="2.3" fill="#ffcf5f"/><path d="M19.50 31.00L21.40 31.00M18.47 33.47L19.82 34.82M16.00 34.50L16.00 36.40M13.53 33.47L12.18 34.82M12.50 31.00L10.60 31.00M13.53 28.53L12.18 27.18M16.00 27.50L16.00 25.60M18.47 28.53L19.82 27.18" stroke="#ffcf5f" stroke-width="1" stroke-linecap="round"/></g></g></svg></div>
           </div>
           <i class="pillar" aria-hidden="true"></i>
           <i class="pillar" aria-hidden="true"></i>
@@ -1188,6 +1191,125 @@
       </button>
     </div>
   </section>
+  <script>
+/* Wachen am Tempeltor: Speere hoch, Türflügel aufziehen, zur Seite treten.
+   Startet, sobald die Seite beim Eintreten body.on setzt, und stellt sich zurück, wenn body.on wieder weg ist. */
+(function () {
+  'use strict';
+  var cell = document.querySelector('#scene-start .door-cell');
+  if (!cell || !window.requestAnimationFrame || !window.MutationObserver) return;
+  var doors = [cell.querySelector('.door-l'), cell.querySelector('.door-r')];
+  var guards = Array.prototype.map.call(cell.querySelectorAll('.guard'), function (el) {
+    return { el: el, all: el.querySelector('.g-all'), arm: el.querySelector('.g-arm'), spear: el.querySelector('.g-spear'),
+      near: el.querySelector('.g-leg-near'), far: el.querySelector('.g-leg-far') };
+  });
+  if (!doors[0] || !doors[1] || guards.length !== 2) return;
+
+  var TILT = 20, REACH = -70, LEAN = -10, OPEN = 90, STEP = 18, LEG = 22;
+  var T_UP = 300, T_REACH = 540, T_PULL = 1660, T_END = 1900;
+  var raf = 0, t0 = 0, active = false, m = null;
+
+  function clamp(p) { return p < 0 ? 0 : p > 1 ? 1 : p; }
+  function ease(p) { p = clamp(p); return p < .5 ? 2 * p * p : 1 - 2 * (1 - p) * (1 - p); }
+  function rot(x, y, cx, cy, deg) {
+    var r = deg * Math.PI / 180, dx = x - cx, dy = y - cy;
+    return [cx + dx * Math.cos(r) - dy * Math.sin(r), cy + dx * Math.sin(r) + dy * Math.cos(r)];
+  }
+  // x der Speerhand in Figur-Einheiten (viewBox 44 x 64, Blick nach rechts)
+  function handX(arm, lean) {
+    var h = rot(27, 35, 24, 23, arm);
+    return rot(h[0], h[1], 19, 64, lean)[0];
+  }
+  function pose(g, o) {
+    var bob = LEG * (1 - Math.cos(o.step * Math.PI / 180));
+    g.all.setAttribute('transform', 'translate(0 ' + bob.toFixed(2) + ') rotate(' + o.lean.toFixed(2) + ' 19 64)');
+    g.arm.setAttribute('transform', 'rotate(' + o.arm.toFixed(2) + ' 24 23)');
+    g.spear.setAttribute('transform', 'rotate(' + (o.tilt - o.arm - o.lean).toFixed(2) + ' 27 35)');
+    g.near.setAttribute('transform', 'rotate(' + o.step.toFixed(2) + ' 19.4 42)');
+    g.far.setAttribute('transform', 'rotate(' + (-o.step).toFixed(2) + ' 19.4 42)');
+  }
+  function box(el) { return el.getBoundingClientRect(); }
+  // linke Kante der Figur, damit die Speerhand genau auf der Türkante liegt (die rechte Wache ist gespiegelt)
+  function leftFor(i, edge, arm, lean) {
+    var hx = handX(arm, lean);
+    return edge - (i === 0 ? hx : 44 - hx) * m.s;
+  }
+  function edges() {
+    var c = box(cell).left;
+    return [box(doors[0]).right - c, box(doors[1]).left - c];
+  }
+  function idle() {
+    guards.forEach(function (g) {
+      pose(g, { arm: 0, tilt: TILT, lean: 0, step: 0 });
+      g.el.style.transform = '';
+    });
+    doors.forEach(function (d) { d.style.transform = ''; });
+  }
+  function setDoors(open) {
+    doors[0].style.transform = 'rotateY(' + (-open).toFixed(2) + 'deg)';
+    doors[1].style.transform = 'rotateY(' + open.toFixed(2) + 'deg)';
+  }
+
+  function frame(now) {
+    var t = Math.max(0, now - t0);
+    // Türflügel drehen erst, wenn die Hände dran sind; die Kanten danach frisch messen
+    var open = t < T_REACH ? 0 : t < T_PULL ? OPEN * ease((t - T_REACH) / (T_PULL - T_REACH)) : OPEN + 10 * ease((t - T_PULL) / (T_END - T_PULL));
+    setDoors(open);
+    if (t < T_PULL) m.edge = edges();
+    guards.forEach(function (g, i) {
+      var o = { arm: 0, tilt: 0, lean: 0, step: 0 }, x = m.idle[i];
+      if (t < T_UP) {
+        o.tilt = TILT * (1 - ease(t / T_UP));
+      } else if (t < T_REACH) {
+        var p = ease((t - T_UP) / (T_REACH - T_UP));
+        o.arm = REACH * p;
+        x = m.idle[i] + (m.grab[i] - m.idle[i]) * p;
+      } else if (t < T_PULL) {
+        o.arm = REACH;
+        o.lean = LEAN * Math.sin(Math.PI * clamp((t - T_REACH) / (T_PULL - T_REACH)));
+        x = leftFor(i, m.edge[i], REACH, o.lean);
+        var walked = Math.abs(x - m.grab[i]) / m.s;
+        o.step = STEP * Math.sin(walked / 6.5 * Math.PI);
+        m.last[i] = { x: x, step: o.step };
+      } else {
+        var q = ease((t - T_PULL) / (T_END - T_PULL));
+        o.arm = REACH * (1 - q);
+        o.step = m.last[i] ? m.last[i].step * (1 - q) : 0;
+        x = m.last[i] ? m.last[i].x : m.grab[i];
+      }
+      pose(g, o);
+      g.el.style.transform = 'translateX(' + (x - m.idle[i]).toFixed(2) + 'px)';
+    });
+    raf = t < T_END ? requestAnimationFrame(frame) : 0;
+  }
+
+  function start() {
+    active = true;
+    idle();
+    var c = box(cell).left;
+    setDoors(0);
+    m = { s: box(guards[0].el).width / 44, idle: [], grab: [], last: [], edge: edges() };
+    guards.forEach(function (g, i) {
+      m.idle[i] = box(g.el).left - c;
+      m.grab[i] = leftFor(i, m.edge[i], REACH, 0);
+    });
+    t0 = performance.now();
+    raf = requestAnimationFrame(frame);
+  }
+  function reset() {
+    active = false;
+    if (raf) cancelAnimationFrame(raf);
+    raf = 0;
+    idle();
+  }
+
+  new MutationObserver(function () {
+    var on = document.body.classList.contains('on');
+    if (on && !active) start();
+    else if (!on && active) reset();
+  }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+})();
+</script>
 
   <!-- 2 · Touren -->
   <section class="scene" id="scene-tours" aria-labelledby="tours-heading" hidden>
