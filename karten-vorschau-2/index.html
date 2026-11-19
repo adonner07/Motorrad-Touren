@@ -2388,12 +2388,11 @@
   function fmtKm(n) { return n.toLocaleString('de-DE'); }
 
   // Google Maps öffnet die ganze Runde mit allen Zwischenzielen auf einmal
+  var GMAPS_START = 'Marktplatz, ' + START;
   function gmapsUrl(stops) {
-    return 'https://www.google.com/maps/dir/?api=1' +
-      '&origin=' + encodeURIComponent(START) +
-      '&destination=' + encodeURIComponent(START) +
-      '&waypoints=' + stops.map(function (st) { return encodeURIComponent(st[0]); }).join('%7C') +
-      '&travelmode=driving';
+    var pts = [GMAPS_START].concat(stops.map(function (st) { return st[0]; }), [GMAPS_START]);
+    return 'https://www.google.com/maps/dir/' + pts.map(function (q) { return encodeURIComponent(q).replace(/%20/g, '+'); }).join('/') +
+      '/data=!4m2!4m1!3e0';
   }
   // Waze öffnet per Link nur ein Ziel. Deshalb gibt es pro Tour einzelne Etappen.
   function wazeUrl(query, key) {
