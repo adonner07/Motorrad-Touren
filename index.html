@@ -1676,8 +1676,8 @@
   };
 
   var GROUPS = [
-    { id: 'home', title: 'Rund um Winnenden', sub: 'Feierabendrunden und Halbtagestouren, 1 bis 3½ Stunden.' },
-    { id: 'big', title: 'Große Tagestouren', sub: 'Mit 4 bis 5¼ Stunden Fahrzeit, auf die Alb, an Neckar und Tauber und in den Kraichgau.' },
+    { id: 'home', title: 'Rund um Winnenden', sub: 'Feierabendrunden und Halbtagestouren, 1½ bis 3½ Stunden.' },
+    { id: 'big', title: 'Große Tagestouren', sub: 'Mit 4 bis 6 Stunden Fahrzeit, auf die Alb, an Neckar und Tauber und in den Kraichgau.' },
     { id: 'by', title: 'Ab nach Bayern', sub: 'Tagestouren mit Pause in einer schönen Altstadt.' },
     { id: 'sw', title: 'Ab in den Schwarzwald', sub: 'Drei Tagestouren mit 5 bis 5¾ Stunden Fahrzeit: Nagold- und Enztal, Murgtal und Freudenstadt.' }
   ];
@@ -1686,7 +1686,7 @@
   var TOURS = [
     {
       id: 'weinberge', group: 'home', region: 'Remstal', type: 'Feierabendrunde', name: 'Auf den Württemberg',
-      km: 45, time: '1', curves: 3,
+      km: 65, time: '1½', curves: 3,
       text: 'Durch die Weinberge über Korb zum Kleinheppacher Kopf, runter ins Remstal nach Beutelsbach und an der Y-Burg vorbei hoch auf den Württemberg zur Grabkapelle. Zurück über Fellbach und Waiblingen.',
       route: ['Winnenden', 'Korb', 'Kleinheppach', 'Beutelsbach', 'Stetten', 'Rotenberg', 'Fellbach', 'Waiblingen', 'Winnenden'],
       pause: 'Grabkapelle auf dem Württemberg mit Blick übers Neckartal',
@@ -1695,18 +1695,8 @@
       mark: [7, 'Grabkapelle']
     },
     {
-      id: 'berglen', group: 'home', region: 'Berglen & Remstal', type: 'Feierabendrunde', name: 'Berglen & Buocher Höhe',
-      km: 55, time: '1¼', curves: 4,
-      text: 'Über die Berglen hoch nach Buoch mit Blick übers Remstal, die kurvige Steige runter nach Grunbach und durchs Remstal nach Schorndorf. Durchs Wieslauftal nach Rudersberg und über die Berglen zurück.',
-      route: ['Winnenden', 'Hertmannsweiler', 'Berglen', 'Buoch', 'Grunbach', 'Winterbach', 'Schorndorf', 'Rudersberg', 'Berglen', 'Winnenden'],
-      pause: 'Schorndorf, Altstadt mit dem Geburtshaus von Gottlieb Daimler',
-      stops: [['Buoch, Remshalden', 'buoch', 'Buoch'], ['Schorndorf', 'schorndorf', 'Schorndorf'], ['Rudersberg', 'rudersberg', 'Rudersberg']],
-      path: ['winnenden', 'hertmannsweiler', 'oppelsbohm', 'hoesslinswart', 'buoch', 'grunbach', 'winterbach', 'schorndorf', 'haubersbronn', 'rudersberg', 'berglen'],
-      mark: [7, 'Schorndorf']
-    },
-    {
       id: 'ebnisee', group: 'home', region: 'Schwäbischer Wald', type: 'Feierabendrunde', name: 'Ebnisee-Runde',
-      km: 60, time: '1¼', curves: 4,
+      km: 75, time: '1½', curves: 4,
       text: 'Kurz, kurvig und gleich um die Ecke: über Althütte in den Schwäbischen Wald, Pause am Ebnisee und durchs Wieslauftal zurück. Perfekt für einen Sommerabend.',
       route: ['Winnenden', 'Allmersbach im Tal', 'Weissach im Tal', 'Althütte', 'Ebnisee', 'Kaisersbach', 'Welzheim', 'Rudersberg', 'Winnenden'],
       pause: 'Ebnisee, ein beliebter Treffpunkt für Biker direkt am See',
@@ -1715,8 +1705,18 @@
       mark: [4, 'Ebnisee']
     },
     {
+      id: 'berglen', group: 'home', region: 'Berglen & Remstal', type: 'Feierabendrunde', name: 'Berglen & Buocher Höhe',
+      km: 75, time: '1¾', curves: 4,
+      text: 'Über die Berglen hoch nach Buoch mit Blick übers Remstal, die kurvige Steige runter nach Grunbach und durchs Remstal nach Schorndorf. Durchs Wieslauftal nach Rudersberg und über die Berglen zurück.',
+      route: ['Winnenden', 'Hertmannsweiler', 'Berglen', 'Buoch', 'Grunbach', 'Winterbach', 'Schorndorf', 'Rudersberg', 'Berglen', 'Winnenden'],
+      pause: 'Schorndorf, Altstadt mit dem Geburtshaus von Gottlieb Daimler',
+      stops: [['Buoch, Remshalden', 'buoch', 'Buoch'], ['Schorndorf', 'schorndorf', 'Schorndorf'], ['Rudersberg', 'rudersberg', 'Rudersberg']],
+      path: ['winnenden', 'hertmannsweiler', 'oppelsbohm', 'hoesslinswart', 'buoch', 'grunbach', 'winterbach', 'schorndorf', 'haubersbronn', 'rudersberg', 'berglen'],
+      mark: [7, 'Schorndorf']
+    },
+    {
       id: 'bottwartal', group: 'home', region: 'Murr- & Bottwartal', type: 'Feierabendrunde', name: 'Burgen im Bottwartal',
-      km: 65, time: '1½', curves: 3,
+      km: 80, time: '1¾', curves: 3,
       text: 'Durchs Murrtal nach Oppenweiler unter der Burg Reichenberg, über Aspach nach Oberstenfeld zur Burg Lichtenberg und weiter nach Beilstein. Am Wunnenstein vorbei durchs Bottwartal nach Großbottwar und über Marbach zurück.',
       route: ['Winnenden', 'Backnang', 'Oppenweiler', 'Aspach', 'Oberstenfeld', 'Beilstein', 'Wunnenstein', 'Großbottwar', 'Steinheim an der Murr', 'Marbach', 'Winnenden'],
       pause: 'Marbach am Neckar, Altstadt mit Schillers Geburtshaus',
@@ -1736,23 +1736,13 @@
     },
     {
       id: 'loewenstein', group: 'home', region: 'Löwensteiner Berge', type: 'Halbtagestour', name: 'Zur Löwensteiner Platte',
-      km: 90, time: '2', curves: 5,
+      km: 105, time: '2¼', curves: 5,
       text: 'Enge Kehren zwischen Spiegelberg und Wüstenrot, Benzingespräche am Bikertreff und danach runter zum Breitenauer See. Rund um Spiegelberg gibt’s Tempolimits und Kontrollen, also locker bleiben.',
       route: ['Winnenden', 'Backnang', 'Sulzbach an der Murr', 'Spiegelberg', 'Wüstenrot', 'Löwensteiner Platte', 'Löwenstein', 'Breitenauer See', 'Beilstein', 'Großbottwar', 'Affalterbach', 'Winnenden'],
       pause: 'Löwensteiner Platte, der Bikertreff mit Kiosk an der B 39',
       stops: [['Spiegelberg, Baden-Württemberg', 'spiegelberg', 'Spiegelberg'], ['Breitenauer See, Obersulm', 'breitenau', 'Breitenauer See'], ['Großbottwar', 'grossbottwar', 'Großbottwar']],
       path: ['winnenden', 'allmersbach', 'backnang', 'sulzbach', 'spiegelberg', 'wuestenrot', 'platte', 'loewenstein', 'breitenau', 'beilstein', 'grossbottwar', 'steinheimmurr', 'affalterbach'],
       mark: [6, 'Löwensteiner Platte']
-    },
-    {
-      id: 'remstal', group: 'home', region: 'Remstal', type: 'Halbtagestour', name: 'Schurwald & Klöster',
-      km: 95, time: '2', curves: 3,
-      text: 'Durch die Weinberge im Remstal nach Strümpfelbach, hoch auf den Schurwald mit Blick bis zur Alb und an den Klöstern Adelberg und Lorch vorbei. Zurück durch den Welzheimer Wald.',
-      route: ['Winnenden', 'Remshalden', 'Strümpfelbach', 'Aichwald', 'Baltmannsweiler', 'Adelberg', 'Wäschenbeuren', 'Lorch', 'Welzheim', 'Rudersberg', 'Winnenden'],
-      pause: 'Kloster Lorch, das Stauferkloster hoch über dem Remstal',
-      stops: [['Strümpfelbach, Weinstadt', 'struempfelbach', 'Strümpfelbach'], ['Kloster Adelberg', 'adelberg', 'Kloster Adelberg'], ['Kloster Lorch', 'lorch', 'Kloster Lorch']],
-      path: ['winnenden', 'buoch', 'remshalden', 'struempfelbach', 'aichwald', 'baltmannsweiler', 'hohengehren', 'thomashardt', 'adelberg', 'waeschenbeuren', 'lorch', 'welzheim', 'rudersberg', 'berglen'],
-      mark: [10, 'Kloster Lorch']
     },
     {
       id: 'zabergaeu', group: 'home', region: 'Zabergäu & Neckar', type: 'Halbtagestour', name: 'Neckarschlinge & Zabergäu',
@@ -1766,7 +1756,7 @@
     },
     {
       id: 'voralb', group: 'home', region: 'Voralb & Teck', type: 'Halbtagestour', name: 'Bad Boll & Teck',
-      km: 105, time: '2¼', curves: 3,
+      km: 120, time: '2½', curves: 3,
       text: 'Über den Schurwald ins Filstal und dann am Fuß der Alb entlang: Bad Boll, Aichelberg, Weilheim unter der Limburg und immer die Burg Teck im Blick. Über Owen und Kirchheim zurück.',
       route: ['Winnenden', 'Schurwald', 'Ebersbach an der Fils', 'Bad Boll', 'Aichelberg', 'Weilheim an der Teck', 'Bissingen an der Teck', 'Owen', 'Kirchheim unter Teck', 'Winnenden'],
       pause: 'Weilheim an der Teck, Fachwerk-Altstadt am Fuß der Limburg',
@@ -1785,8 +1775,18 @@
       mark: [4, 'Leintal']
     },
     {
+      id: 'remstal', group: 'home', region: 'Remstal', type: 'Halbtagestour', name: 'Schurwald & Klöster',
+      km: 140, time: '3', curves: 3,
+      text: 'Durch die Weinberge im Remstal nach Strümpfelbach, hoch auf den Schurwald mit Blick bis zur Alb und an den Klöstern Adelberg und Lorch vorbei. Zurück durch den Welzheimer Wald.',
+      route: ['Winnenden', 'Remshalden', 'Strümpfelbach', 'Aichwald', 'Baltmannsweiler', 'Adelberg', 'Wäschenbeuren', 'Lorch', 'Welzheim', 'Rudersberg', 'Winnenden'],
+      pause: 'Kloster Lorch, das Stauferkloster hoch über dem Remstal',
+      stops: [['Strümpfelbach, Weinstadt', 'struempfelbach', 'Strümpfelbach'], ['Kloster Adelberg', 'adelberg', 'Kloster Adelberg'], ['Kloster Lorch', 'lorch', 'Kloster Lorch']],
+      path: ['winnenden', 'buoch', 'remshalden', 'struempfelbach', 'aichwald', 'baltmannsweiler', 'hohengehren', 'thomashardt', 'adelberg', 'waeschenbeuren', 'lorch', 'welzheim', 'rudersberg', 'berglen'],
+      mark: [10, 'Kloster Lorch']
+    },
+    {
       id: 'kaiserberge', group: 'home', region: 'Stauferland & Ostalb', type: 'Halbtagestour', name: 'Kaiserberge & Furtlepass',
-      km: 125, time: '2¾', curves: 4,
+      km: 150, time: '3¼', curves: 4,
       text: 'Vorbei an Hohenstaufen und Hohenrechberg, dann über den Furtlepass, einen der wenigen Albpässe mit echtem Pass-Schild. Zurück geht’s über Alfdorf durch den Welzheimer Wald.',
       route: ['Winnenden', 'Schorndorf', 'Adelberg', 'Hohenstaufen', 'Rechberg', 'Donzdorf', 'Degenfeld', 'Furtlepass', 'Schwäbisch Gmünd', 'Alfdorf', 'Welzheim', 'Rudersberg', 'Winnenden'],
       pause: 'Hohenrechberg, Burgruine mit Weitblick über die Kaiserberge',
@@ -1845,16 +1845,6 @@
       mark: [13, 'Burg Steinsberg']
     },
     {
-      id: 'ostalb', group: 'big', region: 'Ostalb', type: 'Tagestour', name: 'Ellwangen & Kapfenburg',
-      km: 210, time: '4½', curves: 3,
-      text: 'Über Murrhardt und Gaildorf das obere Kochertal hinauf nach Ellwangen mit Schloss und Wallfahrtskirche Schönenberg. Weiter zum Limestor bei Dalkingen und zum Schloss Kapfenburg, dann durchs Wental mit seinen Felsen und am Rosenstein vorbei zurück.',
-      route: ['Winnenden', 'Backnang', 'Murrhardt', 'Gaildorf', 'Abtsgmünd', 'Ellwangen', 'Rainau', 'Lauchheim', 'Aalen', 'Wental', 'Bartholomä', 'Heubach', 'Schwäbisch Gmünd', 'Schorndorf', 'Winnenden'],
-      pause: 'Ellwangen, Altstadt unterm Schloss',
-      stops: [['Ellwangen (Jagst)', 'ellwangen', 'Ellwangen'], ['Schloss Kapfenburg', 'lauchheim', 'Schloss Kapfenburg'], ['Bartholomä', 'bartholomae', 'Bartholomä']],
-      path: ['winnenden', 'allmersbach', 'backnang', 'murrhardt', 'gaildorf', 'untergroeningen', 'abtsgmuend', 'ellwangen', 'rainau', 'lauchheim', 'aalen', 'oberkochen', 'wental', 'bartholomae', 'heubach', 'gmuend', 'waeschenbeuren', 'adelberg', 'schorndorf', 'berglen'],
-      mark: [7, 'Ellwangen']
-    },
-    {
       id: 'tuebingen', group: 'big', region: 'Schönbuch & Neckar', type: 'Tagestour', name: 'Bebenhausen & Tübingen',
       km: 200, time: '4½', curves: 3,
       text: 'Durchs Neckartal und den Schönbuch zum Kloster Bebenhausen, dann nach Tübingen mit seiner Altstadt am Neckar. Weiter zur Wurmlinger Kapelle und nach Rottenburg, zurück am Fuß der Alb über Mössingen und Neuffen.',
@@ -1873,16 +1863,6 @@
       stops: [['Steinheim am Albuch', 'steinheimalbuch', 'Steinheim am Albuch'], ['Asselfingen', 'asselfingen', 'Lonetal'], ['Wiesensteig', 'wiesensteig', 'Wiesensteig']],
       path: ['winnenden', 'schorndorf', 'lorch', 'gmuend', 'heubach', 'bartholomae', 'steinheimalbuch', 'heidenheim', 'herbrechtingen', 'asselfingen', 'altheimalb', 'amstetten', 'geislingen', 'badueberkingen', 'deggingen', 'wiesensteig', 'gruibingen', 'badboll', 'aichelberg', 'weilheim', 'kirchheim', 'reichenbach', 'baltmannsweiler', 'buoch'],
       mark: [7, 'Heidenheim']
-    },
-    {
-      id: 'lautertal', group: 'big', region: 'Schwäbische Alb', type: 'Tagestour', name: 'Großes Lautertal',
-      km: 235, time: '5', curves: 4,
-      text: 'Durchs Lenninger Tal auf die Alb und dann das Große Lautertal hinunter, vorbei an Burgruinen und Wacholderheiden bis Lauterach an der Donau. Zurück über Zwiefalten, am Gestüt Marbach vorbei und über Bad Urach.',
-      route: ['Winnenden', 'Kirchheim unter Teck', 'Lenninger Tal', 'Gutenberger Steige', 'Münsingen', 'Buttenhausen', 'Lautertal', 'Lauterach', 'Zwiefalten', 'Gomadingen', 'Bad Urach', 'Neuffen', 'Kirchheim unter Teck', 'Winnenden'],
-      pause: 'Zwiefalten mit Barock-Münster und Klosterbrauerei',
-      stops: [['Buttenhausen, Münsingen', 'buttenhausen', 'Buttenhausen'], ['Lauterach, Alb-Donau-Kreis', 'lauterach', 'Lauterach'], ['Zwiefalten', 'zwiefalten', 'Zwiefalten']],
-      path: ['winnenden', 'buoch', 'baltmannsweiler', 'reichenbach', 'kirchheim', 'owen', 'oberlenningen', 'gutenberg', 'donnstetten', 'muensingen', 'buttenhausen', 'indelhausen', 'lauterach', 'rechtenstein', 'zwiefalten', 'hayingen', 'pfronstetten', 'gomadingen', 'seeburg', 'urach', 'metzingen', 'neuffen', 'beuren', 'kirchheim'],
-      mark: [11, 'Lautertal']
     },
     {
       id: 'neckarburgen', group: 'big', region: 'Neckartal & Odenwald', type: 'Tagestour', name: 'Burgen am Neckar',
@@ -1913,6 +1893,26 @@
       stops: [['Hechingen', 'hechingen', 'Hechingen'], ['Gammertingen', 'gammertingen', 'Gammertingen'], ['Schloss Lichtenstein', 'lichtenstein', 'Schloss Lichtenstein']],
       path: ['winnenden', 'buoch', 'baltmannsweiler', 'reichenbach', 'kirchheim', 'beuren', 'neuffen', 'metzingen', 'goenningen', 'moessingen', 'hechingen', 'jungingen', 'burladingen', 'gammertingen', 'trochtelfingen', 'lichtenstein', 'engstingen', 'gomadingen', 'muensingen', 'donnstetten', 'gutenberg', 'oberlenningen', 'owen', 'kirchheim'],
       mark: [10, 'Hohenzollern']
+    },
+    {
+      id: 'ostalb', group: 'big', region: 'Ostalb', type: 'Tagestour', name: 'Ellwangen & Kapfenburg',
+      km: 255, time: '5½', curves: 3,
+      text: 'Über Murrhardt und Gaildorf das obere Kochertal hinauf nach Ellwangen mit Schloss und Wallfahrtskirche Schönenberg. Weiter zum Limestor bei Dalkingen und zum Schloss Kapfenburg, dann durchs Wental mit seinen Felsen und am Rosenstein vorbei zurück.',
+      route: ['Winnenden', 'Backnang', 'Murrhardt', 'Gaildorf', 'Abtsgmünd', 'Ellwangen', 'Rainau', 'Lauchheim', 'Aalen', 'Wental', 'Bartholomä', 'Heubach', 'Schwäbisch Gmünd', 'Schorndorf', 'Winnenden'],
+      pause: 'Ellwangen, Altstadt unterm Schloss',
+      stops: [['Ellwangen (Jagst)', 'ellwangen', 'Ellwangen'], ['Schloss Kapfenburg', 'lauchheim', 'Schloss Kapfenburg'], ['Bartholomä', 'bartholomae', 'Bartholomä']],
+      path: ['winnenden', 'allmersbach', 'backnang', 'murrhardt', 'gaildorf', 'untergroeningen', 'abtsgmuend', 'ellwangen', 'rainau', 'lauchheim', 'aalen', 'oberkochen', 'wental', 'bartholomae', 'heubach', 'gmuend', 'waeschenbeuren', 'adelberg', 'schorndorf', 'berglen'],
+      mark: [7, 'Ellwangen']
+    },
+    {
+      id: 'lautertal', group: 'big', region: 'Schwäbische Alb', type: 'Tagestour', name: 'Großes Lautertal',
+      km: 280, time: '6', curves: 4,
+      text: 'Durchs Lenninger Tal auf die Alb und dann das Große Lautertal hinunter, vorbei an Burgruinen und Wacholderheiden bis Lauterach an der Donau. Zurück über Zwiefalten, am Gestüt Marbach vorbei und über Bad Urach.',
+      route: ['Winnenden', 'Kirchheim unter Teck', 'Lenninger Tal', 'Gutenberger Steige', 'Münsingen', 'Buttenhausen', 'Lautertal', 'Lauterach', 'Zwiefalten', 'Gomadingen', 'Bad Urach', 'Neuffen', 'Kirchheim unter Teck', 'Winnenden'],
+      pause: 'Zwiefalten mit Barock-Münster und Klosterbrauerei',
+      stops: [['Buttenhausen, Münsingen', 'buttenhausen', 'Buttenhausen'], ['Lauterach, Alb-Donau-Kreis', 'lauterach', 'Lauterach'], ['Zwiefalten', 'zwiefalten', 'Zwiefalten']],
+      path: ['winnenden', 'buoch', 'baltmannsweiler', 'reichenbach', 'kirchheim', 'owen', 'oberlenningen', 'gutenberg', 'donnstetten', 'muensingen', 'buttenhausen', 'indelhausen', 'lauterach', 'rechtenstein', 'zwiefalten', 'hayingen', 'pfronstetten', 'gomadingen', 'seeburg', 'urach', 'metzingen', 'neuffen', 'beuren', 'kirchheim'],
+      mark: [11, 'Lautertal']
     },
     {
       id: 'dinkelsbuehl', group: 'by', region: 'Bayern · Romantische Straße', type: 'Tagestour', name: 'Dinkelsbühl',
